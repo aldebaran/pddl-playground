@@ -1,0 +1,15 @@
+(define (problem my_problem)
+   (:domain my_domain)
+   (:requirements :adl)
+
+   (:objects
+      alice bob - human
+      neutral happy sad - emotion)
+
+   (:init
+      (is_around alice) (feels alice neutral)
+      (is_around bob) (feels bob sad))
+
+   (:goal
+      (forall (?h - human)
+         (feels ?h happy))))

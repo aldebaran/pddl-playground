@@ -63,6 +63,7 @@ class ConstantFragment: DialogFragment() {
                 setLabel("${constantText.text} - ${spinner.selectedItem as String}")
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
+                action = MainFragment.EDIT_EXPRESSION
             }
             dismiss()
         }

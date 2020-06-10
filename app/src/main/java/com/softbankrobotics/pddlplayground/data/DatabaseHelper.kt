@@ -54,10 +54,12 @@ class DatabaseHelper private constructor(context: Context) : SQLiteOpenHelper(co
     }
 
     private fun addExpression(expression: Expression): Long {
+        Timber.i("Adding an expression...")
         return writableDatabase.insert(TABLE_NAME, null, ExpressionUtil.toContentValues(expression))
     }
 
     fun updateExpression(expression: Expression): Int {
+        Timber.i("Upgrading an expression...")
         val where = "$_ID=?"
         val whereArgs = arrayOf(expression.getId().toString())
         return writableDatabase
@@ -69,6 +71,7 @@ class DatabaseHelper private constructor(context: Context) : SQLiteOpenHelper(co
     }
 
     private fun deleteExpression(id: Long): Int {
+        Timber.i("Deleting an expression...")
         val where = "$_ID=?"
         val whereArgs = arrayOf(id.toString())
         return writableDatabase.delete(TABLE_NAME, where, whereArgs)

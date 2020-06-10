@@ -109,6 +109,7 @@ class PredicateFragment: DialogFragment() {
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
+                action = MainFragment.EDIT_EXPRESSION
             }
             dismiss()
         }

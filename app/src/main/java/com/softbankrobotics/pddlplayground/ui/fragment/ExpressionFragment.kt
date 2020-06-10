@@ -10,6 +10,7 @@ import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
+import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.ADD_EXPRESSION
 import kotlinx.android.synthetic.main.fragment_edit_expression.*
 
@@ -49,6 +50,7 @@ class ExpressionFragment: DialogFragment() {
                 setLabel(expressionText.text.toString())
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
+                action = MainFragment.EDIT_EXPRESSION
             }
             dismiss()
         }

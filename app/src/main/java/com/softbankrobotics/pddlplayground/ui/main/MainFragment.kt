@@ -186,7 +186,6 @@ class MainFragment : Fragment(),
         }
         rootView.findViewById<ImageButton>(R.id.addGoal).setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.GOAL)
-
         }
         rootView.findViewById<ImageButton>(R.id.goalInfo).setOnClickListener {
             showInfoFragment(R.string.info_goal_title, R.string.info_goal_summary)
@@ -258,8 +257,8 @@ class MainFragment : Fragment(),
             PDDLCategory.ACTION.ordinal -> { //TODO: make action fragment
                 ExpressionFragment.newInstance(expression, action)
             }
-            PDDLCategory.GOAL.ordinal -> { //TODO: make goal fragment
-                ExpressionFragment.newInstance(expression, action)
+            PDDLCategory.GOAL.ordinal -> {
+                GoalFragment.newInstance(expression, action)
             }
             else -> { // type
                 ExpressionFragment.newInstance(expression, action)

@@ -254,8 +254,8 @@ class MainFragment : Fragment(),
             PDDLCategory.INIT.ordinal -> {
                 InitFragment.newInstance(expression, action)
             }
-            PDDLCategory.ACTION.ordinal -> { //TODO: make action fragment
-                ExpressionFragment.newInstance(expression, action)
+            PDDLCategory.ACTION.ordinal -> {
+                ActionFragment.newInstance(expression, action)
             }
             PDDLCategory.GOAL.ordinal -> {
                 GoalFragment.newInstance(expression, action)

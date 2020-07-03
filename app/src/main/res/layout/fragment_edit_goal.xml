@@ -7,6 +7,7 @@
     android:id="@+id/edit_goal">
 
     <LinearLayout
+        android:id="@+id/autoFillGoal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -73,8 +74,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/goalText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="end">
+        <Button
+            android:id="@+id/manualButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Manual"/>
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"

@@ -34,6 +34,7 @@ class GoalFragment: DialogFragment() {
     private var goal: Expression? = null
     private var action: String? = null
     private val inits = mutableListOf<String?>()
+    private var manual = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -129,11 +130,16 @@ class GoalFragment: DialogFragment() {
 
         okButton.setOnClickListener {
             goal?.apply {
-                var expression = keywordSpinner.selectedItem as String
-                if (expressionLayout.visibility == View.VISIBLE)
-                    expression += " (${initSpinner.selectedItem})"
-                if (expressionLayout2.visibility == View.VISIBLE)
-                    expression += " (${initSpinner2.selectedItem})"
+                var expression: String
+                if (manual) {
+                    expression = goalText.text.toString()
+                } else {
+                    expression = keywordSpinner.selectedItem as String
+                    if (expressionLayout.visibility == View.VISIBLE)
+                        expression += " (${initSpinner.selectedItem})"
+                    if (expressionLayout2.visibility == View.VISIBLE)
+                        expression += " (${initSpinner2.selectedItem})"
+                }
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
@@ -144,6 +150,13 @@ class GoalFragment: DialogFragment() {
 
         cancelButton.setOnClickListener {
             dismiss()
+        }
+
+        manualButton.setOnClickListener {
+            autoFillGoal.visibility = View.GONE
+            goalText.visibility = View.VISIBLE
+            goalText.setText(goal?.getLabel())
+            manual = true
         }
     }
 

@@ -32,7 +32,8 @@ class ActionFragment: DialogFragment() {
     private var paction: Expression? = null
     private var action: String? = null
     private lateinit var predicateLabels: List<String?>
-    private val paramLabels = mutableListOf<String?>()
+    private val typeLabels = mutableListOf<String?>()
+    private val paramLabels = mutableMapOf<String, List<String?>>()
     private val precondCheckBoxes = mutableListOf<CheckBox>()
     private val effectCheckBoxes = mutableListOf<CheckBox>()
     private val negateCheckBoxes = mutableListOf<CheckBox>()
@@ -76,9 +77,10 @@ class ActionFragment: DialogFragment() {
                     .map { it.getLabel() }
                     .filter { it!!.contains(type) }
                     .map { it?.substringBefore(' ') }
-                paramLabels.add(type) //TODO: actually check that it's a type
+                typeLabels.add(type) //TODO: actually check that it's a type
                 constsAndParam.add("?$type")
                 constsAndParam.addAll(consts)
+                paramLabels[label!!] = constsAndParam
             }
             val spinner = Spinner(context)
             spinner.adapter =
@@ -118,26 +120,51 @@ class ActionFragment: DialogFragment() {
         }
 
         if (paction != null) { // if filled out before
-            actionText.setText(paction?.getLabel()?.substringBefore(' '))
-            //TODO: fill in checkboxes & spinners
+            val label = paction?.getLabel()
+            actionText.setText(label?.substringBefore('\n'))
+            // fill in checkboxes & spinners
+            val preconditions = label?.substringAfter("precondition  (and\n")
+                ?.substringBefore(":effect")
+            val effects = label?.substringAfter("effect  (and\n")
+            // loop through predicates
+            for ((predicateInd, predicateLabel) in predicateLabels.withIndex()) {
+                if (label?.contains(predicateLabel!!) == true) {
+                    // set spinner
+                    val paramLabel = label.substringAfter(predicateLabel!!).substringBefore(')')
+                    // loop through types and consts (if exists)
+                    if (paramLabels[predicateLabel] != null) {
+                        for ((pInd, pLabel) in paramLabels[predicateLabel]!!.withIndex()) {
+                            if (paramLabel.contains(pLabel!!)) {
+                                spinners[predicateInd].setSelection(pInd)
+                                break
+                            }
+                        }
+                    }
+                    if (label.contains("not($predicateLabel")) {
+                        negateCheckBoxes[predicateInd].isChecked = true
+                    }
+                }
+                if (preconditions?.contains(predicateLabel!!) == true) {
+                    precondCheckBoxes[predicateInd].isChecked = true
+                } else if (effects?.contains(predicateLabel!!) == true) {
+                    effectCheckBoxes[predicateInd].isChecked = true
+                }
+            }
         }
-
-        //TODO: save predicates upon checkbox click
 
         okButton.setOnClickListener {
             paction?.apply {
-                //TODO: populate expression
                 var expression = "${actionText.text}\n"
-                // parameters TODO include all types by default?
+                // parameters TODO should't include all types by default?
                 expression += "    :parameters\n"
-                for (paramLabel in paramLabels.toSet()) {
-                    expression += "      (?$paramLabel - $paramLabel)\n"
+                for (typeLabel in typeLabels.toSet()) {
+                    expression += "      (?$typeLabel - $typeLabel)\n"
                 }
                 // preconditions
-                expression += "    :precondition\n"
+                expression += "    :precondition (and\n"
                 for ((index, precondCheckBox) in precondCheckBoxes.withIndex()) {
                     if (precondCheckBox.isChecked) {
-                        val param = spinners[index].selectedItem as String?
+                        val param = (spinners[index].selectedItem as String?)?: ""
                         expression += if (negateCheckBoxes[index].isChecked) {
                             "      (not(${predicateLabels[index]} $param))\n"
                         } else {
@@ -145,8 +172,9 @@ class ActionFragment: DialogFragment() {
                         }
                     }
                 }
+                expression += ")\n"
                 // effects
-                expression += "    :effect\n"
+                expression += "    :effect (and\n"
                 for ((index, effectCheckBox) in effectCheckBoxes.withIndex()) {
                     if (effectCheckBox.isChecked) {
                         val param = spinners[index].selectedItem as String?
@@ -157,6 +185,7 @@ class ActionFragment: DialogFragment() {
                         }
                     }
                 }
+                expression += ")"
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)

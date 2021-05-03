@@ -11,14 +11,13 @@ import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditActionBinding
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditInitBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypeOfObject
-import kotlinx.android.synthetic.main.fragment_edit_expression.cancelButton
-import kotlinx.android.synthetic.main.fragment_edit_expression.okButton
-import kotlinx.android.synthetic.main.fragment_edit_init.*
 import timber.log.Timber
 
 class InitFragment: DialogFragment() {
@@ -36,21 +35,30 @@ class InitFragment: DialogFragment() {
     private var init: Expression? = null
     private var action: String? = null
 
+    private var _binding: FragmentEditInitBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_init, container)
+    ): View {
+        _binding = FragmentEditInitBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+    
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init = arguments?.getParcelable("expression_extra")
         action = arguments?.getString("action")
-        val predicateSpinner = view.findViewById<Spinner>(R.id.predicateSpinner)
-        val objectSpinner = view.findViewById<Spinner>(R.id.objectSpinner)
-        val objectSpinner2 = view.findViewById<Spinner>(R.id.objectSpinner2)
+        val predicateSpinner = binding.predicateSpinner
+        val objectSpinner = binding.objectSpinner
+        val objectSpinner2 = binding.objectSpinner2
 
         // recover predicates, objects & constants from Database & populate spinners
         val predicates  = DatabaseHelper.getInstance(context!!).getExpressions()
@@ -79,7 +87,7 @@ class InitFragment: DialogFragment() {
                 val objectLabels = objects.filter {
                     it != null && it.contains(type)
                 }.map { it?.substringBefore(' ') }
-                objectLayout.visibility = View.VISIBLE
+                binding.objectLayout.visibility = View.VISIBLE
                 objectSpinner.adapter =
                     ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)
                 if (objectLabels.any { it == objLabel }) {
@@ -92,7 +100,7 @@ class InitFragment: DialogFragment() {
                     val objectLabels2 = objects.filter {
                         it != null && it.contains(type2)
                     }.map { it?.substringBefore(' ') }
-                    objectLayout2.visibility = View.VISIBLE
+                    binding.objectLayout2.visibility = View.VISIBLE
                     objectSpinner2.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels2)
                     if (objectLabels2.any { it == objLabel2 }) {
@@ -117,7 +125,7 @@ class InitFragment: DialogFragment() {
                 val predicate = predicates[position]
                 val numParam = predicate?.count { it == '-' }?: 0
                 if (numParam > 0) { // if at least 1 param
-                    objectLayout.visibility = View.VISIBLE
+                    binding.objectLayout.visibility = View.VISIBLE
                     val type = predicate
                         ?.substringAfter(" - ")
                         ?.substringBefore(' ')
@@ -127,10 +135,10 @@ class InitFragment: DialogFragment() {
                     objectSpinner.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)
                 } else {
-                    objectLayout.visibility = View.GONE
+                    binding.objectLayout.visibility = View.GONE
                 }
                 if (numParam > 1) { // if 2 params
-                    objectLayout2.visibility = View.VISIBLE
+                    binding.objectLayout2.visibility = View.VISIBLE
                     val type = predicate
                         ?.substringAfterLast(" - ")
                         ?.substringBefore(' ')
@@ -140,17 +148,17 @@ class InitFragment: DialogFragment() {
                     objectSpinner.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)
                 } else {
-                    objectLayout2.visibility = View.GONE
+                    binding.objectLayout2.visibility = View.GONE
                 }
             }
         }
 
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             init?.apply {
                 var expression = predicateSpinner.selectedItem as String
-                if (objectLayout.visibility == View.VISIBLE)
+                if (binding.objectLayout.visibility == View.VISIBLE)
                     expression += " ${objectSpinner.selectedItem}"
-                if (objectLayout2.visibility == View.VISIBLE)
+                if (binding.objectLayout2.visibility == View.VISIBLE)
                     expression += " ${objectSpinner2.selectedItem}"
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
@@ -160,7 +168,7 @@ class InitFragment: DialogFragment() {
             dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dismiss()
         }
     }

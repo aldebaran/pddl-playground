@@ -9,13 +9,11 @@ import android.widget.*
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditActionBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import kotlinx.android.synthetic.main.fragment_edit_action.*
-import kotlinx.android.synthetic.main.fragment_edit_expression.cancelButton
-import kotlinx.android.synthetic.main.fragment_edit_expression.okButton
 
 class ActionFragment: DialogFragment() {
     companion object {
@@ -39,12 +37,21 @@ class ActionFragment: DialogFragment() {
     private val negateCheckBoxes = mutableListOf<CheckBox>()
     private val spinners = mutableListOf<Spinner>()
 
+    private var _binding: FragmentEditActionBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_action, container)
+    ): View {
+        _binding = FragmentEditActionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +64,7 @@ class ActionFragment: DialogFragment() {
             .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
             .map { it.getLabel() }
         predicateLabels = predicates.map { it?.substringBefore(' ') }
-        val gridLayout = view.findViewById<GridLayout>(R.id.gridLayout)
+        val gridLayout = binding.gridLayout
         var rowCount = 1
         for ((ind, label) in predicateLabels.withIndex()) {
             val predicateText = TextView(context).apply {
@@ -121,7 +128,7 @@ class ActionFragment: DialogFragment() {
 
         if (paction != null) { // if filled out before
             val label = paction?.getLabel()
-            actionText.setText(label?.substringBefore('\n'))
+            binding.actionText.setText(label?.substringBefore('\n'))
             // fill in checkboxes & spinners
             val preconditions = label?.substringAfter("precondition  (and\n")
                 ?.substringBefore(":effect")
@@ -152,9 +159,9 @@ class ActionFragment: DialogFragment() {
             }
         }
 
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             paction?.apply {
-                var expression = "${actionText.text}\n"
+                var expression = "${binding.actionText.text}\n"
                 // parameters TODO should't include all types by default?
                 expression += "    :parameters\n"
                 for (typeLabel in typeLabels.toSet()) {
@@ -194,7 +201,7 @@ class ActionFragment: DialogFragment() {
             dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dismiss()
         }
     }

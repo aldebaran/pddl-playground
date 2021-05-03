@@ -17,6 +17,7 @@ import com.softbankrobotics.pddlplayground.MainActivity.Companion.plannerService
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.adapter.ExpressionAdapter
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.MainFragmentBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.EditExpressionsReceiver
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsReceiver
@@ -26,7 +27,6 @@ import com.softbankrobotics.pddlplayground.util.PDDLCategory
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getDomainPDDLFromDatabase
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getPlanFromDatabase
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getProblemPDDLFromDatabase
-import kotlinx.android.synthetic.main.main_fragment.*
 import java.util.ArrayList
 
 //TODO: make a view for requirements? With checkbox for available requirements & info
@@ -55,6 +55,9 @@ class MainFragment : Fragment(),
     private lateinit var goalAdapter: ExpressionAdapter
     private lateinit var actionAdapter: ExpressionAdapter
 
+    private var _binding: MainFragmentBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mReceiver = LoadExpressionsReceiver(this)
@@ -63,7 +66,8 @@ class MainFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val rootView = inflater.inflate(R.layout.main_fragment, container, false)
+        _binding = MainFragmentBinding.inflate(inflater, container, false)
+        val rootView = binding.root
 
         // initialize the adapters
         expressionAdapter = ExpressionAdapter()
@@ -75,7 +79,7 @@ class MainFragment : Fragment(),
         goalAdapter = ExpressionAdapter()
 
         // type
-        rootView.findViewById<RecyclerView>(R.id.type_recyler).apply {
+        binding.typeRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = expressionAdapter
@@ -83,7 +87,7 @@ class MainFragment : Fragment(),
         }
 
         // constant
-        rootView.findViewById<RecyclerView>(R.id.constant_recyler).apply {
+        binding.constantRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = constantAdapter
@@ -91,7 +95,7 @@ class MainFragment : Fragment(),
         }
 
         // object
-        rootView.findViewById<RecyclerView>(R.id.object_recyler).apply {
+        binding.objectRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = objectAdapter
@@ -99,7 +103,7 @@ class MainFragment : Fragment(),
         }
 
         // predicate
-        rootView.findViewById<RecyclerView>(R.id.predicate_recyler).apply {
+        binding.predicateRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = predicateAdapter
@@ -107,7 +111,7 @@ class MainFragment : Fragment(),
         }
 
         // init
-        rootView.findViewById<RecyclerView>(R.id.init_recyler).apply {
+        binding.initRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = initAdapter
@@ -115,7 +119,7 @@ class MainFragment : Fragment(),
         }
 
         // action
-        rootView.findViewById<RecyclerView>(R.id.action_recyler).apply {
+        binding.actionRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = actionAdapter
@@ -123,85 +127,87 @@ class MainFragment : Fragment(),
         }
 
         // goal
-        rootView.findViewById<RecyclerView>(R.id.goal_recyler).apply {
+        binding.goalRecyler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = goalAdapter
             itemAnimator = DefaultItemAnimator()
         }
 
-
         // callbacks
-        rootView.findViewById<ImageButton>(R.id.domainInfo).setOnClickListener {
+        binding.domainInfo.setOnClickListener {
             showInfoFragment(R.string.info_domain_title, R.string.info_domain_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.domainPDDL).setOnClickListener {
+        binding.domainPDDL.setOnClickListener {
             showPDDLFragment(getString(R.string.domain_pddl), getDomainPDDLFromDatabase(context!!))
         }
-        rootView.findViewById<ImageButton>(R.id.problemInfo).setOnClickListener {
+        binding.problemInfo.setOnClickListener {
             showInfoFragment(R.string.info_problem_title, R.string.info_problem_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.problemPDDL).setOnClickListener {
+        binding.problemPDDL.setOnClickListener {
             showPDDLFragment(getString(R.string.problem_pddl), getProblemPDDLFromDatabase(context!!))
         }
-        rootView.findViewById<ImageButton>(R.id.addType).setOnClickListener {
+        binding.addType.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.TYPE)
         }
-        rootView.findViewById<ImageButton>(R.id.typeInfo).setOnClickListener {
+        binding.typeInfo.setOnClickListener {
             showInfoFragment(R.string.info_type_title, R.string.info_type_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addConstant).setOnClickListener {
+        binding.addConstant.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.CONSTANT)
-
         }
-        rootView.findViewById<ImageButton>(R.id.constantInfo).setOnClickListener {
+        binding.constantInfo.setOnClickListener {
             showInfoFragment(R.string.info_const_title, R.string.info_constant_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addObject).setOnClickListener {
+        binding.addObject.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.OBJECT)
-
         }
-        rootView.findViewById<ImageButton>(R.id.objectInfo).setOnClickListener {
+        binding.objectInfo.setOnClickListener {
             showInfoFragment(R.string.info_object_title, R.string.info_object_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addPredicate).setOnClickListener {
+        binding.addPredicate.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.PREDICATE)
 
         }
-        rootView.findViewById<ImageButton>(R.id.predicateInfo).setOnClickListener {
+        binding.predicateInfo.setOnClickListener {
             showInfoFragment(R.string.info_predicate_title, R.string.info_predicate_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addInit).setOnClickListener {
+        binding.addInit.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.INIT)
 
         }
-        rootView.findViewById<ImageButton>(R.id.initInfo).setOnClickListener {
+        binding.initInfo.setOnClickListener {
             showInfoFragment(R.string.info_init_title, R.string.info_init_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addAction).setOnClickListener {
+        binding.addAction.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.ACTION)
         }
-        rootView.findViewById<ImageButton>(R.id.actionInfo).setOnClickListener {
+        binding.actionInfo.setOnClickListener {
             showInfoFragment(R.string.info_action_title, R.string.info_action_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.addGoal).setOnClickListener {
+        binding.addGoal.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.GOAL)
         }
-        rootView.findViewById<ImageButton>(R.id.goalInfo).setOnClickListener {
+        binding.goalInfo.setOnClickListener {
             showInfoFragment(R.string.info_goal_title, R.string.info_goal_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.planInfo).setOnClickListener {
+        binding.planInfo.setOnClickListener {
             showInfoFragment(R.string.info_plan_title, R.string.info_plan_summary)
         }
-        rootView.findViewById<ImageButton>(R.id.runPlan).setOnClickListener {
+        binding.runPlan.setOnClickListener {
             val plan = getPlanFromDatabase(context!!)
-            planContent.text = when {
+            binding.planContent.text = when {
                 plan == null -> { "Plan failed." }
                 plan.isEmpty() -> { "Plan is empty." }
                 else -> { plan }
             }
         }
         return rootView
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onStart() {

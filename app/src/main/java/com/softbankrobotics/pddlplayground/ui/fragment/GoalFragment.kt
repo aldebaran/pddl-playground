@@ -11,12 +11,12 @@ import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditGoalBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.EDIT_EXPRESSION
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import kotlinx.android.synthetic.main.fragment_edit_goal.*
 import timber.log.Timber
 
 class GoalFragment: DialogFragment() {
@@ -36,12 +36,21 @@ class GoalFragment: DialogFragment() {
     private val inits = mutableListOf<String?>()
     private var manual = false
 
+    private var _binding: FragmentEditGoalBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_goal, container)
+    ): View {
+        _binding = FragmentEditGoalBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,9 +59,9 @@ class GoalFragment: DialogFragment() {
         action = arguments?.getString("action")
 
         // get view elements
-        val keywordSpinner = view.findViewById<Spinner>(R.id.keywordSpinner)
-        val initSpinner = view.findViewById<Spinner>(R.id.initSpinner)
-        val initSpinner2 = view.findViewById<Spinner>(R.id.initSpinner2)
+        val keywordSpinner = binding.keywordSpinner
+        val initSpinner = binding.initSpinner
+        val initSpinner2 = binding.initSpinner2
 
         // populate keyword spinner
         val keywords = listOf(
@@ -85,14 +94,14 @@ class GoalFragment: DialogFragment() {
                         ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
                     initSpinner2.adapter =
                         ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
-                    expressionLayout.visibility = View.VISIBLE
-                    expressionLayout2.visibility = View.VISIBLE
+                    binding.expressionLayout.visibility = View.VISIBLE
+                    binding.expressionLayout2.visibility = View.VISIBLE
                 }
                 else -> { // for now, just null
                     initSpinner.adapter =
                         ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
-                    expressionLayout.visibility = View.VISIBLE
-                    expressionLayout2.visibility = View.GONE
+                    binding.expressionLayout.visibility = View.VISIBLE
+                    binding.expressionLayout2.visibility = View.GONE
                 }
             }
         }
@@ -115,29 +124,29 @@ class GoalFragment: DialogFragment() {
                             ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
                         initSpinner2.adapter =
                             ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
-                        expressionLayout.visibility = View.VISIBLE
-                        expressionLayout2.visibility = View.VISIBLE
+                        binding.expressionLayout.visibility = View.VISIBLE
+                        binding.expressionLayout2.visibility = View.VISIBLE
                     }
                     else -> { // for now, just null
                         initSpinner.adapter =
                             ArrayAdapter(context!!,  R.layout.support_simple_spinner_dropdown_item, inits)
-                        expressionLayout.visibility = View.VISIBLE
-                        expressionLayout2.visibility = View.GONE
+                        binding.expressionLayout.visibility = View.VISIBLE
+                        binding.expressionLayout2.visibility = View.GONE
                     }
                 }
             }
         }
 
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             goal?.apply {
                 var expression: String
                 if (manual) {
-                    expression = goalText.text.toString()
+                    expression = binding.goalText.text.toString()
                 } else {
                     expression = keywordSpinner.selectedItem as String
-                    if (expressionLayout.visibility == View.VISIBLE)
+                    if (binding.expressionLayout.visibility == View.VISIBLE)
                         expression += " (${initSpinner.selectedItem})"
-                    if (expressionLayout2.visibility == View.VISIBLE)
+                    if (binding.expressionLayout2.visibility == View.VISIBLE)
                         expression += " (${initSpinner2.selectedItem})"
                 }
                 setLabel(expression)
@@ -148,14 +157,14 @@ class GoalFragment: DialogFragment() {
             dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dismiss()
         }
 
-        manualButton.setOnClickListener {
-            autoFillGoal.visibility = View.GONE
-            goalText.visibility = View.VISIBLE
-            goalText.setText(goal?.getLabel())
+        binding.manualButton.setOnClickListener {
+            binding.autoFillGoal.visibility = View.GONE
+            binding.goalText.visibility = View.VISIBLE
+            binding.goalText.setText(goal?.getLabel())
             manual = true
         }
     }

@@ -9,12 +9,11 @@ import android.widget.*
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditPredicateBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import kotlinx.android.synthetic.main.fragment_edit_expression.cancelButton
-import kotlinx.android.synthetic.main.fragment_edit_expression.okButton
 
 class PredicateFragment: DialogFragment() {
     companion object {
@@ -30,13 +29,21 @@ class PredicateFragment: DialogFragment() {
 
     private var predicate: Expression? = null
     private var action: String? = null
+    private var _binding: FragmentEditPredicateBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_predicate, container)
+    ): View {
+        _binding = FragmentEditPredicateBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,13 +54,13 @@ class PredicateFragment: DialogFragment() {
         action = arguments?.getString("action")
 
         // get view elements
-        val predicateText = view.findViewById<TextView>(R.id.predicateText)
-        val typeSpinner = view.findViewById<Spinner>(R.id.typeSpinner)
-        val typeSpinner2 = view.findViewById<Spinner>(R.id.typeSpinner2)
-        val parameterButton = view.findViewById<ToggleButton>(R.id.parameterButton)
-        val parameterButton2 = view.findViewById<ToggleButton>(R.id.parameterButton2)
-        val parameterLayout = view.findViewById<LinearLayout>(R.id.parameterLayout)
-        val parameterLayout2 = view.findViewById<LinearLayout>(R.id.parameterLayout2)
+        val predicateText = binding.predicateText
+        val typeSpinner = binding.typeSpinner
+        val typeSpinner2 = binding.typeSpinner2
+        val parameterButton = binding.parameterButton
+        val parameterButton2 = binding.parameterButton2
+        val parameterLayout = binding.parameterLayout
+        val parameterLayout2 = binding.parameterLayout2
 
         // recover types from Database & populate spinners
         val types = DatabaseHelper.getInstance(context!!).getExpressions()
@@ -65,7 +72,7 @@ class PredicateFragment: DialogFragment() {
         typeSpinner2.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types2)
         if (predicate != null) { // if filled in already
-            predicateText.text = predicate?.getLabel()?.substringBefore(" ")
+            predicateText.setText(predicate?.getLabel()?.substringBefore(" "))
             // search types
             val subExpression = predicate?.getLabel()?.substringAfter(" - ")
             val type = subExpression?.substringBefore(' ')
@@ -99,7 +106,7 @@ class PredicateFragment: DialogFragment() {
             }
         }
 
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             predicate?.apply {
                 var expression = predicateText.text.toString()
                 if (parameterLayout.visibility == View.VISIBLE)
@@ -114,7 +121,7 @@ class PredicateFragment: DialogFragment() {
             dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dismiss()
         }
     }

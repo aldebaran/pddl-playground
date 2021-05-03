@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditExpressionBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.ADD_EXPRESSION
-import kotlinx.android.synthetic.main.fragment_edit_expression.*
 
 class ExpressionFragment: DialogFragment() {
     companion object {
@@ -29,12 +28,22 @@ class ExpressionFragment: DialogFragment() {
     var expression: Expression? = null
     var action: String? = null
 
+    private var _binding: FragmentEditExpressionBinding? = null
+    private val binding get() = _binding!!
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_edit_expression, container)
+    ): View {
+        _binding = FragmentEditExpressionBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,12 +51,12 @@ class ExpressionFragment: DialogFragment() {
         expression = arguments?.getParcelable("expression_extra")
         action = arguments?.getString("action")
         if (expression != null) {
-            expressionText.setText(expression?.getLabel())
+            binding.expressionText.setText(expression?.getLabel())
         }
 
-        okButton.setOnClickListener {
+        binding.okButton.setOnClickListener {
             expression?.apply {
-                setLabel(expressionText.text.toString())
+                setLabel(binding.expressionText.text.toString())
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION
@@ -55,7 +64,7 @@ class ExpressionFragment: DialogFragment() {
             dismiss()
         }
 
-        cancelButton.setOnClickListener {
+        binding.cancelButton.setOnClickListener {
             dismiss()
         }
     }

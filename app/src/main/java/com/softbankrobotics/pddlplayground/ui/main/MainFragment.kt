@@ -6,14 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.softbankrobotics.pddlplayground.MainActivity
-import com.softbankrobotics.pddlplayground.MainActivity.Companion.plannerService
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.adapter.ExpressionAdapter
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -27,6 +24,8 @@ import com.softbankrobotics.pddlplayground.util.PDDLCategory
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getDomainPDDLFromDatabase
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getPlanFromDatabase
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getProblemPDDLFromDatabase
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.ArrayList
 
 //TODO: make a view for requirements? With checkbox for available requirements & info
@@ -195,11 +194,21 @@ class MainFragment : Fragment(),
             showInfoFragment(R.string.info_plan_title, R.string.info_plan_summary)
         }
         binding.runPlan.setOnClickListener {
-            val plan = getPlanFromDatabase(context!!)
-            binding.planContent.text = when {
-                plan == null -> { "Plan failed." }
-                plan.isEmpty() -> { "Plan is empty." }
-                else -> { plan }
+            GlobalScope.launch {
+                val plan = try {
+                    getPlanFromDatabase(requireContext())
+                } catch (t: Throwable) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(requireContext(), "Plan failed.", Toast.LENGTH_SHORT).show()
+                    }
+                    return@launch
+                }
+                requireActivity().runOnUiThread {
+                    binding.planContent.text = when {
+                        plan.isEmpty() -> { "Plan is empty." }
+                        else -> { plan.joinToString("\n") }
+                    }
+                }
             }
         }
         return rootView

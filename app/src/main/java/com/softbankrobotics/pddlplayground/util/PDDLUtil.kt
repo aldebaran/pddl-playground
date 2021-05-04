@@ -1,16 +1,17 @@
 package com.softbankrobotics.pddlplayground.util
 
 import android.content.Context
-import com.softbankrobotics.pddlplayground.MainActivity
+import com.softbankrobotics.pddlplanning.Tasks
+import com.softbankrobotics.pddlplayground.MainActivity.Companion.planSearchFunction
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
 import java.lang.RuntimeException
 
 object PDDLUtil {
 
-    fun getPlanFromDatabase(context: Context): String? {
+    suspend fun getPlanFromDatabase(context: Context): Tasks {
         val domain = getDomainPDDLFromDatabase(context)
         val problem = getProblemPDDLFromDatabase(context)
-        return MainActivity.plannerService.searchPlan(domain + problem)
+        return planSearchFunction(domain, problem, null)
     }
 
     fun getDomainPDDLFromDatabase(context: Context): String {

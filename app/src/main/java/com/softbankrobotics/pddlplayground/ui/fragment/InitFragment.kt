@@ -145,7 +145,7 @@ class InitFragment: DialogFragment() {
                     val objectLabels = objects.filter {
                         it != null && type != null && it.contains(type)
                     }.map { it?.substringBefore(' ') }
-                    objectSpinner.adapter =
+                    objectSpinner2.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)
                 } else {
                     binding.objectLayout2.visibility = View.GONE

@@ -26,6 +26,7 @@ import com.softbankrobotics.pddlplayground.util.PDDLUtil.getPlanFromDatabase
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getProblemPDDLFromDatabase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.ArrayList
 
 //TODO: make a view for requirements? With checkbox for available requirements & info
@@ -166,14 +167,12 @@ class MainFragment : Fragment(),
         }
         binding.addPredicate.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.PREDICATE)
-
         }
         binding.predicateInfo.setOnClickListener {
             showInfoFragment(R.string.info_predicate_title, R.string.info_predicate_summary)
         }
         binding.addInit.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.INIT)
-
         }
         binding.initInfo.setOnClickListener {
             showInfoFragment(R.string.info_init_title, R.string.info_init_summary)
@@ -198,6 +197,7 @@ class MainFragment : Fragment(),
                 val plan = try {
                     getPlanFromDatabase(requireContext())
                 } catch (t: Throwable) {
+                    Timber.e(t)
                     requireActivity().runOnUiThread {
                         Toast.makeText(requireContext(), "Plan failed.", Toast.LENGTH_SHORT).show()
                     }

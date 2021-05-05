@@ -15,7 +15,7 @@ import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
 
-class ActionFragment: DialogFragment() {
+class ActionFragment : DialogFragment() {
     companion object {
         fun newInstance(expression: Expression, action: String): ActionFragment {
             val args = Bundle()
@@ -30,12 +30,13 @@ class ActionFragment: DialogFragment() {
     private var paction: Expression? = null
     private var action: String? = null
     private lateinit var predicateLabels: List<String?>
-    private val typeLabels = mutableListOf<String?>()
-    private val paramLabels = mutableMapOf<String, List<String?>>()
+    private val typeLabels = mutableListOf<String>()
+    private val paramLabels = mutableMapOf<String, List<List<String?>>>()
     private val precondCheckBoxes = mutableListOf<CheckBox>()
     private val effectCheckBoxes = mutableListOf<CheckBox>()
     private val negateCheckBoxes = mutableListOf<CheckBox>()
     private val spinners = mutableListOf<Spinner>()
+    private val spinners2 = mutableListOf<Spinner>()
 
     private var _binding: FragmentEditActionBinding? = null
     private val binding get() = _binding!!
@@ -60,7 +61,7 @@ class ActionFragment: DialogFragment() {
         action = arguments?.getString("action")
 
         // populate the grid with each predicate
-        val predicates  = DatabaseHelper.getInstance(context!!).getExpressions()
+        val predicates = DatabaseHelper.getInstance(context!!).getExpressions()
             .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
             .map { it.getLabel() }
         predicateLabels = predicates.map { it?.substringBefore(' ') }
@@ -70,57 +71,96 @@ class ActionFragment: DialogFragment() {
             val predicateText = TextView(context).apply {
                 text = label
             }
-            gridLayout.addView(predicateText, GridLayout.LayoutParams(
-                GridLayout.spec(rowCount, GridLayout.CENTER),
-                GridLayout.spec(0, GridLayout.CENTER)
+            gridLayout.addView(
+                predicateText, GridLayout.LayoutParams(
+                    GridLayout.spec(rowCount, GridLayout.CENTER),
+                    GridLayout.spec(0, GridLayout.CENTER)
                 )
             )
             val type = predicates[ind]
                 ?.substringAfter(" - ")?.substringBefore(" ")
             val constsAndParam = mutableListOf<String?>()
-            if (type != null && type != predicates[ind]) {
+            val constsAndParam2 = mutableListOf<String?>()
+            val types = DatabaseHelper.getInstance(context!!).getExpressions()
+                .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+                .map { it.getLabel() }
+            if (type != null && types.contains(type)) { // if it's actually a type
                 val consts = DatabaseHelper.getInstance(context!!).getExpressions()
                     .filter { it.getCategory() == PDDLCategory.CONSTANT.ordinal }
                     .map { it.getLabel() }
+                val consts1 = consts
                     .filter { it!!.contains(type) }
                     .map { it?.substringBefore(' ') }
-                typeLabels.add(type) //TODO: actually check that it's a type
+                typeLabels.add(type)
                 constsAndParam.add("?$type")
-                constsAndParam.addAll(consts)
-                paramLabels[label!!] = constsAndParam
+                constsAndParam.addAll(consts1)
+                val type2 = predicates[ind]?.substringAfter(type)
+                    ?.substringAfter(" - ")?.substringBefore(" ")
+                if (type2 != null && type2.isNotEmpty() && types.contains(type2)) {
+                    val consts2 = consts
+                        .filter { it!!.contains(type2) }
+                        .map { it?.substringBefore(' ') }
+                    typeLabels.add(type2)
+                    constsAndParam2.add("?$type2")
+                    constsAndParam2.addAll(consts2)
+                }
+                paramLabels[label!!] = listOf(constsAndParam, constsAndParam2)
             }
             val spinner = Spinner(context)
             spinner.adapter =
-                ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, constsAndParam)
+                ArrayAdapter(
+                    context!!,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    constsAndParam
+                )
             spinners += spinner
-            gridLayout.addView(spinner,
+            gridLayout.addView(
+                spinner,
                 GridLayout.LayoutParams(
                     GridLayout.spec(rowCount, GridLayout.CENTER),
                     GridLayout.spec(1, GridLayout.CENTER)
                 )
             )
-            val checkbox = CheckBox(context)
-            precondCheckBoxes += checkbox
-            gridLayout.addView(checkbox,
+            val spinner2 = Spinner(context)
+            spinner2.adapter =
+                ArrayAdapter(
+                    context!!,
+                    R.layout.support_simple_spinner_dropdown_item,
+                    constsAndParam2
+                )
+            spinners2 += spinner2
+            gridLayout.addView(
+                spinner2,
                 GridLayout.LayoutParams(
                     GridLayout.spec(rowCount, GridLayout.CENTER),
                     GridLayout.spec(2, GridLayout.CENTER)
                 )
             )
-            val eCheckbox = CheckBox(context)
-            effectCheckBoxes += eCheckbox
-            gridLayout.addView(eCheckbox,
+            val checkbox = CheckBox(context)
+            precondCheckBoxes += checkbox
+            gridLayout.addView(
+                checkbox,
                 GridLayout.LayoutParams(
                     GridLayout.spec(rowCount, GridLayout.CENTER),
                     GridLayout.spec(3, GridLayout.CENTER)
                 )
             )
-            val nCheckbox = CheckBox(context)
-            negateCheckBoxes += nCheckbox
-            gridLayout.addView(nCheckbox,
+            val eCheckbox = CheckBox(context)
+            effectCheckBoxes += eCheckbox
+            gridLayout.addView(
+                eCheckbox,
                 GridLayout.LayoutParams(
                     GridLayout.spec(rowCount, GridLayout.CENTER),
                     GridLayout.spec(4, GridLayout.CENTER)
+                )
+            )
+            val nCheckbox = CheckBox(context)
+            negateCheckBoxes += nCheckbox
+            gridLayout.addView(
+                nCheckbox,
+                GridLayout.LayoutParams(
+                    GridLayout.spec(rowCount, GridLayout.CENTER),
+                    GridLayout.spec(5, GridLayout.CENTER)
                 )
             )
             rowCount++
@@ -136,13 +176,21 @@ class ActionFragment: DialogFragment() {
             // loop through predicates
             for ((predicateInd, predicateLabel) in predicateLabels.withIndex()) {
                 if (label?.contains(predicateLabel!!) == true) {
-                    // set spinner
+                    // set spinners
                     val paramLabel = label.substringAfter(predicateLabel!!).substringBefore(')')
                     // loop through types and consts (if exists)
-                    if (paramLabels[predicateLabel] != null) {
-                        for ((pInd, pLabel) in paramLabels[predicateLabel]!!.withIndex()) {
+                    if (paramLabels[predicateLabel]?.first() != null) {
+                        for ((pInd, pLabel) in paramLabels[predicateLabel]!!.first().withIndex()) {
                             if (paramLabel.contains(pLabel!!)) {
                                 spinners[predicateInd].setSelection(pInd)
+                                break
+                            }
+                        }
+                    }
+                    if (paramLabels[predicateLabel]?.last() != null) {
+                        for ((pInd, pLabel) in paramLabels[predicateLabel]!!.last().withIndex()) {
+                            if (paramLabel.contains(pLabel!!)) {
+                                spinners2[predicateInd].setSelection(pInd)
                                 break
                             }
                         }
@@ -160,44 +208,55 @@ class ActionFragment: DialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
-            paction?.apply {
-                var expression = "${binding.actionText.text}\n"
-                // parameters TODO should't include all types by default?
-                expression += "    :parameters\n"
-                for (typeLabel in typeLabels.toSet()) {
-                    expression += "      (?$typeLabel - $typeLabel)\n"
-                }
-                // preconditions
-                expression += "    :precondition (and\n"
-                for ((index, precondCheckBox) in precondCheckBoxes.withIndex()) {
-                    if (precondCheckBox.isChecked) {
-                        val param = (spinners[index].selectedItem as String?)?: ""
-                        expression += if (negateCheckBoxes[index].isChecked) {
-                            "      (not(${predicateLabels[index]} $param))\n"
-                        } else {
-                            "      (${predicateLabels[index]} $param)\n"
-                        }
+            val paramList = mutableListOf<String>()
+            // preconditions
+            var precondition = "    :precondition (and\n"
+            for ((index, precondCheckBox) in precondCheckBoxes.withIndex()) {
+                if (precondCheckBox.isChecked) {
+                    val param = (spinners[index].selectedItem as String?) ?: ""
+                    val param2 = (spinners2[index].selectedItem as String?) ?: ""
+                    precondition += if (negateCheckBoxes[index].isChecked) {
+                        "      (not(${predicateLabels[index]} $param $param2))\n"
+                    } else {
+                        "      (${predicateLabels[index]} $param $param2)\n"
                     }
+                    paramList.add(param)
+                    paramList.add(param2)
                 }
-                expression += ")\n"
-                // effects
-                expression += "    :effect (and\n"
-                for ((index, effectCheckBox) in effectCheckBoxes.withIndex()) {
-                    if (effectCheckBox.isChecked) {
-                        val param = spinners[index].selectedItem as String?
-                        expression += if (negateCheckBoxes[index].isChecked) {
-                            "      (not(${predicateLabels[index]} $param))\n"
-                        } else {
-                            "      (${predicateLabels[index]} $param)\n"
-                        }
-                    }
-                }
-                expression += ")"
-                setLabel(expression)
-                DatabaseHelper.getInstance(context!!).updateExpression(this)
-                LoadExpressionsService.launchLoadExpressionsService(context!!)
-                action = MainFragment.EDIT_EXPRESSION
             }
+            precondition += "    )\n"
+            // effects
+            var effect = "    :effect (and\n"
+            for ((index, effectCheckBox) in effectCheckBoxes.withIndex()) {
+                if (effectCheckBox.isChecked) {
+                    val param = spinners[index].selectedItem as String? ?: ""
+                    val param2 = spinners2[index].selectedItem as String? ?: ""
+                    effect += if (negateCheckBoxes[index].isChecked) {
+                        "      (not(${predicateLabels[index]} $param $param2))\n"
+                    } else {
+                        "      (${predicateLabels[index]} $param $param2)\n"
+                    }
+                    paramList.add(param)
+                    paramList.add(param2)
+                }
+            }
+            effect += "    )\n"
+            // parameters (only add when it's actually used)
+            var parameters = "    :parameters\n"
+            for (typeLabel in typeLabels.toSet()) {
+                for (param in paramList) {
+                    if (param.contains(typeLabel)) {
+                        parameters += "      (?$typeLabel - $typeLabel)\n"
+                        break
+                    }
+                }
+            }
+            paction?.apply {
+                setLabel("${binding.actionText.text}\n" + parameters + precondition + effect)
+                DatabaseHelper.getInstance(context!!).updateExpression(this)
+            }
+            LoadExpressionsService.launchLoadExpressionsService(context!!)
+            action = MainFragment.EDIT_EXPRESSION
             dismiss()
         }
 

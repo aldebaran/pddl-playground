@@ -21,7 +21,7 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="5">
+        android:columnCount="6">
         <TextView
             android:text="Predicates:"
             android:layout_margin="16dp"
@@ -29,6 +29,11 @@
             android:layout_height="wrap_content"/>
         <TextView
             android:text="Parameter 1:"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Parameter 2:"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>

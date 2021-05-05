@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Choose Predicate:"
+                android:text="@string/choose_predicate"
                 android:textSize="18sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
@@ -41,7 +41,7 @@
         android:orientation="vertical"
         android:visibility="gone">
         <TextView
-            android:text="Choose Object / Constant:"
+            android:text="@string/choose_object_constant"
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -61,7 +61,7 @@
         android:orientation="vertical"
         android:visibility="gone">
         <TextView
-            android:text="Choose Object / Constant:"
+            android:text="@string/choose_object_constant"
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -81,12 +81,12 @@
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
         <Button
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"/>
+            android:text="@string/ok"/>
     </LinearLayout>
 
 </LinearLayout>

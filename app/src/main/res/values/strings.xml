@@ -6,7 +6,7 @@
     <string name="info_summary">Summary</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
-    <string name="info_type_title">Object Types</string>
+    <string name="info_type_title">Types</string>
     <string name="info_init_title">Initial State</string>
     <string name="info_const_title">Constants</string>
     <string name="info_object_title">Objects</string>
@@ -86,4 +86,24 @@
         Once the domain and problem are specified, the user may click on the play button next to the plan view to see the solution.\n
         If the planner returns an error, it will read "plan failed."
     </string>
+    <string name="choose_keyword">Choose Keyword:</string>
+    <string name="fill_exp">Fill Exp.:</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="manual">Manual</string>
+    <string name="enter_expression">Enter Expression:</string>
+    <string name="enter_constant">Enter Constant:</string>
+    <string name="choose_type">Choose Type:</string>
+    <string name="enter_action_name">Enter Action Name:</string>
+    <string name="predicates">Predicates:</string>
+    <string name="parameter_1">Parameter 1:</string>
+    <string name="parameter_2">Parameter 2:</string>
+    <string name="precondition">Precondition</string>
+    <string name="effect">Effect</string>
+    <string name="negate">Negate?</string>
+    <string name="choose_predicate">Choose Predicate:</string>
+    <string name="choose_object_constant">Choose Object / Constant:</string>
+    <string name="enter_predicate">Enter Predicate:</string>
+    <string name="param_1">Param 1</string>
+    <string name="param_2">Param 2</string>
 </resources>

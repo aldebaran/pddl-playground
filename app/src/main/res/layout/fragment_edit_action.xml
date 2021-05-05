@@ -6,7 +6,7 @@
     android:id="@+id/edit_action">
 
     <TextView
-        android:text="Enter Action Name:"
+        android:text="@string/enter_action_name"
         android:textSize="24sp"
         android:layout_margin="16dp"
         android:layout_width="match_parent"
@@ -23,32 +23,32 @@
         android:layout_height="wrap_content"
         android:columnCount="6">
         <TextView
-            android:text="Predicates:"
+            android:text="@string/predicates"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="Parameter 1:"
+            android:text="@string/parameter_1"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="Parameter 2:"
+            android:text="@string/parameter_2"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="Precondition"
+            android:text="@string/precondition"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="Effect"
+            android:text="@string/effect"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
-            android:text="Negate?"
+            android:text="@string/negate"
             android:layout_margin="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -61,12 +61,12 @@
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
         <Button
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"/>
+            android:text="@string/ok"/>
     </LinearLayout>
 
 </LinearLayout>

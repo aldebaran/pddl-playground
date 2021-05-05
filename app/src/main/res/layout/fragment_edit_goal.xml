@@ -6,103 +6,31 @@
     android:layout_gravity="center"
     android:id="@+id/edit_goal">
 
-    <LinearLayout
-        android:id="@+id/autoFillGoal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:text="Choose Keyword:"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/keywordSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/expressionLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <TextView
-                android:text="Choose Exp.:"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/initSpinner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/expressionLayout2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:visibility="gone">
-            <TextView
-                android:text="Choose Exp.:"
-                android:textSize="18sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Spinner
-                android:id="@+id/initSpinner2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <TextView
+        android:text="Enter Goal:"
+        android:textSize="24sp"
+        android:layout_margin="16dp"
+        android:layout_width="400dp"
+        android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/goalText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="end">
-        <Button
-            android:id="@+id/manualButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Manual"/>
+        android:layout_height="wrap_content">
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
         <Button
             android:id="@+id/okButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="OK"/>
+            android:text="@string/ok"/>
     </LinearLayout>
 
 </LinearLayout>

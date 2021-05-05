@@ -36,7 +36,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Domain"
+                android:text="@string/info_domain_title"
                 android:textSize="24sp" />
 
             <ImageButton
@@ -78,7 +78,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Types"
+                android:text="@string/info_type_title"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -183,7 +183,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Constants"
+                android:text="@string/info_const_title"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -236,7 +236,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Actions"
+                android:text="@string/info_action_title"
                 android:textSize="18sp" />
 
             <ImageButton
@@ -286,7 +286,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Problem"
+                android:text="@string/info_problem_title"
                 android:textSize="24sp"
                 />
 
@@ -331,7 +331,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Objects"
+                    android:text="@string/info_object_title"
                     android:textSize="18sp" />
 
                 <ImageButton
@@ -347,7 +347,7 @@
                 android:id="@+id/object_recyler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical" />
 
         </LinearLayout>
 
@@ -384,7 +384,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Goals"
+                    android:text="@string/info_goal_title"
                     android:textSize="18sp" />
 
                 <ImageButton
@@ -436,7 +436,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Inits"
+                    android:text="@string/info_init_title"
                     android:textSize="18sp" />
 
                 <ImageButton
@@ -451,7 +451,7 @@
                 android:id="@+id/init_recyler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical" />
 
         </LinearLayout>
 
@@ -489,7 +489,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Plan"
+                    android:text="@string/info_plan_title"
                     android:textSize="18sp" />
 
                 <ImageButton

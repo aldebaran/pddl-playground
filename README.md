@@ -37,13 +37,17 @@ Clicking on the X button to the left of the component label deletes the componen
 Clicking on the checkbox disables it, meaning it will not be included in the problem description.
 Clicking on the label pops up a new fragment, where the user can interactively edit the component.
 Once the domain and problem are specified, the user may click on the play button next to the plan view to run the planner and see the solution.
-If the planner returns an error, it will read "plan failed."
+If the planner returns an error, a Toast message notifies the user of the failure.
+
+## A simple example
+The screenshots below demonstrate a sample domain and problem created by Victor Paléologue, to get you started.
+When reproducing the example, make sure to fill in the components from top to bottom!
+![Sample Domain](screenshots/domain.png)
+![Sample Problem](screenshots/problem.png)
 
 ## Further Reading
 The explanations of the PDDL components provided in this file and in the application is adapted from [The AI Planning & PDDL Wiki](https://planning.wiki/).
 This excellent source provides in-depth information about the different versions of PDDL over the years, and a long list of planners that are designed to work with PDDL.
 
 ## TODO
-* improve pop-up for editing actions
 * improve pop-up for editing goals
-* improve layout

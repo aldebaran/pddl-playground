@@ -3,7 +3,7 @@
     <string name="domain_pddl">Domain PDDL</string>
     <string name="problem_pddl">Problem PDDL</string>
     <string name="info_title">About</string>
-    <string name="info_summary">Summary</string>
+    <string name="info_glossary_title">Glossary</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
     <string name="info_type_title">Types</string>
@@ -86,6 +86,15 @@
         - Once the domain and problem are specified, the user may click on the play button next to the plan view to see the solution.\n
         - If the planner returns an error, a Toast message notifies the user of the failure.
     </string>
+    <string name="info_glossary_summary">
+        Below are some useful terms for constructing goal expressions.\n\n
+        <b>forall</b>: apply the second argument to all objects of the type defined in the first argument.\n
+        usage: <i>forall (?h - human) (feels ?h happy)</i> \n\n
+        <b>imply</b>: ensure the second argument holds if the first argument is satisfied.\n
+        usage: <i>imply (is_around bob) (feels bob happy)</i> \n\n
+        <b>exists</b>: expresses the existence of an object that has the type defined by the first argument and satisfies the second argument.\n
+        usage: <i>exists (?h - human) (is_around ?h)</i> \n\n
+    </string>
     <string name="choose_keyword">Choose Keyword:</string>
     <string name="fill_exp">Fill Exp.:</string>
     <string name="cancel">Cancel</string>
@@ -107,4 +116,5 @@
     <string name="param_1">Param 1</string>
     <string name="param_2">Param 2</string>
     <string name="action_info">General Information</string>
+    <string name="action_glossary">Glossary</string>
 </resources>

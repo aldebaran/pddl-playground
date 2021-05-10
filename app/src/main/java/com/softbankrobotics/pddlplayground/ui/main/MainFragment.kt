@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.softbankrobotics.pddlplayground.MainActivity.Companion.showInfoFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.adapter.ExpressionAdapter
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -38,9 +39,9 @@ class MainFragment : Fragment(),
 
     companion object {
         fun newInstance() = MainFragment()
+
         const val EDIT_EXPRESSION = "edit_expression"
         const val ADD_EXPRESSION = "add_expression"
-        const val PROVIDE_INFO = "provide_info"
         const val SHOW_PDDL = "show_pddl"
         const val EDIT_PDDL = "edit_pddl"
     }
@@ -136,13 +137,13 @@ class MainFragment : Fragment(),
 
         // callbacks
         binding.domainInfo.setOnClickListener {
-            showInfoFragment(R.string.info_domain_title, R.string.info_domain_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_domain_title, R.string.info_domain_summary)
         }
         binding.domainPDDL.setOnClickListener {
             showPDDLFragment(getString(R.string.domain_pddl), getDomainPDDLFromDatabase(context!!))
         }
         binding.problemInfo.setOnClickListener {
-            showInfoFragment(R.string.info_problem_title, R.string.info_problem_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_problem_title, R.string.info_problem_summary)
         }
         binding.problemPDDL.setOnClickListener {
             showPDDLFragment(getString(R.string.problem_pddl), getProblemPDDLFromDatabase(context!!))
@@ -151,46 +152,46 @@ class MainFragment : Fragment(),
             showExpressionFragment(context!!, PDDLCategory.TYPE)
         }
         binding.typeInfo.setOnClickListener {
-            showInfoFragment(R.string.info_type_title, R.string.info_type_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_type_title, R.string.info_type_summary)
         }
         binding.addConstant.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.CONSTANT)
         }
         binding.constantInfo.setOnClickListener {
-            showInfoFragment(R.string.info_const_title, R.string.info_constant_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_const_title, R.string.info_constant_summary)
         }
         binding.addObject.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.OBJECT)
         }
         binding.objectInfo.setOnClickListener {
-            showInfoFragment(R.string.info_object_title, R.string.info_object_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_object_title, R.string.info_object_summary)
         }
         binding.addPredicate.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.PREDICATE)
         }
         binding.predicateInfo.setOnClickListener {
-            showInfoFragment(R.string.info_predicate_title, R.string.info_predicate_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_predicate_title, R.string.info_predicate_summary)
         }
         binding.addInit.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.INIT)
         }
         binding.initInfo.setOnClickListener {
-            showInfoFragment(R.string.info_init_title, R.string.info_init_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_init_title, R.string.info_init_summary)
         }
         binding.addAction.setOnClickListener {
             showExpressionFragment(context!!, PDDLCategory.ACTION)
         }
         binding.actionInfo.setOnClickListener {
-            showInfoFragment(R.string.info_action_title, R.string.info_action_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_action_title, R.string.info_action_summary)
         }
         binding.addGoal.setOnClickListener {
-            showExpressionFragment(context!!, PDDLCategory.GOAL)
+            showExpressionFragment(requireContext(), PDDLCategory.GOAL)
         }
         binding.goalInfo.setOnClickListener {
-            showInfoFragment(R.string.info_goal_title, R.string.info_goal_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_goal_title, R.string.info_goal_summary)
         }
         binding.planInfo.setOnClickListener {
-            showInfoFragment(R.string.info_plan_title, R.string.info_plan_summary)
+            showInfoFragment(this.requireActivity(), R.string.info_plan_title, R.string.info_plan_summary)
         }
         binding.runPlan.setOnClickListener {
             GlobalScope.launch {
@@ -282,13 +283,8 @@ class MainFragment : Fragment(),
         fragment.show(activity!!.supportFragmentManager, EDIT_PDDL)
     }
 
-    private fun showInfoFragment(title: Int, message: Int) {
-        InfoFragment.newInstance(getString(title), getString(message))
-            .show(activity!!.supportFragmentManager, PROVIDE_INFO)
-    }
-
     private fun showPDDLFragment(title: String, message: String) {
         InfoFragment.newInstance(title, message)
-            .show(activity!!.supportFragmentManager, SHOW_PDDL)
+            .show(requireActivity().supportFragmentManager, SHOW_PDDL)
     }
 }

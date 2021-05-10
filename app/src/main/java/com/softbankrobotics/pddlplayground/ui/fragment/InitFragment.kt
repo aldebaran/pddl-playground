@@ -80,7 +80,7 @@ class InitFragment: DialogFragment() {
             // fill in object spinner
             val subExpression = init?.getLabel()?.substringAfter(' ')
             val objLabel = subExpression?.substringBefore(' ')
-            if (objLabel != null) { // if parameter exists
+            if (objLabel != null && objLabel.isNotEmpty()) { // if parameter exists
                 // figure out the type of the object
                 val type = getTypeOfObject(objLabel, objects)
                 // make a spinner with only the objects of this type

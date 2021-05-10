@@ -2,7 +2,7 @@
     <string name="app_name">PDDL Playground</string>
     <string name="domain_pddl">Domain PDDL</string>
     <string name="problem_pddl">Problem PDDL</string>
-    <string name="info_title">Title</string>
+    <string name="info_title">About</string>
     <string name="info_summary">Summary</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
@@ -13,50 +13,50 @@
     <string name="info_predicate_title">Predicates</string>
     <string name="info_action_title">Actions</string>
     <string name="info_goal_title">Goals</string>
-    <string name="info_plan_title">Plans</string>
+    <string name="info_plan_title">Plan</string>
     <string name="info_type_summary">
-        Typing allows us to create basic and subtypes to which we can apply predicates.\n
-        Types are used to restrict which objects can form the parameters of an action.\n
+        Typing allows us to create basic and subtypes to which we can apply predicates.\n\n
+        Types are used to restrict which objects can form the parameters of an action.
         Types and subtypes allow us to declare both general and specific actions and predicates.
     </string>
     <string name="info_constant_summary">
-        Constants allow us to declare objects that are present across all instances of a problem.\n
+        Constants allow us to declare objects that are present across all instances of a problem.\n\n
         This isn’t particularly common in practice because we would just declare the object repeatedly in each specific problem.
     </string>
     <string name="info_predicate_summary">
-        Predicates apply to a specific type of object, or to all objects.\n
+        Predicates apply to a specific type of object, or to all objects.\n\n
         Predicates are either true or false at any point in a plan and when not declared are assumed to be false (except when the Open World Assumption is included as a requirement).
     </string>
     <string name="info_action_summary">
         An action defines a transformation on the state of the world.\n
-        This transformation is typically an action which could be performed in the execution of the plan, such as picking up an object, constructing something or some other change.\n
-        An action is broken down into three distinct sections, with an alternation possible on the last section.\n
-        The first is the :parameters section which defines the things we are performing an action on and subsequently what predicates we will be checking and manipulating later.\n
+        This transformation is typically an action which could be performed in the execution of the plan, such as picking up an object, constructing something or some other change.\n\n
+        An action is broken down into three distinct sections, with an alternation possible on the last section.\n\n
+        The first is the :parameters section which defines the things we are performing an action on and subsequently what predicates we will be checking and manipulating later.\n\n
         The second is the :precondition section. These are typically a series of predicate conjunctions and disjunctions which must be satisfied in order for the action the applied.\n
-        Note that although an action’s precondition may be satisfied that doesn’t mean it is applied in a plan.\n
+        Note that although an action’s precondition may be satisfied that doesn’t mean it is applied in a plan.\n\n
         Ultimately it is the effect the action has that matters.\n
         The third section is a choice between :effect and :expansion; an action cannot have both. Most domains use :effect.
     </string>
     <string name="info_object_summary">
-        The objects block allows us to declare a set of objects which exist within our problem.\n
+        The objects block allows us to declare a set of objects which exist within our problem.\n\n
         Each object name must be unique, and should be typed.\n
         If not typed then they will typically take on the properties of the base type object.
     </string>
     <string name="info_init_summary">
-        The initial state (init) defines specifically what predicates are true at the start of the problem.\n
+        The initial state defines specifically what predicates are true at the start of the problem.\n\n
         This is not a logical expression because it is simply a list of predicates which are true.\n
         Unless the planner or domain specify otherwise all problems have the “closed world” assumption applied meaning anything not specified as true is considered false.\n
         Therefore we only need to list things which are true.
     </string>
     <string name="info_goal_summary">
-        The goal is a logical expression of predicates which must be satisfied in order for a plan to be considered a solution.\n
+        The goal is a logical expression of predicates which must be satisfied in order for a plan to be considered a solution.\n\n
         In essence it is what we want the world to look like at the end.\n
         Note that as a logical expression, if this expression excludes some predicate, then the value of that predicate is not considered important.\n
         This means that a goal should not only consist of the predicates that should be true, but also the predicate which should be false.
         Note that all standard logical operators such as or and forall are available as part of the goal, which means we can express multiple different goal states all of which are acceptable.
     </string>
     <string name="info_plan_summary">
-        Fast Downward is a classical planning system based on heuristic search.\n
+        Fast Downward is a classical planning system based on heuristic search.\n\n
         It can deal with general deterministic planning problems encoded in the propositional fragment of PDDL2.2, including advanced features like ADL conditions and effects and derived predicates (axioms).\n
         Like other well-known planners such as HSP and FF, Fast Downward is a progression planner, searching the space of world states of a planning task in the forward direction.\n
         However, unlike other PDDL planning systems, Fast Downward does not use the propositional PDDL representation of a planning task directly.\n
@@ -64,27 +64,27 @@
         Exploiting this alternative representation, Fast Downward uses hierarchical decompositions of planning tasks for computing its heuristic function, called the causal graph heuristic, which is very different from traditional HSP-like heuristics based on ignoring negative interactions of operators.
     </string>
     <string name="info_domain_summary">
-        A domain file in PDDL defines the “universal” aspects of a problem.\n
+        A domain file in PDDL defines the “universal” aspects of a problem.\n\n
         Essentially, these are the aspects that do not change regardless of what specific situation we\'re trying to solve.\n
         In PDDL this is mostly the object types, predicates and actions that can exist within the model.
     </string>
     <string name="info_problem_summary">
-        A problem forms the other half of a planning problem.\n
+        A problem forms the other half of a planning problem.\n\n
         In the domain we express the global “worldly” aspects of a problem, such as what actions we can perform and what types of objects exist in the world we\'re planning in.\n
         The problem then solidifies this expression by define exactly what objects exist, and what is true about them and then finally what the end goal is.\n
         What state we want the world to be in once the plan is finished.
     </string>
     <string name="info_general_summary">
-        Welcome to the PDDL Playground!\n
+        Welcome to the PDDL Playground!\n\n
         This application aims to allow users to painlessly explore the power of symbolic planners by helping them set up a planning scenario through a user-friendly UI.\n\n
-        Usage:\n
-        Next to each component block, there is an info button to find out more details about it.\n
-        By clicking on the plus button to the left of the component name, the user can add a new component.\n
-        Clicking on the X button to the left of the component label deletes the component.\n
-        Clicking on the checkbox disables it, meaning it will not be included in the problem description.\n
-        Clicking on the label pops up a new fragment, where the user can interactively edit the component.\n
-        Once the domain and problem are specified, the user may click on the play button next to the plan view to see the solution.\n
-        If the planner returns an error, it will read "plan failed."
+        Usage:\n\n
+        - Next to each component block, there is an info button to find out more details about it.\n
+        - By clicking on the plus button to the left of the component name, the user can add a new component.\n
+        - Clicking on the X button to the left of the component label deletes the component.\n
+        - Clicking on the checkbox disables it, meaning it will not be included in the problem description.\n
+        - Clicking on the label pops up a new fragment, where the user can interactively edit the component.\n
+        - Once the domain and problem are specified, the user may click on the play button next to the plan view to see the solution.\n
+        - If the planner returns an error, a Toast message notifies the user of the failure.
     </string>
     <string name="choose_keyword">Choose Keyword:</string>
     <string name="fill_exp">Fill Exp.:</string>
@@ -95,15 +95,16 @@
     <string name="enter_constant">Enter Constant:</string>
     <string name="choose_type">Choose Type:</string>
     <string name="enter_action_name">Enter Action Name:</string>
-    <string name="predicates">Predicates:</string>
+    <string name="predicate">Predicate:</string>
     <string name="parameter_1">Parameter 1:</string>
     <string name="parameter_2">Parameter 2:</string>
     <string name="precondition">Precondition</string>
     <string name="effect">Effect</string>
-    <string name="negate">Negate?</string>
+    <string name="negate">Negate</string>
     <string name="choose_predicate">Choose Predicate:</string>
     <string name="choose_object_constant">Choose Object / Constant:</string>
     <string name="enter_predicate">Enter Predicate:</string>
     <string name="param_1">Param 1</string>
     <string name="param_2">Param 2</string>
+    <string name="action_info">General Information</string>
 </resources>

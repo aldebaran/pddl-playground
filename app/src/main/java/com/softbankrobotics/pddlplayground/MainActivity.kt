@@ -3,9 +3,13 @@ package com.softbankrobotics.pddlplayground
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.fragment.app.FragmentActivity
 import com.softbankrobotics.pddlplanning.IPDDLPlannerService
 import com.softbankrobotics.pddlplanning.PlanSearchFunction
 import com.softbankrobotics.pddlplanning.createPlanSearchFunctionFromService
+import com.softbankrobotics.pddlplayground.ui.fragment.InfoFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -15,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        setSupportActionBar(findViewById(R.id.toolbar))
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .replace(R.id.container, MainFragment.newInstance())
@@ -32,7 +37,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_info -> {
+            showInfoFragment(this, R.string.info_title, R.string.info_general_summary)
+            true
+        }
+
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
+
     companion object {
         lateinit var planSearchFunction: PlanSearchFunction
+        private const val PROVIDE_INFO = "provide_info"
+
+        fun showInfoFragment(activity: FragmentActivity, title: Int, message: Int) {
+            InfoFragment.newInstance(activity.getString(title), activity.getString(message))
+                .show(activity.supportFragmentManager, PROVIDE_INFO)
+        }
     }
 }

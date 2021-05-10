@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.softbankrobotics.pddlplanning.PDDLPlanningException
+import com.softbankrobotics.pddlplanning.PDDLTranslationException
 import com.softbankrobotics.pddlplayground.MainActivity.Companion.showInfoFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.adapter.ExpressionAdapter
@@ -195,17 +197,28 @@ class MainFragment : Fragment(),
         }
         binding.runPlan.setOnClickListener {
             GlobalScope.launch {
+                var toastText: String? = null
                 val plan = try {
                     getPlanFromDatabase(requireContext())
-                } catch (t: Throwable) {
+                } catch (e: PDDLTranslationException) {
+                    Timber.e(e)
+                    toastText = "Plan failed during PDDL translation."
+                    null
+                } catch (e: PDDLPlanningException) {
+                    Timber.e(e)
+                    toastText = "Plan failed; planner could not find a solution."
+                    null
+                }  catch (t: Throwable) {
                     Timber.e(t)
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(requireContext(), "Plan failed.", Toast.LENGTH_SHORT).show()
-                    }
-                    return@launch
+                    toastText = "Plan failed; unknown error."
+                    null
                 }
                 requireActivity().runOnUiThread {
                     binding.planContent.text = when {
+                        plan == null -> {
+                            Toast.makeText(requireContext(), toastText, Toast.LENGTH_LONG).show()
+                            "Planning failed."
+                        }
                         plan.isEmpty() -> { "Plan is empty." }
                         else -> { plan.joinToString("\n") }
                     }

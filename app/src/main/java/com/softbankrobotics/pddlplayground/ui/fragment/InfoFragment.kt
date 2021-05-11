@@ -4,15 +4,14 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.softbankrobotics.pddlplayground.R
 import java.lang.IllegalStateException
 
 class InfoFragment: DialogFragment() {
     companion object {
-        fun newInstance(title: String, message: String): InfoFragment {
+        fun newInstance(title: String, message: CharSequence): InfoFragment {
             val args = Bundle()
             args.putString("title", title)
-            args.putString("message", message)
+            args.putCharSequence("message", message)
             val fragment = InfoFragment()
             fragment.arguments = args
             return fragment
@@ -23,7 +22,7 @@ class InfoFragment: DialogFragment() {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle(arguments?.getString("title"))
-                .setMessage(arguments?.getString("message"))
+                .setMessage(arguments?.getCharSequence("message"))
             builder.create()
         } ?: throw IllegalStateException("activity cannot be null")
     }

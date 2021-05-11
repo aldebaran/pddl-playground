@@ -78,22 +78,22 @@
         Welcome to the PDDL Playground!\n\n
         This application aims to allow users to painlessly explore the power of symbolic planners by helping them set up a planning scenario through a user-friendly UI.\n\n
         Usage:\n\n
-        - Next to each component block, there is an info button to find out more details about it.\n
-        - By clicking on the plus button to the left of the component name, the user can add a new component.\n
-        - Clicking on the X button to the left of the component label deletes the component.\n
-        - Clicking on the checkbox disables it, meaning it will not be included in the problem description.\n
-        - Clicking on the label pops up a new fragment, where the user can interactively edit the component.\n
-        - Once the domain and problem are specified, the user may click on the play button next to the plan view to see the solution.\n
-        - If the planner returns an error, a Toast message notifies the user of the failure.
+        Next to each component block, there is an <b>info button</b> to find out more details about it.\n\n
+        By clicking on the <b>plus button</b> to the left of the component name, the user can add a new component.\n\n
+        Clicking on the <b>X button</b> to the left of the component label deletes the component.\n\n
+        Clicking on the <b>checkbox</b> disables the component, meaning it will not be included in the problem description.\n\n
+        Clicking on the <b>label</b> pops up a new window, where the user can interactively edit the component.\n\n
+        Once the domain and problem are specified, the user may click on the <b>play button</b> next to the plan block to see the solution.\n\n
+        If the planner returns an error, a Toast message notifies the user of the failure.\n\n
     </string>
     <string name="info_glossary_summary">
         Below are some useful terms for constructing goal expressions.\n\n
         <b>forall</b>: apply the second argument to all objects of the type defined in the first argument.\n
-        usage: <i>forall (?h - human) (feels ?h happy)</i> \n\n
+        ex) <i>forall (?h - human) (feels ?h happy)</i> \n\n
         <b>imply</b>: ensure the second argument holds if the first argument is satisfied.\n
-        usage: <i>imply (is_around bob) (feels bob happy)</i> \n\n
+        ex) <i>imply (is_around bob) (feels bob happy)</i> \n\n
         <b>exists</b>: expresses the existence of an object that has the type defined by the first argument and satisfies the second argument.\n
-        usage: <i>exists (?h - human) (is_around ?h)</i> \n\n
+        ex) <i>exists (?h - human) (is_around ?h)</i> \n\n
     </string>
     <string name="choose_keyword">Choose Keyword:</string>
     <string name="fill_exp">Fill Exp.:</string>

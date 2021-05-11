@@ -5,10 +5,13 @@ This application aims to allow users to interactively explore the power of symbo
 ## What is it for?
 Symbolic planning problems are usually written in a text editor and parsed by planners at runtime. Depending on the quality of the planner, even parsing errors can be cryptic and difficult to spot, not to mention planning errors.
 Even though there exist plugins for checking the validity of planning files before running the planner, these plugins do not actively help you to write them correctly in the first place.
-By providing a user interface for each component of the problem, and actively constraining the range of user input, this app hopes to make it much harder for users to make mistakes.
+By providing a user interface (UI) for each component of the problem, and actively constraining the range of user input, this application hopes to make it much harder for users to make mistakes.
 At the same time, it is hoped that the UI helps beginners to more quickly understand the role of each component in the overall environment, as each edit made within one component affects the behavior of the other.
 Finally, by virtue of having the planner as a remote service, callable dynamically, the user is free to test out different variations of the problem with the click of a button, without the need to compile or write unit tests.
 Note that this application works with PDDL (short for Planning Domain Definition Language), which is a planning language used by the International Conference on Autonomous Planning and Scheduling ([ICAPS](http://www.icaps-conference.org/)).
+
+## What is it **not** for?
+This application is not meant to be a general interface for PDDL planning, but rather a *playground* for people to learn PDDL interactively. Please don't expect to use this application to plan inter-planetary exploration!
 
 ## Requirement:
 For the planning to work, the application [Fast-Downward Android](https://gitlab.aldebaran.lan/life/fast-downward-android) must be installed on the device.
@@ -41,6 +44,10 @@ If the planner returns an error, a Toast message notifies the user of the failur
 
 ## A simple example
 The screenshots below demonstrate a sample domain and problem created by Victor Paléologue, to get you started.
+This sample describes a situation where there are some people that are in different emotional states, and in different places with respect to the agent.
+The agent can do perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
+The objective is to make everyone who is around happy, and to find someone if there is no one around.
+By playing around with the components (use the checkbox to save time), you can get a feel for how they affect the plan.
 When reproducing the example, make sure to fill in the components from top to bottom!
 ![Sample Domain](screenshots/domain.png)
 ![Sample Problem](screenshots/problem.png)

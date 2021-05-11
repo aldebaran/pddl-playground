@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         private const val PROVIDE_INFO = "provide_info"
 
         fun showInfoFragment(activity: FragmentActivity, title: Int, message: Int) {
-            InfoFragment.newInstance(activity.getString(title), activity.getString(message))
+            InfoFragment.newInstance(activity.getString(title), activity.getText(message))
                 .show(activity.supportFragmentManager, PROVIDE_INFO)
         }
     }

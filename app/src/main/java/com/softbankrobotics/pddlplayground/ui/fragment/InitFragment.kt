@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
-import com.softbankrobotics.pddlplayground.databinding.FragmentEditActionBinding
 import com.softbankrobotics.pddlplayground.databinding.FragmentEditInitBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
@@ -34,6 +32,7 @@ class InitFragment: DialogFragment() {
 
     private var init: Expression? = null
     private var action: String? = null
+    private var firstTime = true
 
     private var _binding: FragmentEditInitBinding? = null
     private val binding get() = _binding!!
@@ -122,6 +121,11 @@ class InitFragment: DialogFragment() {
                 position: Int,
                 id: Long
             ) {
+                if (firstTime) { // don't call listener for first setup
+                    firstTime = false
+                    return
+                }
+                Timber.d("predicate selected.")
                 val predicate = predicates[position]
                 val numParam = predicate?.count { it == '-' }?: 0
                 if (numParam > 0) { // if at least 1 param

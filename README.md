@@ -11,7 +11,7 @@ Finally, by virtue of having the planner as a remote service, callable dynamical
 Note that this application works with PDDL (short for Planning Domain Definition Language), which is a planning language used by the International Conference on Autonomous Planning and Scheduling ([ICAPS](http://www.icaps-conference.org/)).
 
 ## What is it **not** for?
-This application is not meant to be a general interface for PDDL planning, but rather a *playground* for people to learn PDDL interactively. Please don't expect to use this application to plan inter-planetary exploration!
+This application is not meant to be a general interface for PDDL planning, but rather a *playground* for people to learn the basics of PDDL interactively. Please don't expect to use this application to [plan inter-planetary exploration](https://github.com/nasa/OpenSPIFe/wiki)!
 
 ## Requirement:
 For the planning to work, the application [Fast-Downward Android](https://gitlab.aldebaran.lan/life/fast-downward-android) must be installed on the device.
@@ -48,7 +48,7 @@ This sample describes a situation where there are some people that are in differ
 The agent can do perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
 The objective is to make everyone who is around happy, and to find someone if there is no one around.
 By playing around with the components (use the checkbox to save time), you can get a feel for how they affect the plan.
-When reproducing the example, make sure to fill in the components from top to bottom!
+When reproducing the example, make sure to fill in the components from top to bottom!\n\n
 ![Sample Domain](screenshots/domain.png)
 ![Sample Problem](screenshots/problem.png)
 

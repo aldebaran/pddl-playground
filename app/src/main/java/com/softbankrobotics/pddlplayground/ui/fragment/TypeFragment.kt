@@ -5,21 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
-import com.softbankrobotics.pddlplayground.databinding.FragmentEditExpressionBinding
+import com.softbankrobotics.pddlplayground.databinding.FragmentEditTypeBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.ADD_EXPRESSION
 
-class ExpressionFragment: DialogFragment() {
+class TypeFragment: DialogFragment() {
     companion object {
-        fun newInstance(expression: Expression, action: String): ExpressionFragment {
+        fun newInstance(expression: Expression, action: String): TypeFragment {
             val args = Bundle()
             args.putParcelable("expression_extra", expression)
             args.putString("action", action)
-            val fragment = ExpressionFragment()
+            val fragment = TypeFragment()
             fragment.arguments = args
             return fragment
         }
@@ -28,7 +29,7 @@ class ExpressionFragment: DialogFragment() {
     var expression: Expression? = null
     var action: String? = null
 
-    private var _binding: FragmentEditExpressionBinding? = null
+    private var _binding: FragmentEditTypeBinding? = null
     private val binding get() = _binding!!
 
 
@@ -37,7 +38,7 @@ class ExpressionFragment: DialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEditExpressionBinding.inflate(inflater, container, false)
+        _binding = FragmentEditTypeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,7 +57,18 @@ class ExpressionFragment: DialogFragment() {
 
         binding.okButton.setOnClickListener {
             expression?.apply {
-                setLabel(binding.expressionText.text.toString())
+                val expression = binding.expressionText.text.toString()
+                if (expression.contains(' ') || expression.isEmpty()) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(
+                            requireContext(),
+                            "Expression must not contain spaces or be empty.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    return@setOnClickListener
+                }
+                setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION

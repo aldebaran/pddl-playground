@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -69,7 +68,19 @@ class ConstantFragment: DialogFragment() {
 
         binding.okButton.setOnClickListener {
             constant?.apply {
-                setLabel("${constantText.text} - ${spinner.selectedItem as String}")
+                val expression = constantText.text.toString()
+                val type = spinner.selectedItem as String
+                if (expression.contains(' ') || expression.isEmpty() || type.isEmpty()) {
+                    requireActivity().runOnUiThread {
+                        Toast.makeText(
+                            requireContext(),
+                            "Expression must not contain spaces or have empty components.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    return@setOnClickListener
+                }
+                setLabel("$expression - $type")
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION

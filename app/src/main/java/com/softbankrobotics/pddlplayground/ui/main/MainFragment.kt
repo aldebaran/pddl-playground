@@ -290,7 +290,7 @@ class MainFragment : Fragment(),
                 GoalFragment.newInstance(expression, action)
             }
             else -> { // type
-                ExpressionFragment.newInstance(expression, action)
+                TypeFragment.newInstance(expression, action)
             }
         }
         fragment.show(activity!!.supportFragmentManager, EDIT_PDDL)

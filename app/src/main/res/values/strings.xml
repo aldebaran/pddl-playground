@@ -101,6 +101,7 @@
     <string name="ok">OK</string>
     <string name="manual">Manual</string>
     <string name="enter_expression">Enter Expression:</string>
+    <string name="enter_type">Enter Type Name:</string>
     <string name="enter_constant">Enter Constant:</string>
     <string name="choose_type">Choose Type:</string>
     <string name="enter_action_name">Enter Action Name:</string>
@@ -117,4 +118,6 @@
     <string name="param_2">Param 2</string>
     <string name="action_info">General Information</string>
     <string name="action_glossary">Glossary</string>
+    <string name="fill_in_precondition">Fill in precondition:</string>
+    <string name="fill_in_effect">Fill in effect:</string>
 </resources>

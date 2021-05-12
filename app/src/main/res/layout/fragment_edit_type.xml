@@ -3,10 +3,10 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:id="@+id/edit_expression">
+    android:id="@+id/edit_type">
 
     <TextView
-        android:text="@string/enter_expression"
+        android:text="@string/enter_type"
         android:textSize="24sp"
         android:layout_margin="16dp"
         android:layout_width="wrap_content"

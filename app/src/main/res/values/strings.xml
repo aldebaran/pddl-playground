@@ -118,6 +118,6 @@
     <string name="param_2">Param 2</string>
     <string name="action_info">General Information</string>
     <string name="action_glossary">Glossary</string>
-    <string name="fill_in_precondition">Fill in precondition:</string>
-    <string name="fill_in_effect">Fill in effect:</string>
+    <string name="fill_in_precondition">Select precondition:</string>
+    <string name="fill_in_effect">Select effect:</string>
 </resources>

@@ -14,6 +14,7 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
+import timber.log.Timber
 
 class PredicateFragment: DialogFragment() {
     companion object {
@@ -81,7 +82,7 @@ class PredicateFragment: DialogFragment() {
                 parameterButton.isChecked = true
                 typeSpinner.setSelection(types.indexOf(type))
             }
-            val type2 = subExpression?.substringAfter(" - ")
+            val type2 = subExpression?.substringAfter(" - ", "")
                 ?.substringBefore(' ')
             if (types2.any { it == type2 }) {
                 parameterLayout2.visibility = View.VISIBLE

@@ -4,7 +4,6 @@ import android.content.Context
 import com.softbankrobotics.pddlplanning.Tasks
 import com.softbankrobotics.pddlplayground.MainActivity.Companion.planSearchFunction
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
-import java.lang.RuntimeException
 
 object PDDLUtil {
 
@@ -106,16 +105,57 @@ object PDDLUtil {
         return problem
     }
 
-    fun getTypeOfObject(objLabel: String, objects: List<String?>): String {
-        var type: String? = null
-        for (obj in objects) {
-            if (obj != null && obj.contains(objLabel)) {
-                type = obj.substringAfter(' ')
-                break
-            }
+    fun getSubtypes(type: String?, context: Context): List<String> {
+        if (type.isNullOrEmpty())
+            return emptyList()
+        val types = DatabaseHelper.getInstance(context).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+            .map { it.getLabel() }
+        return getSubtypes(type, types)
+    }
+
+    private fun getSubtypes(type: String, types: List<String?>): List<String> {
+        val subtypeList = mutableListOf<String>()
+        val children = types.filter {
+            it?.substringAfter(" - ") == type
+        }.map {
+            it?.substringBefore(" - ")
         }
-        if (type == null)
-            throw RuntimeException("Type cannot be null.")
-        return type
+        return if (children.isNullOrEmpty())
+            listOf(type)
+        else {
+            for (child in children) {
+                if (!child.isNullOrEmpty())
+                    subtypeList.addAll(getSubtypes(child, types))
+            }
+            subtypeList.plus(type)
+        }
+    }
+
+    fun isObjectOfType(objectLabel: String?, type: String?, context: Context): Boolean {
+        if (objectLabel.isNullOrEmpty() || type.isNullOrEmpty())
+            return false
+        return if (objectLabel.substringAfter(" - ") == type) // simple case
+            true
+        else { // check parent type
+            val types = DatabaseHelper.getInstance(context).getExpressions()
+                .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+                .map { it.getLabel() }
+            val objectType = objectLabel.substringAfter(" - ")
+            isOfType(objectType, type, types)
+        }
+    }
+
+    private fun isOfType(child: String, type: String, types: List<String?>): Boolean {
+        val parent = types.first {
+            it?.substringBefore( " - ") == child
+        }?.substringAfter(" - ")
+        return if (parent == type)
+            true
+        else if (parent == "object")
+            false
+        else if (!parent.isNullOrEmpty())
+            isOfType(parent, type, types)
+        else false
     }
 }

@@ -58,7 +58,7 @@ class ConstantFragment: DialogFragment() {
         // recover types from Database & populate spinner
         val types = DatabaseHelper.getInstance(context!!).getExpressions()
             .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel() }
+            .map { it.getLabel()?.substringBefore(" - ") }
         spinner.adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)
         if (constant != null) { // if filled already
             constantText.setText(constant?.getLabel()?.substringBefore(" - "))

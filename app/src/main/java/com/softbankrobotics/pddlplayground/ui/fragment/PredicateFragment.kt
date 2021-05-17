@@ -66,7 +66,7 @@ class PredicateFragment: DialogFragment() {
         // recover types from Database & populate spinners
         val types = DatabaseHelper.getInstance(context!!).getExpressions()
             .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel() }
+            .map { it.getLabel()?.substringBefore(" - ") }
         val types2 = types.toList()
         typeSpinner.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)

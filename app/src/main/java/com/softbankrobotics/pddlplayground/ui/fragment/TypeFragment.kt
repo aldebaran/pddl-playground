@@ -5,14 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
 import com.softbankrobotics.pddlplayground.databinding.FragmentEditTypeBinding
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.ADD_EXPRESSION
+import com.softbankrobotics.pddlplayground.util.PDDLCategory
 
 class TypeFragment: DialogFragment() {
     companion object {
@@ -51,13 +54,27 @@ class TypeFragment: DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         expression = arguments?.getParcelable("expression_extra")
         action = arguments?.getString("action")
+        val typeText = binding.expressionText
+        val spinner = binding.typeSpinner
+        // recover types from Database & populate spinner
+        val types = DatabaseHelper.getInstance(context!!).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+            .map { it.getLabel() }
+            .map { it?.substringBefore(" - ") }
+        spinner.adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)
         if (expression != null) {
-            binding.expressionText.setText(expression?.getLabel())
+            typeText.setText(expression?.getLabel()?.substringBefore(" - "))
+            val type = expression?.getLabel()?.substringAfter(" - ")
+            spinner.setSelection(types.indexOf(type))
         }
 
         binding.okButton.setOnClickListener {
             expression?.apply {
                 val expression = binding.expressionText.text.toString()
+                var type = spinner.selectedItem as String
+                if (type.isEmpty()) {
+                    type = "object"
+                }
                 if (expression.contains(' ') || expression.isEmpty()) {
                     requireActivity().runOnUiThread {
                         Toast.makeText(
@@ -68,7 +85,7 @@ class TypeFragment: DialogFragment() {
                     }
                     return@setOnClickListener
                 }
-                setLabel(expression)
+                setLabel("$expression - $type")
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION

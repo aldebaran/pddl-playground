@@ -110,7 +110,7 @@ class ActionFragment : DialogFragment() {
             val constsAndParam2 = mutableListOf<String?>()
             val types = DatabaseHelper.getInstance(context!!).getExpressions()
                 .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-                .map { it.getLabel() }
+                .map { it.getLabel()?.substringBefore(" - ") }
             if (type != null && types.contains(type)) { // if it's actually a type
                 val consts = DatabaseHelper.getInstance(context!!).getExpressions()
                     .filter { it.getCategory() == PDDLCategory.CONSTANT.ordinal }

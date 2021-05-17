@@ -15,7 +15,8 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypeOfObject
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getSubtypes
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.isObjectOfType
 import timber.log.Timber
 
 class InitFragment: DialogFragment() {
@@ -81,11 +82,16 @@ class InitFragment: DialogFragment() {
             val subExpression = init?.getLabel()?.substringAfter(' ')
             val objLabel = subExpression?.substringBefore(' ')
             if (objLabel != null && objLabel.isNotEmpty()) { // if parameter exists
-                // figure out the type of the object
-                val type = getTypeOfObject(objLabel, objects)
-                // make a spinner with only the objects of this type
+                // figure out the type & subtypes of the object from the predicate
+                val predicateSubExpression = predicates.first {
+                    it?.substringBefore(' ') == predicate
+                }?.substringAfter(" - ")
+                val predicateObjectType = predicateSubExpression?.substringBefore(' ')
+                val objectTypes = getSubtypes(predicateObjectType, requireContext())
+                Timber.d("subtypes: $objectTypes")
+                // make a spinner with only the objects of this type & subtypes
                 val objectLabels = objects.filter {
-                    it != null && it.contains(type)
+                    objectTypes.any { type -> it?.substringAfter(" - ") == type }
                 }.map { it?.substringBefore(' ') }
                 binding.objectLayout.visibility = View.VISIBLE
                 objectSpinner.adapter =
@@ -95,10 +101,16 @@ class InitFragment: DialogFragment() {
                 }
                 val objLabel2 = subExpression.substringAfter(' ')
                 if (objLabel2 != subExpression) { // if parameter 2 exists
-                    val type2 = getTypeOfObject(objLabel, objects)
+                    val predicateObjectType2 = predicateSubExpression?.substringAfter(" - ")
+                        ?.substringBefore(' ')
+                    val objectTypes2 = getSubtypes(predicateObjectType2, requireContext())
+                    Timber.d("subtypes: $objectTypes2")
                     // make a spinner with only the objects of this type
                     val objectLabels2 = objects.filter {
-                        it != null && it.contains(type2)
+/*                        it != null && objectTypes2.any { type ->
+                            it.contains(type)
+                        }*/
+                        objectTypes2.any { type -> it?.substringAfter(" - ") == type }
                     }.map { it?.substringBefore(' ') }
                     binding.objectLayout2.visibility = View.VISIBLE
                     objectSpinner2.adapter =
@@ -140,7 +152,7 @@ class InitFragment: DialogFragment() {
                         ?.substringAfter(" - ")
                         ?.substringBefore(' ')
                     val objectLabels = objects.filter {
-                        it != null && type != null && it.contains(type)
+                        isObjectOfType(it, type, requireContext())
                     }.map { it?.substringBefore(' ') }
                     objectSpinner.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)
@@ -153,7 +165,7 @@ class InitFragment: DialogFragment() {
                         ?.substringAfterLast(" - ")
                         ?.substringBefore(' ')
                     val objectLabels = objects.filter {
-                        it != null && type != null && it.contains(type)
+                        isObjectOfType(it, type, requireContext())
                     }.map { it?.substringBefore(' ') }
                     objectSpinner2.adapter =
                         ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, objectLabels)

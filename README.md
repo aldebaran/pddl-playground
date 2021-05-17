@@ -48,7 +48,8 @@ This sample describes a situation where there are some people that are in differ
 The agent can do perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
 The objective is to make everyone who is around happy, and to find someone if there is no one around.
 By playing around with the components (use the checkbox to save time), you can get a feel for how they affect the plan.
-When reproducing the example, make sure to fill in the components from top to bottom!\n\n
+When reproducing the example, make sure to fill in the components from top to bottom!
+
 ![Sample Domain](screenshots/domain.png)
 ![Sample Problem](screenshots/problem.png)
 
@@ -57,4 +58,6 @@ The explanations of the PDDL components provided in this file and in the applica
 This excellent source provides in-depth information about the different versions of PDDL over the years, and a long list of planners that are designed to work with PDDL.
 
 ## TODO
+* use ppdl-planning library for parsing PDDL expressions
 * improve pop-up for editing goals
+* enable subtyping

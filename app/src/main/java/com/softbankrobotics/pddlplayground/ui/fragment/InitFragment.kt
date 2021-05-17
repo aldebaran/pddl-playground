@@ -69,7 +69,8 @@ class InitFragment: DialogFragment() {
             .map { it.getLabel() }
         val predicateLabels = predicates.map { it?.substringBefore(' ') }
         predicateSpinner.adapter =
-            ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, predicateLabels)
+            ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, predicateLabels.plus(""))
+        predicateSpinner.setSelection(predicateLabels.size)
         if (init != null) { // if filled out before
             // fill in predicate spinner
             val predicate = init?.getLabel()?.substringBefore(' ')
@@ -125,7 +126,12 @@ class InitFragment: DialogFragment() {
                     firstTime = false
                     return
                 }
-                Timber.d("predicate selected.")
+                if (position >= predicates.size) {
+                    Timber.d("Selected empty item.")
+                    binding.objectLayout.visibility = View.GONE
+                    binding.objectLayout2.visibility = View.GONE
+                    return
+                }
                 val predicate = predicates[position]
                 val numParam = predicate?.count { it == '-' }?: 0
                 if (numParam > 0) { // if at least 1 param

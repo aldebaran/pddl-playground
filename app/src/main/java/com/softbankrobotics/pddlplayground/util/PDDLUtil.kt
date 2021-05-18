@@ -158,4 +158,51 @@ object PDDLUtil {
             isOfType(parent, type, types)
         else false
     }
+
+    fun getTypesAndParamsForPredicates(context: Context): Pair<List<String>, Map<String, List<List<String?>>>> {
+        val predicates = DatabaseHelper.getInstance(context).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
+            .map { it.getLabel() }
+        val typeLabels = mutableListOf<String>()
+        val paramLabels = mutableMapOf<String, List<List<String?>>>()
+        val allTypeLabels = DatabaseHelper.getInstance(context).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+            .map { it.getLabel()?.substringBefore(" - ") }
+        for (predicate in predicates) {
+            val predicateLabel = predicate?.substringBefore(' ')
+            val type = predicate?.substringAfter(" - ")?.substringBefore(" ")
+            val constsAndParam = mutableListOf<String?>()
+            val constsAndParam2 = mutableListOf<String?>()
+
+            if (!type.isNullOrEmpty() && allTypeLabels.any { it == type }) { // if it's actually a type
+                val consts = DatabaseHelper.getInstance(context).getExpressions()
+                    .filter { it.getCategory() == PDDLCategory.CONSTANT.ordinal }
+                    .map { it.getLabel() }
+                val suitableTypes = getSubtypes(type, context)
+                for (suitableType in suitableTypes) {
+                    val consts1 = consts.filter {
+                            isObjectOfType(it, suitableType, context)
+                        }.map { it?.substringBefore(' ') }
+                    typeLabels.add(suitableType)
+                    constsAndParam.add("?$suitableType")
+                    constsAndParam.addAll(consts1)
+                }
+                val type2 = predicate.substringAfter(type)
+                    .substringAfter(" - ").substringBefore(" ")
+                if (type2.isNotEmpty() && allTypeLabels.any { it == type2 }) {
+                    val suitableTypes2 = getSubtypes(type2, context)
+                    for (suitableType2 in suitableTypes2) {
+                        val consts2 = consts.filter {
+                            isObjectOfType(it, suitableType2, context)
+                        }.map { it?.substringBefore(' ') }
+                        typeLabels.add(suitableType2)
+                        constsAndParam2.add("?$suitableType2")
+                        constsAndParam2.addAll(consts2)
+                    }
+                }
+            }
+            paramLabels[predicateLabel!!] = listOf(constsAndParam, constsAndParam2)
+        }
+        return Pair(typeLabels, paramLabels)
+    }
 }

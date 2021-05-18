@@ -4,6 +4,7 @@
     <string name="problem_pddl">Problem PDDL</string>
     <string name="info_title">About</string>
     <string name="info_glossary_title">Glossary</string>
+    <string name="info_help_title">Help</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
     <string name="info_type_title">Types</string>
@@ -95,6 +96,76 @@
         <b>exists</b>: expresses the existence of an object that has the type defined by the first argument and satisfies the second argument.\n
         ex) <i>exists (?h - human) (is_around ?h)</i> \n\n
     </string>
+    <string name="info_help_summary">
+        The snippet below demonstrates a sample domain and problem, to get you started.\n\n
+        This sample describes a situation where there are some people that are in different emotional states, and in different places with respect to the agent.
+        The agent can perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
+        The objective is to make everyone who is around happy, and to find someone if there is no one around.\n\n
+        Try to add and edit the components so that the resulting domain and problem, which can be visualized by clicking on the magnifying glass, looks exactly like below.
+        When reproducing the example, make sure to fill in the components from top to bottom!
+        Once you manage to create a plan, you can get a feel for how the different components affect the result by enabling / disabling the checkboxes.\n\n
+        <b>Domain</b>:\n\n
+        (define (domain playground_domain)\n
+        \t(:requirements :adl)\n
+        \t(:types\n
+        \t\thuman - object\n
+        \t\temotion - object\n
+        \t)\n
+        \t(:constants\n
+        \t\thappy - emotion\n
+        \t\tnetural - emotion\n
+        \t\tsad - emotion\n
+        \t)\n
+        \t(:predicates\n
+        \t\t(feels ?p1 - human ?p2 - emotion)\n
+        \t\t(is_around ?p1 - human)\n
+        \t\t(not_found ?p1 - human)\n
+        \t)\n
+        \t(:action joke_with\n
+        \t\t:parameters\n
+        \t\t\t(?human - human)\n
+        \t\t:precondition (and\n
+        \t\t\t(is_around ?human)\n
+        \t\t)\n
+        \t\t:effect (and\n
+        \t\t\t(feels ?human happy)\n
+        \t\t)\n
+        \t)\n
+        \t(:action find_human\n
+        \t\t:parameters\n
+        \t\t\t(?human - human)\n
+        \t\t:precondition (and\n
+        \t\t)\n
+        \t\t:effect (and\n
+        \t\t\t(is_around ?human)\n
+        \t\t)\n
+        \t)\n
+        )\n\n
+        <b>Problem</b>:\n\n
+        (define (problem my_problem)\n
+        \t(:domain playground_domain)\n
+        \t(:requirements :adl)\n
+        \t(:objects\n
+        \t\talice - human\n
+        \t\tbob - human\n
+        \t\tcharles - human\n
+        \t\tsomeone - human\n
+        \t)\n
+        \t(:init\n
+        \t\t(is_around charles)\n
+        \t\t(not_found alice)\n
+        \t\t(feels alice neutral)\n
+        \t\t(not_found bob)\n
+        \t\t(feels bob sad)\n
+        \t)\n
+        \t(:goal\n
+        \t\t(and\n
+        \t\t\t(forall (?h - human) (imply (is_around ?h) (feels ?h happy)))\n
+        \t\t\t(imply (not(exists(?h - human) (is_around ?h))) (is_around someone))\n
+        \t\t)\n
+        \t)\n
+        )\n
+    </string>
     <string name="choose_keyword">Choose Keyword:</string>
     <string name="fill_exp">Fill Exp.:</string>
     <string name="cancel">Cancel</string>
@@ -121,4 +192,5 @@
     <string name="fill_in_precondition">Select precondition:</string>
     <string name="fill_in_effect">Select effect:</string>
     <string name="choose_parent_type">Choose Parent Type (Optional):</string>
+    <string name="help">Help</string>
 </resources>

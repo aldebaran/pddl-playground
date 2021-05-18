@@ -51,6 +51,10 @@ class MainActivity : AppCompatActivity() {
             showInfoFragment(this, R.string.info_glossary_title, R.string.info_glossary_summary)
             true
         }
+        R.id.action_help -> {
+            showInfoFragment(this, R.string.info_help_title, R.string.info_help_summary)
+            true
+        }
         else -> {
             super.onOptionsItemSelected(item)
         }

@@ -45,7 +45,7 @@ If the planner returns an error, a Toast message notifies the user of the failur
 ## A simple example
 The screenshots below demonstrate a sample domain and problem created by Victor Paléologue, to get you started.
 This sample describes a situation where there are some people that are in different emotional states, and in different places with respect to the agent.
-The agent can do perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
+The agent can perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
 The objective is to make everyone who is around happy, and to find someone if there is no one around.
 By playing around with the components (use the checkbox to save time), you can get a feel for how they affect the plan.
 When reproducing the example, make sure to fill in the components from top to bottom!

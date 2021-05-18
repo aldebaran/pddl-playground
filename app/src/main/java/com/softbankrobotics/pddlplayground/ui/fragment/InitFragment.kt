@@ -107,9 +107,6 @@ class InitFragment: DialogFragment() {
                     Timber.d("subtypes: $objectTypes2")
                     // make a spinner with only the objects of this type
                     val objectLabels2 = objects.filter {
-/*                        it != null && objectTypes2.any { type ->
-                            it.contains(type)
-                        }*/
                         objectTypes2.any { type -> it?.substringAfter(" - ") == type }
                     }.map { it?.substringBefore(' ') }
                     binding.objectLayout2.visibility = View.VISIBLE

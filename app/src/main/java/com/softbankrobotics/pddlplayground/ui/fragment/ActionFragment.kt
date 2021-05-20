@@ -455,7 +455,7 @@ class ActionFragment : DialogFragment() {
                                 )
                             Handler().postDelayed({
                                 paramSpinners[preconditionInd].setSelection(pInd)
-                            }, 100)
+                            }, 200)
                             break
                         }
                     }
@@ -471,7 +471,7 @@ class ActionFragment : DialogFragment() {
                                 )
                             Handler().postDelayed({
                                 paramSpinners2[preconditionInd].setSelection(pInd)
-                            }, 100)
+                            }, 200)
                             break
                         }
                     }

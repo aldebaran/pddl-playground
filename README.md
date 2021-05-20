@@ -60,4 +60,3 @@ This excellent source provides in-depth information about the different versions
 ## TODO
 * use ppdl-planning library for parsing PDDL expressions
 * improve pop-up for editing goals
-* enable subtyping

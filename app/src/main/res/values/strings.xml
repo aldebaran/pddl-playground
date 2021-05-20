@@ -193,6 +193,9 @@
     <string name="fill_in_effect">Select effect:</string>
     <string name="choose_parent_type">Choose Parent Type (Optional):</string>
     <string name="help">Help</string>
+    <string name="select_parameters">Select parameters:</string>
+    <string name="parameter_name">Parameter Name:</string>
+    <string name="parameter_type">Parameter Type:</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

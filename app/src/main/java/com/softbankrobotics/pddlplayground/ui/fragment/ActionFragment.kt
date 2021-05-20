@@ -15,7 +15,7 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypesAndParamsForPredicates
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getParamsForPredicates
 import timber.log.Timber
 
 class ActionFragment : DialogFragment() {
@@ -32,6 +32,7 @@ class ActionFragment : DialogFragment() {
 
     private var paction: Expression? = null
     private var action: String? = null
+    private var predicateParams = mapOf<String, List<List<String?>>>()
 
     private var _binding: FragmentEditActionBinding? = null
     private val binding get() = _binding!!
@@ -56,6 +57,9 @@ class ActionFragment : DialogFragment() {
         action = arguments?.getString("action")
 
         // view elements
+        val paramTexts = mutableListOf<EditText>()
+        val paramCheckBoxes = mutableListOf<CheckBox>()
+        val paramSpinners = mutableListOf<Spinner>()
         val precondCheckBoxes = mutableListOf<CheckBox>()
         val effectCheckBoxes = mutableListOf<CheckBox>()
         val precondPredicateSpinners = mutableListOf<Spinner>()
@@ -67,8 +71,40 @@ class ActionFragment : DialogFragment() {
         val pnCheckBoxes = mutableListOf<CheckBox>()
         val enCheckBoxes = mutableListOf<CheckBox>()
 
-        // for each predicate, save its argument types and constants
-        val (typeLabels, paramLabels) = getTypesAndParamsForPredicates(requireContext())
+        // populate the parameter grid (first row)
+        val typeLabels = DatabaseHelper.getInstance(context!!).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+            .map { it.getLabel()?.substringBefore(" - ") }
+        var paramRowCount = 1
+        addRow(
+            binding.gridLayout3,
+            typeLabels,
+            paramCheckBoxes,
+            paramTexts,
+            paramSpinners,
+            paramRowCount
+        )
+        paramRowCount++
+
+        // if action was filled out before, populate the parameter interface first
+        if (action != null) {
+            val label = paction?.getLabel()
+            binding.actionText.setText(label?.substringBefore('\n'))
+            // fill in checkboxes & spinners
+            val params = label?.substringAfter("parameters\n")
+                ?.substringBefore(":precondition")
+
+            // loop through parameters
+            paramRowCount = fillInRows(
+                params,
+                binding.gridLayout3,
+                typeLabels,
+                paramCheckBoxes,
+                paramTexts,
+                paramSpinners,
+                paramRowCount
+            )
+        }
 
         // populate the precondition and effect grid (first row)
         val predicateLabels = DatabaseHelper.getInstance(context!!).getExpressions()
@@ -80,7 +116,6 @@ class ActionFragment : DialogFragment() {
         addRow(
             binding.gridLayout,
             predicateLabels,
-            paramLabels,
             precondCheckBoxes,
             precondPredicateSpinners,
             preconditionSpinners,
@@ -91,7 +126,6 @@ class ActionFragment : DialogFragment() {
         addRow(
             binding.gridLayout2,
             predicateLabels,
-            paramLabels,
             effectCheckBoxes,
             effectPredicateSpinners,
             effectSpinners,
@@ -102,11 +136,8 @@ class ActionFragment : DialogFragment() {
         pRowCount++
         eRowCount++
 
-        // if action was filled out before, populate the UI
         if (paction != null) {
             val label = paction?.getLabel()
-            binding.actionText.setText(label?.substringBefore('\n'))
-            // fill in checkboxes & spinners
             val preconditions = label?.substringAfter("precondition (and\n")
                 ?.substringBefore(":effect")
             val effects = label?.substringAfter("effect (and\n")
@@ -116,7 +147,6 @@ class ActionFragment : DialogFragment() {
                 preconditions,
                 binding.gridLayout,
                 predicateLabels,
-                paramLabels,
                 precondCheckBoxes,
                 precondPredicateSpinners,
                 preconditionSpinners,
@@ -130,7 +160,6 @@ class ActionFragment : DialogFragment() {
                 effects,
                 binding.gridLayout2,
                 predicateLabels,
-                paramLabels,
                 effectCheckBoxes,
                 effectPredicateSpinners,
                 effectSpinners,
@@ -140,12 +169,24 @@ class ActionFragment : DialogFragment() {
             )
         }
 
+        // add a parameter row
+        binding.addParamButton.setOnClickListener {
+            addRow(
+                binding.gridLayout3,
+                typeLabels,
+                paramCheckBoxes,
+                paramTexts,
+                paramSpinners,
+                paramRowCount
+            )
+            paramRowCount++
+        }
+
         // add a precondition row
         binding.addPreconditionButton.setOnClickListener {
             addRow(
                 binding.gridLayout,
                 predicateLabels,
-                paramLabels,
                 precondCheckBoxes,
                 precondPredicateSpinners,
                 preconditionSpinners,
@@ -161,7 +202,6 @@ class ActionFragment : DialogFragment() {
             addRow(
                 binding.gridLayout2,
                 predicateLabels,
-                paramLabels,
                 effectCheckBoxes,
                 effectPredicateSpinners,
                 effectSpinners,
@@ -214,10 +254,12 @@ class ActionFragment : DialogFragment() {
             effect += "    )\n"
             // parameters (only add when it's actually used)
             var parameters = "    :parameters\n"
-            for (typeLabel in typeLabels.toSet()) {
-                for (param in paramList.toSet()) {
-                    if (param.contains(typeLabel)) {
-                        parameters += "      ($param - $typeLabel)\n"
+            for ((index, paramCheckBox) in paramCheckBoxes.withIndex()) {
+                if (paramCheckBox.isChecked) {
+                    val paramText = "?${paramTexts[index].text}"
+                    if (paramList.any {it == paramText}) {
+                        val typeLabel = paramSpinners[index].selectedItem as String? ?: ""
+                        parameters += "      ($paramText - $typeLabel)\n"
                     }
                 }
             }
@@ -248,7 +290,6 @@ class ActionFragment : DialogFragment() {
     private fun addRow(
         grid: GridLayout,
         predicateLabels: List<String?>,
-        paramLabels: Map<String, List<List<String?>>>,
         checkBoxes: MutableList<CheckBox>,
         predicateSpinners: MutableList<Spinner>,
         paramSpinners: MutableList<Spinner>,
@@ -353,12 +394,12 @@ class ActionFragment : DialogFragment() {
                 paramSpinner.adapter = ArrayAdapter(
                     context!!,
                     R.layout.support_simple_spinner_dropdown_item,
-                    paramLabels[predicateLabel!!]?.first() ?: listOf()
+                    predicateParams[predicateLabel!!]?.first() ?: listOf()
                 )
                 paramSpinner2.adapter = ArrayAdapter(
                     context!!,
                     R.layout.support_simple_spinner_dropdown_item,
-                    paramLabels[predicateLabel]?.last() ?: listOf()
+                    predicateParams[predicateLabel]?.last() ?: listOf()
                 )
             }
         }
@@ -368,7 +409,6 @@ class ActionFragment : DialogFragment() {
         label: String?,
         grid: GridLayout,
         predicateLabels: List<String?>,
-        paramLabels: Map<String, List<List<String?>>>,
         checkBoxes: MutableList<CheckBox>,
         predicateSpinners: MutableList<Spinner>,
         paramSpinners: MutableList<Spinner>,
@@ -386,7 +426,6 @@ class ActionFragment : DialogFragment() {
                     addRow(
                         grid,
                         predicateLabels,
-                        paramLabels,
                         checkBoxes,
                         predicateSpinners,
                         paramSpinners,
@@ -405,14 +444,14 @@ class ActionFragment : DialogFragment() {
                 // set the consts and params
                 val paramLabel = preconditionLabel.substringAfter(predicateLabel)
                 // loop through types and consts (if exists)
-                if (paramLabels[predicateLabel]?.first() != null) {
-                    for ((pInd, pLabel) in paramLabels[predicateLabel]!!.first().withIndex()) {
+                if (predicateParams[predicateLabel]?.first() != null) {
+                    for ((pInd, pLabel) in predicateParams[predicateLabel]!!.first().withIndex()) {
                         if (paramLabel.contains(pLabel!!)) {
                             paramSpinners[preconditionInd].adapter =
                                 ArrayAdapter(
                                     context!!,
                                     R.layout.support_simple_spinner_dropdown_item,
-                                    paramLabels[predicateLabel]?.first() ?: listOf()
+                                    predicateParams[predicateLabel]?.first() ?: listOf()
                                 )
                             Handler().postDelayed({
                                 paramSpinners[preconditionInd].setSelection(pInd)
@@ -421,14 +460,14 @@ class ActionFragment : DialogFragment() {
                         }
                     }
                 }
-                if (paramLabels[predicateLabel]?.last() != null) {
-                    for ((pInd, pLabel) in paramLabels[predicateLabel]!!.last().withIndex()) {
+                if (predicateParams[predicateLabel]?.last() != null) {
+                    for ((pInd, pLabel) in predicateParams[predicateLabel]!!.last().withIndex()) {
                         if (paramLabel.contains(pLabel!!)) {
                             paramSpinners2[preconditionInd].adapter =
                                 ArrayAdapter(
                                     context!!,
                                     R.layout.support_simple_spinner_dropdown_item,
-                                    paramLabels[predicateLabel]?.last() ?: listOf()
+                                    predicateParams[predicateLabel]?.last() ?: listOf()
                                 )
                             Handler().postDelayed({
                                 paramSpinners2[preconditionInd].setSelection(pInd)
@@ -444,5 +483,117 @@ class ActionFragment : DialogFragment() {
             }
         }
         return updatedRowCount
+    }
+
+    private fun fillInRows(
+        label: String?,
+        grid: GridLayout,
+        typeLabels: List<String?>,
+        checkBoxes: MutableList<CheckBox>,
+        texts: MutableList<EditText>,
+        paramSpinners: MutableList<Spinner>,
+        rowCount: Int
+    ): Int {
+        var updatedRowCount = rowCount
+        val paramLabels = label?.split("\n")?.dropLast(1)?.map {
+            it.substringAfter('(').substringBefore(')')
+        }
+        if (!paramLabels.isNullOrEmpty()) {
+            for ((index, paramLabel) in paramLabels.withIndex()) {
+                if (paramLabel.contains('?')) { // don't include constants
+                    Timber.d("Parameter label: $paramLabel")
+                    if (index != 0) {
+                        addRow(
+                            grid,
+                            typeLabels,
+                            checkBoxes,
+                            texts,
+                            paramSpinners,
+                            updatedRowCount
+                        )
+                        updatedRowCount++
+                    }
+                    // fill in the param text
+                    texts[index].setText(
+                        paramLabel.substringAfter('?').substringBefore(" - ")
+                    )
+                    // fill in the type
+                    val typeLabel = paramLabel.substringAfter(" - ")
+                    paramSpinners[index].setSelection(
+                        typeLabels.indexOfFirst { it == typeLabel }
+                    )
+                    checkBoxes[index].isChecked = true
+
+                    // update predicateParams once all parameters are filled
+                    predicateParams = getParamsForPredicates(
+                        checkBoxes,
+                        texts,
+                        paramSpinners,
+                        requireContext()
+                    )
+                    Timber.d("Predicate params: $predicateParams")
+                }
+            }
+        }
+        return updatedRowCount
+    }
+
+    private fun addRow(
+        grid: GridLayout,
+        typeLabels: List<String?>,
+        checkBoxes: MutableList<CheckBox>,
+        texts: MutableList<EditText>,
+        paramSpinners: MutableList<Spinner>,
+        rowCount: Int
+    ) {
+        // column 1
+        val checkBox = CheckBox(context)
+        checkBoxes += checkBox
+        grid.addView(
+            checkBox,
+            GridLayout.LayoutParams(
+                GridLayout.spec(rowCount, GridLayout.CENTER),
+                GridLayout.spec(0, GridLayout.CENTER)
+            )
+        )
+
+        // column 2
+        val paramText = EditText(context)
+        texts += paramText
+        grid.addView(
+            paramText,
+            GridLayout.LayoutParams(
+                GridLayout.spec(rowCount, GridLayout.CENTER),
+                GridLayout.spec(1, GridLayout.FILL)
+            )
+        )
+
+        // column 3
+        val paramSpinner = Spinner(context)
+        paramSpinner.adapter =
+            ArrayAdapter(
+                context!!,
+                R.layout.support_simple_spinner_dropdown_item,
+                typeLabels
+            )
+        paramSpinners += paramSpinner
+        grid.addView(
+            paramSpinner,
+            GridLayout.LayoutParams(
+                GridLayout.spec(rowCount, GridLayout.CENTER),
+                GridLayout.spec(2, GridLayout.CENTER)
+            )
+        )
+
+        // update predicateParams every time any of the checkboxes are checked
+        checkBox.setOnClickListener {
+            predicateParams = getParamsForPredicates(
+                checkBoxes,
+                texts,
+                paramSpinners,
+                requireContext()
+            )
+            Timber.d("Updated predicate params: $predicateParams")
+        }
     }
 }

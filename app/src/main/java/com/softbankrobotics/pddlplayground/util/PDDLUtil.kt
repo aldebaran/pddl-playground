@@ -1,6 +1,9 @@
 package com.softbankrobotics.pddlplayground.util
 
 import android.content.Context
+import android.widget.CheckBox
+import android.widget.EditText
+import android.widget.Spinner
 import com.softbankrobotics.pddlplanning.Tasks
 import com.softbankrobotics.pddlplayground.MainActivity.Companion.planSearchFunction
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -159,11 +162,14 @@ object PDDLUtil {
         else false
     }
 
-    fun getTypesAndParamsForPredicates(context: Context): Pair<List<String>, Map<String, List<List<String?>>>> {
+    fun getParamsForPredicates(
+            checkBoxes: MutableList<CheckBox>,
+            texts: MutableList<EditText>,
+            paramSpinners: MutableList<Spinner>,
+        context: Context): Map<String, List<List<String?>>> {
         val predicates = DatabaseHelper.getInstance(context).getExpressions()
             .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
             .map { it.getLabel() }
-        val typeLabels = mutableListOf<String>()
         val paramLabels = mutableMapOf<String, List<List<String?>>>()
         val allTypeLabels = DatabaseHelper.getInstance(context).getExpressions()
             .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
@@ -183,9 +189,15 @@ object PDDLUtil {
                     val consts1 = consts.filter {
                             isObjectOfType(it, suitableType, context)
                         }.map { it?.substringBefore(' ') }
-                    typeLabels.add(suitableType)
-                    constsAndParam.add("?$suitableType")
                     constsAndParam.addAll(consts1)
+                    // loop through parameters, add to label
+                    for ((index, checkBox) in checkBoxes.withIndex()) {
+                        if (checkBox.isChecked) {
+                            if ((paramSpinners[index].selectedItem as String) == suitableType) {
+                                constsAndParam.add("?${texts[index].text}")
+                            }
+                        }
+                    }
                 }
                 val type2 = predicate.substringAfter(type)
                     .substringAfter(" - ").substringBefore(" ")
@@ -195,14 +207,20 @@ object PDDLUtil {
                         val consts2 = consts.filter {
                             isObjectOfType(it, suitableType2, context)
                         }.map { it?.substringBefore(' ') }
-                        typeLabels.add(suitableType2)
-                        constsAndParam2.add("?$suitableType2")
                         constsAndParam2.addAll(consts2)
+                        // loop through parameters, add to label
+                        for ((index, checkBox) in checkBoxes.withIndex()) {
+                            if (checkBox.isChecked) {
+                                if ((paramSpinners[index].selectedItem as String) == suitableType2) {
+                                    constsAndParam2.add("?${texts[index].text}")
+                                }
+                            }
+                        }
                     }
                 }
             }
             paramLabels[predicateLabel!!] = listOf(constsAndParam, constsAndParam2)
         }
-        return Pair(typeLabels, paramLabels)
+        return paramLabels
     }
 }

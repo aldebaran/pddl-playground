@@ -316,6 +316,7 @@ class ActionFragment : DialogFragment() {
                 R.layout.support_simple_spinner_dropdown_item,
                 predicateLabels.plus("")
             )
+        predicateSpinner.setSelection(predicateLabels.size)
         predicateSpinners += predicateSpinner
         grid.addView(
             predicateSpinner,

@@ -502,7 +502,6 @@ class ActionFragment : DialogFragment() {
         if (!paramLabels.isNullOrEmpty()) {
             for ((index, paramLabel) in paramLabels.withIndex()) {
                 if (paramLabel.contains('?')) { // don't include constants
-                    Timber.d("Parameter label: $paramLabel")
                     if (index != 0) {
                         addRow(
                             grid,
@@ -532,7 +531,6 @@ class ActionFragment : DialogFragment() {
                         paramSpinners,
                         requireContext()
                     )
-                    Timber.d("Predicate params: $predicateParams")
                 }
             }
         }
@@ -594,7 +592,6 @@ class ActionFragment : DialogFragment() {
                 paramSpinners,
                 requireContext()
             )
-            Timber.d("Updated predicate params: $predicateParams")
         }
     }
 }

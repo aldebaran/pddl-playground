@@ -23,7 +23,7 @@ Conversely, the problem describes the concrete situation of the problem, such as
 
 Under the domain group there are 4 components: object types, constants, predicates, and actions.
 Object types define the type of objects that can exist in the world.
-Constants are objects that present in all instances of the problem.
+Constants are objects that are present in all instances of the problem.
 Predicates describe some aspect of the state of the world, optionally using objects as parameters.
 An action defines a transformation on the state of the world, taking objects as parameters, and predicates as preconditions and effects.
 

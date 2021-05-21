@@ -18,7 +18,9 @@
     <string name="info_type_summary">
         Typing allows us to create basic and subtypes to which we can apply predicates.\n\n
         Types are used to restrict which objects can form the parameters of an action.
-        Types and subtypes allow us to declare both general and specific actions and predicates.
+        Types and subtypes allow us to declare both general and specific actions and predicates.\n\n
+        For example, one can start with a type called <i>place</i> and make a subtype called <i>airport</i> by choosing <i>place</i> as its parent type.\n
+        If a parent type is not selected, the parent type becomes <i>object</i>, which is the default base type.
     </string>
     <string name="info_constant_summary">
         Constants allow us to declare objects that are present across all instances of a problem.\n\n
@@ -72,8 +74,7 @@
     <string name="info_problem_summary">
         A problem forms the other half of a planning problem.\n\n
         In the domain we express the global “worldly” aspects of a problem, such as what actions we can perform and what types of objects exist in the world we\'re planning in.\n
-        The problem then solidifies this expression by define exactly what objects exist, and what is true about them and then finally what the end goal is.\n
-        What state we want the world to be in once the plan is finished.
+        The problem then solidifies this expression by defining exactly what objects exist, what is true about them, and what the end goal is; in other words, what state we want the world to be in once the plan is finished.
     </string>
     <string name="info_general_summary">
         Welcome to the PDDL Playground!\n\n

@@ -166,7 +166,9 @@ object PDDLUtil {
             checkBoxes: MutableList<CheckBox>,
             texts: MutableList<EditText>,
             paramSpinners: MutableList<Spinner>,
-        context: Context): Map<String, List<List<String?>>> {
+            context: Context,
+            goal: Boolean = false
+    ): Map<String, List<List<String?>>> {
         val predicates = DatabaseHelper.getInstance(context).getExpressions()
             .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
             .map { it.getLabel() }
@@ -184,9 +186,15 @@ object PDDLUtil {
                 val consts = DatabaseHelper.getInstance(context).getExpressions()
                     .filter { it.getCategory() == PDDLCategory.CONSTANT.ordinal }
                     .map { it.getLabel() }
+                val objects = DatabaseHelper.getInstance(context).getExpressions()
+                    .filter { it.getCategory() == PDDLCategory.OBJECT.ordinal }
+                    .map { it.getLabel() }
+                val objs = if (goal) {
+                    consts.plus(objects)
+                } else { consts }
                 val suitableTypes = getSubtypes(type, context)
                 for (suitableType in suitableTypes) {
-                    val consts1 = consts.filter {
+                    val consts1 = objs.filter {
                             isObjectOfType(it, suitableType, context)
                         }.map { it?.substringBefore(' ') }
                     constsAndParam.addAll(consts1)
@@ -204,7 +212,7 @@ object PDDLUtil {
                 if (type2.isNotEmpty() && allTypeLabels.any { it == type2 }) {
                     val suitableTypes2 = getSubtypes(type2, context)
                     for (suitableType2 in suitableTypes2) {
-                        val consts2 = consts.filter {
+                        val consts2 = objs.filter {
                             isObjectOfType(it, suitableType2, context)
                         }.map { it?.substringBefore(' ') }
                         constsAndParam2.addAll(consts2)
@@ -222,5 +230,20 @@ object PDDLUtil {
             paramLabels[predicateLabel!!] = listOf(constsAndParam, constsAndParam2)
         }
         return paramLabels
+    }
+
+    fun getParamsForGoals(
+        checkBoxes: MutableList<CheckBox>,
+        texts: MutableList<EditText>,
+        paramSpinners: MutableList<Spinner>
+    ): List<String> {
+        val paramList = mutableListOf<String>()
+
+        for ((index, checkBox) in checkBoxes.withIndex()) {
+            if (checkBox.isChecked) {
+                paramList.add("?${texts[index].text} - ${(paramSpinners[index].selectedItem as String)}")
+            }
+        }
+        return paramList
     }
 }

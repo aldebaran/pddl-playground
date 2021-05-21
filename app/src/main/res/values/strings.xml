@@ -89,7 +89,7 @@
         If the planner returns an error, a Toast message notifies the user of the failure.\n\n
     </string>
     <string name="info_glossary_summary">
-        Below are some useful terms for constructing goal expressions.\n\n
+        Below are some useful operators for constructing goal expressions.\n\n
         <b>forall</b>: apply the second argument to all objects of the type defined in the first argument.\n
         ex) <i>forall (?h - human) (feels ?h happy)</i> \n\n
         <b>imply</b>: ensure the second argument holds if the first argument is satisfied.\n
@@ -167,7 +167,7 @@
         \t)\n
         )\n
     </string>
-    <string name="choose_keyword">Choose Keyword:</string>
+    <string name="choose_keyword">Operator:</string>
     <string name="fill_exp">Fill Exp.:</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
@@ -192,11 +192,17 @@
     <string name="action_glossary">Glossary</string>
     <string name="fill_in_precondition">Select precondition:</string>
     <string name="fill_in_effect">Select effect:</string>
+    <string name="fill_in_predicate">Select predicate:</string>
     <string name="choose_parent_type">Choose Parent Type (Optional):</string>
     <string name="help">Help</string>
     <string name="select_parameters">Select parameters:</string>
     <string name="parameter_name">Parameter Name:</string>
     <string name="parameter_type">Parameter Type:</string>
+    <string name="build_goal">Build goal:</string>
+    <string name="param_predicate">Param/Predicate:</string>
+    <string name="select_predicate_goal">Select predicates to include in the expression / goal:</string>
+    <string name="select_parameters_goal">Select parameters to include in the predicate (optional):</string>
+    <string name="build_expressions_goal">Build expressions to include in the goal (optional):</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

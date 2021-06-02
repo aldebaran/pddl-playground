@@ -20,6 +20,7 @@
 
         <EditText
             android:id="@+id/actionText"
+            android:hint="e.g. joke_with"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -197,7 +197,7 @@
     <string name="fill_in_precondition">Select precondition:</string>
     <string name="fill_in_effect">Select effect:</string>
     <string name="fill_in_predicate">Select predicate:</string>
-    <string name="choose_parent_type">Choose Parent Type (Optional):</string>
+    <string name="choose_parent_type">Choose Parent Type (optional):</string>
     <string name="help">Help</string>
     <string name="select_parameters">Select parameters:</string>
     <string name="parameter_name">Parameter Name:</string>

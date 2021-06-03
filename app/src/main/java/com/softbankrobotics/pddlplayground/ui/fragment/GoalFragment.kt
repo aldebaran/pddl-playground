@@ -33,7 +33,7 @@ class GoalFragment : DialogFragment() {
         private const val IMPLY = "imply"
         private const val EXISTS = "exists"
         private const val NONE = "(none)"
-        private val operators = listOf(FORALL, IMPLY, NONE)
+        private val operators = listOf(FORALL, IMPLY)
         private val expressionOperators = listOf(IMPLY, EXISTS)
     }
 
@@ -144,35 +144,6 @@ class GoalFragment : DialogFragment() {
         )
         expressionRowCount++
 
-        if (goal != null) { // if filled out before TODO
-            val label = goal?.getLabel()
-            when (val operator = label?.substringBefore(' ')) {
-                FORALL, IMPLY -> {
-                    keywordSpinner.setSelection(operators.indexOf(operator))
-                }
-                else -> { // simple case
-                    predicateRowCount = fillInPredicateRows(
-                        label!!,
-                        binding.gridLayout2,
-                        predicateLabels,
-                        predicateCheckBoxes,
-                        predicateSpinners,
-                        predicateParamSpinners,
-                        predicateParamSpinners2,
-                        negateCheckBoxes,
-                        predicateRowCount
-                    )
-                    keywordSpinner.setSelection(operators.indexOf(NONE))
-                }
-            }
-            requireActivity().runOnUiThread {
-                Toast.makeText(
-                    requireContext(),
-                    "autofill for goals coming soon.",
-                    Toast.LENGTH_LONG).show()
-            }
-        }
-
         // populate the goal grid
         addGoalRow(
             binding.gridLayout3,
@@ -237,11 +208,17 @@ class GoalFragment : DialogFragment() {
 
         binding.okButton.setOnClickListener {
             val keyword = keywordSpinner.selectedItem as String
-            val expression = if (keyword == NONE) {
-                labelSpinner.selectedItem
-            } else {
-                "$keyword (${labelSpinner.selectedItem}) (${labelSpinner2.selectedItem})"
-            } as String
+            if (keyword.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Expression must contain an operator.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
+            val expression = "$keyword (${labelSpinner.selectedItem}) (${labelSpinner2.selectedItem})"
             goal?.apply {
                 setLabel(expression)
                 DatabaseHelper.getInstance(requireContext()).updateExpression(this)
@@ -439,76 +416,6 @@ class GoalFragment : DialogFragment() {
                 )
             }
         }
-    }
-
-    private fun fillInPredicateRows(
-        label: String,
-        grid: GridLayout,
-        predicateLabels: List<String?>,
-        checkBoxes: MutableList<CheckBox>,
-        predicateSpinners: MutableList<Spinner>,
-        paramSpinners: MutableList<Spinner>,
-        paramSpinners2: MutableList<Spinner>,
-        negateCheckBoxes: MutableList<CheckBox>,
-        rowCount: Int
-    ): Int {
-        var updatedRowCount = rowCount
-        if (rowCount != 2) {
-            addPredicateRow(
-                grid,
-                predicateLabels,
-                checkBoxes,
-                predicateSpinners,
-                paramSpinners,
-                paramSpinners2,
-                negateCheckBoxes,
-                updatedRowCount
-            )
-            updatedRowCount++
-        }
-        val predicateLabel = label.substringBefore(' ')
-        predicateSpinners[rowCount-2].setSelection(
-            predicateLabels.indexOfFirst { it == predicateLabel }
-        )
-        // fill in param spinners
-        val paramLabel = label.substringAfter(predicateLabel)
-        if (predicateParams[predicateLabel]?.first() != null) {
-            for ((pInd, pLabel) in predicateParams[predicateLabel]!!.first().withIndex()) {
-                if (paramLabel.contains(pLabel!!)) {
-                    paramSpinners[rowCount-2].adapter =
-                        ArrayAdapter(
-                            context!!,
-                            R.layout.support_simple_spinner_dropdown_item,
-                            predicateParams[predicateLabel]?.first() ?: listOf()
-                        )
-                    Handler().postDelayed({
-                        paramSpinners[rowCount-2].setSelection(pInd)
-                    }, 200)
-                    break
-                }
-            }
-        }
-        if (predicateParams[predicateLabel]?.last() != null) {
-            for ((pInd, pLabel) in predicateParams[predicateLabel]!!.last().withIndex()) {
-                if (paramLabel.contains(pLabel!!)) {
-                    paramSpinners2[rowCount-2].adapter =
-                        ArrayAdapter(
-                            context!!,
-                            R.layout.support_simple_spinner_dropdown_item,
-                            predicateParams[predicateLabel]?.last() ?: listOf()
-                        )
-                    Handler().postDelayed({
-                        paramSpinners2[rowCount-2].setSelection(pInd)
-                    }, 200)
-                    break
-                }
-            }
-        }
-        checkBoxes[rowCount-2].isChecked = true
-        if (label.contains("not($predicateLabel")) {
-            negateCheckBoxes[rowCount-2].isChecked = true
-        }
-        return updatedRowCount
     }
 
     private fun addExpressionRow(

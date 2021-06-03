@@ -203,6 +203,10 @@
     <string name="select_predicate_goal">Select predicates to include in the expression / goal:</string>
     <string name="select_parameters_goal">Select parameters to include in the predicate (optional):</string>
     <string name="build_expressions_goal">Build expressions to include in the goal (optional):</string>
+    <string name="select_goal_type">Select the type of goal desired:</string>
+    <string name="edit_goal">Edit Goal:</string>
+    <string name="basic">Basic</string>
+    <string name="advanced">Advanced</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

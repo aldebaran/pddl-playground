@@ -187,7 +187,7 @@ class MainFragment : Fragment(),
             showInfoFragment(this.requireActivity(), R.string.info_action_title, R.string.info_action_summary)
         }
         binding.addGoal.setOnClickListener {
-            showExpressionFragment(requireContext(), PDDLCategory.GOAL)
+            IntermediateGoalFragment().show(requireActivity().supportFragmentManager, EDIT_PDDL)
         }
         binding.goalInfo.setOnClickListener {
             showInfoFragment(this.requireActivity(), R.string.info_goal_title, R.string.info_goal_summary)
@@ -287,7 +287,7 @@ class MainFragment : Fragment(),
                 ActionFragment.newInstance(expression, action)
             }
             PDDLCategory.GOAL.ordinal -> {
-                GoalFragment.newInstance(expression, action)
+                TextFragment.newInstance(expression, action)
             }
             else -> { // type
                 TypeFragment.newInstance(expression, action)

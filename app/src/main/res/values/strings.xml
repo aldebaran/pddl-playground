@@ -89,7 +89,8 @@
         Clicking on the <b>X button</b> to the left of the component label deletes the component.\n\n
         Clicking on the <b>checkbox</b> disables the component, meaning it will not be included in the problem description.\n\n
         Clicking on the <b>label</b> pops up a new window, where the user can interactively edit the component.\n\n
-        Once the domain and problem are specified, the user may click on the <b>play button</b> next to the plan block to see the solution.\n\n
+        Once the domain and problem are specified, the user may click on the <b>magnifying glasses</b> next to the respective blocks to visualize the resulting PDDL files.\n\n
+        Finally, the user may click on the <b>play button</b> next to the plan block to see the solution.\n\n
         If the planner returns an error, a Toast message notifies the user of the failure.\n\n
     </string>
     <string name="info_glossary_summary">

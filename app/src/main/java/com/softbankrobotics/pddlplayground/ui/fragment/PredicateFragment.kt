@@ -108,12 +108,25 @@ class PredicateFragment: DialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
+            val predicateLabel = predicateText.text.toString()
+            val type1 = typeSpinner.selectedItem as String
+            val type2 = typeSpinner2.selectedItem as String
+            if (predicateLabel.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Expression must not have empty components.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
+            var expression = predicateLabel
+            if (parameterLayout.visibility == View.VISIBLE && type1.isNotEmpty())
+                expression += " ?p1 - $type1 "
+            if (parameterLayout2.visibility == View.VISIBLE && type2.isNotEmpty())
+                expression += "?p2 - $type2"
             predicate?.apply {
-                var expression = predicateText.text.toString()
-                if (parameterLayout.visibility == View.VISIBLE)
-                    expression += " ?p1 - ${typeSpinner.selectedItem as String} "
-                if (parameterLayout2.visibility == View.VISIBLE)
-                    expression += "?p2 - ${typeSpinner2.selectedItem as String}"
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)

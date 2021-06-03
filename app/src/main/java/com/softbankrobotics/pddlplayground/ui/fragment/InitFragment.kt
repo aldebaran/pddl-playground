@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -179,6 +180,16 @@ class InitFragment: DialogFragment() {
 
         binding.okButton.setOnClickListener {
             var expression = predicateSpinner.selectedItem as String
+            if (expression.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Expression must not have empty components.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
             if (binding.objectLayout.visibility == View.VISIBLE)
                 expression += " ${objectSpinner.selectedItem}"
             if (binding.objectLayout2.visibility == View.VISIBLE)

@@ -19,7 +19,8 @@
         Typing allows us to create basic and subtypes to which we can apply predicates.\n\n
         Types are used to restrict which objects can form the parameters of an action.
         Types and subtypes allow us to declare both general and specific actions and predicates.\n\n
-        For example, one can start with a type called <i>place</i> and make a subtype called <i>airport</i> by choosing <i>place</i> as its parent type.\n
+        For example, one can start with a type called <i>place</i> and make two subtypes, called <i>airport</i> and <i>warehouse</i>, by choosing <i>place</i> as their parent type.
+        Then, if an action called <i>go_to</i> takes <i>place</i> as a parameter, then <i>go_to</i> can be applied to both <i>airport</i> and <i>warehouse</i>.\n\n
         If a parent type is not selected, the parent type becomes <i>object</i>, which is the default base type.
     </string>
     <string name="info_constant_summary">

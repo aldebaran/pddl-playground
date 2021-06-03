@@ -206,6 +206,7 @@ class ActionFragment : DialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
+            val actionLabel = binding.actionText.text
             val paramList = mutableListOf<String>()
             // preconditions
             var precondition = "    :precondition (and\n"
@@ -227,6 +228,7 @@ class ActionFragment : DialogFragment() {
             }
             precondition += "    )\n"
             // effects
+            var effectExists = false
             var effect = "    :effect (and\n"
             for ((index, effectCheckBox) in effectCheckBoxes.withIndex()) {
                 if (effectCheckBox.isChecked) {
@@ -241,6 +243,7 @@ class ActionFragment : DialogFragment() {
                         }
                         paramList.add(param)
                         paramList.add(param2)
+                        effectExists = true
                     }
                 }
             }
@@ -256,8 +259,18 @@ class ActionFragment : DialogFragment() {
                     }
                 }
             }
+            if (actionLabel.isEmpty() || !effectExists) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "An action must not have an empty label or effect.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
             paction?.apply {
-                setLabel("${binding.actionText.text}\n" + parameters + precondition + effect)
+                setLabel("$actionLabel\n" + parameters + precondition + effect)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
             }
             LoadExpressionsService.launchLoadExpressionsService(context!!)

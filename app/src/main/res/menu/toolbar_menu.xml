@@ -20,4 +20,16 @@
         android:title="@string/action_info"
         app:showAsAction="ifRoom"/>
 
+    <item
+        android:id="@+id/action_attribution"
+        android:icon="@drawable/ic_attribution"
+        android:title="@string/attribution"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_import"
+        android:icon="@drawable/ic_import"
+        android:title="@string/import_sample"
+        app:showAsAction="never"/>
+
 </menu>

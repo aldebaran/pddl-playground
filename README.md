@@ -53,6 +53,12 @@ When reproducing the example, make sure to fill in the components from top to bo
 ![Sample Domain](screenshots/domain.png)
 ![Sample Problem](screenshots/problem.png)
 
+## Limitations
+As this application is meant to be a PDDL primer for novice users, it lacks a great deal of features that are essential for complex planning scenarios.
+Listed below are some notable limitations:
+- no support for disjunctions of predicates in action preconditions and effects
+- limited support for operators in goals
+
 ## Further Reading
 The explanations of the PDDL components provided in this file and in the application is adapted from [The AI Planning & PDDL Wiki](https://planning.wiki/).
 This excellent source provides in-depth information about the different versions of PDDL over the years, and a long list of planners that are designed to work with PDDL.

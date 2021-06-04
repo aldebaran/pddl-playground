@@ -5,6 +5,7 @@
     <string name="info_title">About</string>
     <string name="info_glossary_title">Glossary</string>
     <string name="info_help_title">Help</string>
+    <string name="info_attribution_title">Attribution</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
     <string name="info_type_title">Types</string>
@@ -16,7 +17,7 @@
     <string name="info_goal_title">Goals</string>
     <string name="info_plan_title">Plan</string>
     <string name="info_type_summary">
-        Typing allows us to create basic and subtypes to which we can apply predicates.\n\n
+        Typing allows us to create basic types and subtypes to which we can apply predicates.\n\n
         Types are used to restrict which objects can form the parameters of an action.
         Types and subtypes allow us to declare both general and specific actions and predicates.\n\n
         For example, one can start with a type called <i>place</i> and make two subtypes, called <i>airport</i> and <i>warehouse</i>, by choosing <i>place</i> as their parent type.
@@ -108,9 +109,10 @@
         This sample describes a situation where there are some people that are in different emotional states, and in different places with respect to the agent.
         The agent can perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
         The objective is to make everyone who is around happy, and to find someone if there is no one around.\n\n
-        Try to add and edit the components so that the resulting domain and problem, which can be visualized by clicking on the magnifying glass, looks exactly like below.
-        When reproducing the example, make sure to fill in the components from top to bottom!
-        Once you manage to create a plan, you can get a feel for how the different components affect the result by enabling / disabling the checkboxes.\n\n
+        You can directly import the sample domain and problem by clicking on the <b>import sample</b> item in the action bar, or try to add the components yourself.
+        The resulting domain and problem, which can be visualized by clicking on the magnifying glass, looks exactly like below.
+        If you want to reproduce the sample, make sure to fill in the components from top to bottom!
+        Once you manage to create a plan, you can get a feel for how the different components affect the result by enabling / disabling the checkboxes to the right of the labels.\n\n
         <b>Domain</b>:\n\n
         (define (domain playground_domain)\n
         \t(:requirements :adl)\n
@@ -173,6 +175,10 @@
         \t)\n
         )\n
     </string>
+    <string name="info_attribution_summary">
+        All the information available in this application is adapted from <b>The AI Planning \&amp; PDDL Wiki</b> (https://planning.wiki/).
+        Head over to their website for additional resources!
+    </string>
     <string name="choose_keyword">Operator:</string>
     <string name="fill_exp">Fill Exp.:</string>
     <string name="cancel">Cancel</string>
@@ -217,6 +223,8 @@
     <string name="parameter_explanation">Parameters are required for operators like exists and forall</string>
     <string name="expression_explanation">A goal may include logical expressions that themselves contain operators</string>
     <string name="goal_explanation">A goal with an operator includes parameters, predicates, and/or logical expressions</string>
+    <string name="attribution">Attribution</string>
+    <string name="import_sample">Import sample</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

@@ -11,6 +11,7 @@ import com.softbankrobotics.pddlplanning.PlanSearchFunction
 import com.softbankrobotics.pddlplanning.createPlanSearchFunctionFromService
 import com.softbankrobotics.pddlplayground.ui.fragment.InfoFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.fillInDatabaseWithSample
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -53,6 +54,14 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.action_help -> {
             showInfoFragment(this, R.string.info_help_title, R.string.info_help_summary)
+            true
+        }
+        R.id.action_attribution -> {
+            showInfoFragment(this, R.string.info_attribution_title, R.string.info_attribution_summary)
+            true
+        }
+        R.id.action_import -> {
+            fillInDatabaseWithSample(applicationContext)
             true
         }
         else -> {

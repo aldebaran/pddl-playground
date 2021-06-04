@@ -7,8 +7,70 @@ import android.widget.Spinner
 import com.softbankrobotics.pddlplanning.Tasks
 import com.softbankrobotics.pddlplayground.MainActivity.Companion.planSearchFunction
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
+import com.softbankrobotics.pddlplayground.model.Expression
+import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 
 object PDDLUtil {
+
+    private val typeList = listOf(
+        "human - object",
+        "emotion - object"
+    )
+    private val constantList = listOf(
+        "happy - emotion",
+        "neutral - emotion",
+        "sad - emotion"
+    )
+    private val predicateList = listOf(
+        "feels ?p1 - human ?p2 - emotion",
+        "not_found ?p1 - human",
+        "is_around ?p1 - human"
+    )
+    private val actionList = listOf(
+        "joke_with\n:parameters\n(?human1 - human)\n:precondition (and\n(is_around ?human1)\n)\n:effect (and\n(feels ?human1 happy)\n)\n",
+        "find_human\n:parameters\n(?human1 - human)\n:precondition (and\n)\n:effect (and\n(is_around ?human1)\n)\n"
+    )
+    private val objectList = listOf(
+        "alice - human",
+        "bob - human",
+        "charles - human",
+        "someone - human"
+    )
+    private val initList = listOf(
+        "is_around charles",
+        "not_found alice",
+        "feels alice neutral",
+        "feels bob sad"
+    )
+    private val goalList = listOf(
+        "forall (?h - human) (imply (is_around ?h) (feels ?h happy))",
+        "imply (not (exists(?h - human) (is_around ?h))) (is_around someone)"
+    )
+
+    private val sampleScenario = mapOf(
+        Pair(PDDLCategory.TYPE.ordinal, typeList),
+        Pair(PDDLCategory.CONSTANT.ordinal, constantList),
+        Pair(PDDLCategory.PREDICATE.ordinal, predicateList),
+        Pair(PDDLCategory.ACTION.ordinal, actionList),
+        Pair(PDDLCategory.OBJECT.ordinal, objectList),
+        Pair(PDDLCategory.INIT.ordinal, initList),
+        Pair(PDDLCategory.GOAL.ordinal, goalList)
+    )
+
+    fun fillInDatabaseWithSample(context: Context) {
+        DatabaseHelper.getInstance(context).apply {
+            sampleScenario.forEach { (category, list) ->
+                list.forEach { label ->
+                    addExpression().also { id ->
+                        updateExpression(
+                            Expression(id, label, category, true)
+                        )
+                    }
+                }
+            }
+        }
+        LoadExpressionsService.launchLoadExpressionsService(context)
+    }
 
     suspend fun getPlanFromDatabase(context: Context): Tasks {
         val domain = getDomainPDDLFromDatabase(context)

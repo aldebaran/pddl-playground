@@ -33,8 +33,6 @@ import timber.log.Timber
 import java.util.ArrayList
 
 //TODO: make a view for requirements? With checkbox for available requirements & info
-//TODO: make an info button in action menu for general explanation
-//TODO: fix hard-coded view sizes
 class MainFragment : Fragment(),
     LoadExpressionsReceiver.OnExpressionsLoadedListener,
     EditExpressionsReceiver.OnEditExpressionsListener {

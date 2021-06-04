@@ -32,9 +32,10 @@ class GoalFragment : DialogFragment() {
         private const val FORALL = "forall"
         private const val IMPLY = "imply"
         private const val EXISTS = "exists"
-        private const val NONE = "(none)"
+        private const val AND = "and"
+        private const val OR = "or"
         private val operators = listOf(FORALL, IMPLY)
-        private val expressionOperators = listOf(IMPLY, EXISTS)
+        private val expressionOperators = listOf(IMPLY, EXISTS, AND, OR)
     }
 
     private var goal: Expression? = null
@@ -518,7 +519,7 @@ class GoalFragment : DialogFragment() {
                 position: Int,
                 id: Long
             ) {
-                if (position >= operators.size) {
+                if (position >= expressionOperators.size) {
                     Timber.d("Selected empty item.")
                     return
                 }
@@ -548,7 +549,7 @@ class GoalFragment : DialogFragment() {
                 }
 
                 val (labelList, labelList2) = when (position) {
-                    0 -> { // imply
+                    0, 2, 3 -> { // imply, and, or
                         Pair(predicateList, predicateList)
                     }
                     1 -> { // exists

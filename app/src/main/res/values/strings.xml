@@ -53,10 +53,14 @@
     </string>
     <string name="info_goal_summary">
         The goal is a logical expression of predicates which must be satisfied in order for a plan to be considered a solution.\n\n
-        In essence it is what we want the world to look like at the end.\n
-        Note that as a logical expression, if this expression excludes some predicate, then the value of that predicate is not considered important.\n
-        This means that a goal should not only consist of the predicates that should be true, but also the predicate which should be false.
-        Note that all standard logical operators such as or and forall are available as part of the goal, which means we can express multiple different goal states all of which are acceptable.
+        In essence it is what we want the world to look like at the end.\n\n
+        Note that as a logical expression, if this expression excludes some predicate, then the value of that predicate is not considered important.
+        This means that a goal should not only consist of the predicates that should be true, but also the predicate which should be false.\n\n
+        All standard logical operators such as <i>or</i> and <i>forall</i> are available as part of the goal, which means we can express multiple different goal states, all of which are acceptable.\n\n
+        The goal component can be completed in one of three ways:\n\n
+        <b>Basic</b>: A pop-up for completing a single predicate, possibly negated. This would the goal counterpart to the initial state.\n\n
+        <b>Advanced</b>: An interface to build a logical expression from multiple parameters, operators and predicates.\n\n
+        <b>Manual</b>: A text editor for manual editing. Be careful with syntax errors!
     </string>
     <string name="info_plan_summary">
         Fast Downward is a classical planning system based on heuristic search.\n\n

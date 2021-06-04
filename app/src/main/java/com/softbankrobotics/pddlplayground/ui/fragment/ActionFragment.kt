@@ -581,6 +581,7 @@ class ActionFragment : DialogFragment() {
                 R.layout.support_simple_spinner_dropdown_item,
                 typeLabels
             )
+        paramSpinner.setSelection(typeLabels.size - 1)
         parameterSpinners += paramSpinner
         grid.addView(
             paramSpinner,

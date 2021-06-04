@@ -60,7 +60,7 @@
         All standard logical operators such as <i>or</i> and <i>forall</i> are available as part of the goal, which means we can express multiple different goal states, all of which are acceptable.\n\n
         The goal component can be completed in one of three ways:\n\n
         <b>Basic</b>: A pop-up for completing a single predicate, possibly negated. This would the goal counterpart to the initial state.\n\n
-        <b>Advanced</b>: An interface to build a logical expression from multiple parameters, operators and predicates.\n\n
+        <b>Advanced</b>: An interface to construct a logical expression from multiple parameters, operators and predicates.\n\n
         <b>Manual</b>: A text editor for manual editing. Be careful with syntax errors!
     </string>
     <string name="info_plan_summary">
@@ -204,15 +204,19 @@
     <string name="select_parameters">Select parameters:</string>
     <string name="parameter_name">Parameter Name:</string>
     <string name="parameter_type">Parameter Type:</string>
-    <string name="build_goal">Build goal:</string>
+    <string name="build_goal">Construct goal:</string>
     <string name="param_predicate">Param/Predicate:</string>
     <string name="select_predicate_goal">Select predicates to include in the expression or goal:</string>
     <string name="select_parameters_goal">Select parameters to include in the predicate (optional):</string>
-    <string name="build_expressions_goal">Build expressions to include in the goal (optional):</string>
+    <string name="build_expressions_goal">Construct expressions to include in the goal (optional):</string>
     <string name="select_goal_type">Select the type of goal desired:</string>
     <string name="edit_goal">Edit Goal:</string>
     <string name="basic">Basic</string>
     <string name="advanced">Advanced</string>
+    <string name="predicate_explanation">A goal must include one or more predicates</string>
+    <string name="parameter_explanation">Parameters are required for operators like exists and forall</string>
+    <string name="expression_explanation">A goal may include logical expressions that themselves contain operators</string>
+    <string name="goal_explanation">A goal with an operator includes parameters, predicates, and/or logical expressions</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

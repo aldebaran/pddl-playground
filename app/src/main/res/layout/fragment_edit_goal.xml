@@ -16,8 +16,16 @@
 
             <TextView
                 android:text="@string/select_parameters_goal"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/parameter_explanation"
+                android:textSize="15sp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -48,8 +56,16 @@
 
             <TextView
                 android:text="@string/select_predicate_goal"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/predicate_explanation"
+                android:textSize="15sp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -90,8 +106,16 @@
 
             <TextView
                 android:text="@string/build_expressions_goal"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/expression_explanation"
+                android:textSize="15sp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
@@ -132,8 +156,16 @@
 
             <TextView
                 android:text="@string/build_goal"
-                android:textSize="16sp"
-                android:layout_margin="16dp"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:text="@string/goal_explanation"
+                android:textSize="15sp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 

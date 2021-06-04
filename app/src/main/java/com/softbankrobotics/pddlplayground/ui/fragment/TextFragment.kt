@@ -72,6 +72,7 @@ class TextFragment: DialogFragment() {
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION
             }
+            dismiss()
         }
         binding.cancelButton.setOnClickListener {
             dismiss()

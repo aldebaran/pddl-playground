@@ -72,6 +72,11 @@ class InitFragment: DialogFragment() {
         predicateSpinner.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, predicateLabels.plus(""))
         predicateSpinner.setSelection(predicateLabels.size)
+
+        if (init?.getCategory() == PDDLCategory.GOAL.ordinal) {
+            binding.negateLayout.visibility = View.VISIBLE
+        }
+
         if (init != null) { // if filled out before
             // fill in predicate spinner
             val predicate = init?.getLabel()?.substringBefore(' ')
@@ -173,12 +178,15 @@ class InitFragment: DialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
+            var expression = predicateSpinner.selectedItem as String
+            if (binding.objectLayout.visibility == View.VISIBLE)
+                expression += " ${objectSpinner.selectedItem}"
+            if (binding.objectLayout2.visibility == View.VISIBLE)
+                expression += " ${objectSpinner2.selectedItem}"
+            if (binding.negateCheckbox.isChecked) {
+                expression = "not($expression)"
+            }
             init?.apply {
-                var expression = predicateSpinner.selectedItem as String
-                if (binding.objectLayout.visibility == View.VISIBLE)
-                    expression += " ${objectSpinner.selectedItem}"
-                if (binding.objectLayout2.visibility == View.VISIBLE)
-                    expression += " ${objectSpinner2.selectedItem}"
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)

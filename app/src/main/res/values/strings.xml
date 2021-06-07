@@ -193,4 +193,24 @@
     <string name="fill_in_effect">Select effect:</string>
     <string name="choose_parent_type">Choose Parent Type (Optional):</string>
     <string name="help">Help</string>
+    <string name="preview_domain">Preview domain</string>
+    <string name="about_domain">About domain</string>
+    <string name="add_type">Add type</string>
+    <string name="about_types">About types</string>
+    <string name="add_constant">Add constant</string>
+    <string name="about_constants">About constants</string>
+    <string name="add_predicate">Add predicate</string>
+    <string name="about_predicates">About predicates</string>
+    <string name="add_action">Add action</string>
+    <string name="about_actions">About actions</string>
+    <string name="preview_problem">Preview problem</string>
+    <string name="about_problem">About problem</string>
+    <string name="add_object">Add object</string>
+    <string name="about_objects">About objects</string>
+    <string name="add_initial_state">Add initial state</string>
+    <string name="about_initial_states">About initial states</string>
+    <string name="add_goal">Add goal</string>
+    <string name="about_goals">About goals</string>
+    <string name="run_planner">Run planner</string>
+    <string name="about_planning">About planning</string>
 </resources>

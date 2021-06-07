@@ -28,8 +28,9 @@
                 android:id="@+id/domainPDDL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_view"
                 android:background="@color/white"
-                android:src="@drawable/ic_view" />
+                android:contentDescription="@string/preview_domain" />
 
             <TextView
                 android:layout_width="0dp"
@@ -42,8 +43,9 @@
                 android:id="@+id/domainInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:src="@drawable/ic_info"
                 android:background="@color/white"
-                android:src="@drawable/ic_info" />
+                android:contentDescription="@string/about_domain" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -71,7 +73,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_type" />
 
                 <TextView
                     android:id="@+id/typesText"
@@ -86,12 +89,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_types" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/type_recyler"
+                android:id="@+id/type_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
@@ -123,7 +127,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_constant" />
 
                 <TextView
                     android:id="@+id/constantsText"
@@ -138,15 +143,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_constants" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/constant_recyler"
+                android:id="@+id/constant_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -175,7 +181,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_predicate" />
 
                 <TextView
                     android:id="@+id/predicatesText"
@@ -190,15 +197,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_predicates" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/predicate_recyler"
+                android:id="@+id/predicate_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -227,7 +235,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_action" />
 
                 <TextView
                     android:id="@+id/actionsText"
@@ -242,14 +251,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_actions" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/action_recyler"
+                android:id="@+id/action_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"></androidx.recyclerview.widget.RecyclerView>
+                android:scrollbars="vertical" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -275,7 +285,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:src="@drawable/ic_view" />
+                android:src="@drawable/ic_view"
+                android:contentDescription="@string/preview_problem" />
 
             <TextView
                 android:layout_width="0dp"
@@ -289,7 +300,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:src="@drawable/ic_info" />
+                android:src="@drawable/ic_info"
+                android:contentDescription="@string/about_problem" />
 
         </LinearLayout>
 
@@ -319,7 +331,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_object" />
 
                 <TextView
                     android:id="@+id/ObjectText"
@@ -334,12 +347,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_objects" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/object_recyler"
+                android:id="@+id/object_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
@@ -349,7 +363,7 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/initsView"
+        android:id="@+id/initialStatesView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -372,10 +386,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_initial_state" />
 
                 <TextView
-                    android:id="@+id/initsText"
+                    android:id="@+id/initialStatesText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -387,11 +402,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_initial_states" />
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/init_recyler"
+                android:id="@+id/init_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
@@ -406,7 +422,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/initsView">
+        app:layout_constraintTop_toBottomOf="@id/initialStatesView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -424,7 +440,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_add_item" />
+                    android:src="@drawable/ic_add_item"
+                    android:contentDescription="@string/add_goal" />
 
                 <TextView
                     android:id="@+id/goalsText"
@@ -439,12 +456,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_goals" />
 
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/goal_recyler"
+                android:id="@+id/goal_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="vertical" />
@@ -477,7 +495,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_run_plan" />
+                    android:src="@drawable/ic_run_plan"
+                    android:contentDescription="@string/run_planner" />
 
                 <TextView
                     android:id="@+id/planText"
@@ -492,7 +511,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:src="@drawable/ic_info" />
+                    android:src="@drawable/ic_info"
+                    android:contentDescription="@string/about_planning" />
 
             </LinearLayout>
 

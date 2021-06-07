@@ -82,7 +82,7 @@ class MainFragment : Fragment(),
         goalAdapter = ExpressionAdapter()
 
         // type
-        binding.typeRecyler.apply {
+        binding.typeRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = expressionAdapter
@@ -90,7 +90,7 @@ class MainFragment : Fragment(),
         }
 
         // constant
-        binding.constantRecyler.apply {
+        binding.constantRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = constantAdapter
@@ -98,7 +98,7 @@ class MainFragment : Fragment(),
         }
 
         // object
-        binding.objectRecyler.apply {
+        binding.objectRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = objectAdapter
@@ -106,7 +106,7 @@ class MainFragment : Fragment(),
         }
 
         // predicate
-        binding.predicateRecyler.apply {
+        binding.predicateRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = predicateAdapter
@@ -114,7 +114,7 @@ class MainFragment : Fragment(),
         }
 
         // init
-        binding.initRecyler.apply {
+        binding.initRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = initAdapter
@@ -122,7 +122,7 @@ class MainFragment : Fragment(),
         }
 
         // action
-        binding.actionRecyler.apply {
+        binding.actionRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = actionAdapter
@@ -130,7 +130,7 @@ class MainFragment : Fragment(),
         }
 
         // goal
-        binding.goalRecyler.apply {
+        binding.goalRecycler.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(activity)
             adapter = goalAdapter

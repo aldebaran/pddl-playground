@@ -22,14 +22,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <ImageButton
                 android:id="@+id/domainPDDL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:src="@drawable/ic_view"
-                android:background="@color/white"
                 android:contentDescription="@string/preview_domain" />
 
             <TextView
@@ -43,8 +44,8 @@
                 android:id="@+id/domainInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:src="@drawable/ic_info"
-                android:background="@color/white"
                 android:contentDescription="@string/about_domain" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -66,13 +67,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_type" />
 
@@ -88,7 +90,7 @@
                     android:id="@+id/typeInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_types" />
 
@@ -120,13 +122,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addConstant"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_constant" />
 
@@ -142,7 +145,7 @@
                     android:id="@+id/constantInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_constants" />
 
@@ -174,13 +177,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addPredicate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_predicate" />
 
@@ -196,7 +200,7 @@
                     android:id="@+id/predicateInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_predicates" />
 
@@ -228,13 +232,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addAction"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_action" />
 
@@ -250,7 +255,7 @@
                     android:id="@+id/actionInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_actions" />
             </LinearLayout>
@@ -278,13 +283,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:orientation="horizontal"
             android:gravity="center_vertical">
 
             <ImageButton
                 android:id="@+id/problemPDDL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:padding="10dp"
                 android:src="@drawable/ic_view"
                 android:contentDescription="@string/preview_problem" />
 
@@ -299,7 +305,7 @@
                 android:id="@+id/problemInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:padding="10dp"
                 android:src="@drawable/ic_info"
                 android:contentDescription="@string/about_problem" />
 
@@ -324,13 +330,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addObject"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_object" />
 
@@ -346,7 +353,7 @@
                     android:id="@+id/objectInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_objects" />
 
@@ -379,13 +386,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addInit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_initial_state" />
 
@@ -401,7 +409,7 @@
                     android:id="@+id/initInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_initial_states" />
             </LinearLayout>
@@ -433,13 +441,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/addGoal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_add_item"
                     android:contentDescription="@string/add_goal" />
 
@@ -455,7 +464,7 @@
                     android:id="@+id/goalInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="8dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_goals" />
 
@@ -488,13 +497,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/runPlan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="10dp"
                     android:src="@drawable/ic_run_plan"
                     android:contentDescription="@string/run_planner" />
 
@@ -504,13 +514,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/info_plan_title"
-                    android:textSize="18sp" />
+                    android:textSize="24sp" />
 
                 <ImageButton
                     android:id="@+id/planInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:padding="10dp"
                     android:src="@drawable/ic_info"
                     android:contentDescription="@string/about_planning" />
 

@@ -78,7 +78,7 @@ class InitFragment: DialogFragment() {
             binding.negateLayout.visibility = View.VISIBLE
         }
 
-        if (init != null) { // if filled out before
+        if (init?.getLabel()?.isNotEmpty() == true) { // if filled out before
             // fill in predicate spinner
             val predicate = init?.getLabel()?.substringBefore(' ')
             if (predicateLabels.any { it == predicate }) {

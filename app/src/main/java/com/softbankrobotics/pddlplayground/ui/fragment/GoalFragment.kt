@@ -2,7 +2,6 @@ package com.softbankrobotics.pddlplayground.ui.fragment
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +14,8 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.EDIT_EXPRESSION
-import com.softbankrobotics.pddlplayground.util.PDDLCategory
 import com.softbankrobotics.pddlplayground.util.PDDLUtil
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getPredicates
 import timber.log.Timber
 
 class GoalFragment : DialogFragment() {
@@ -98,9 +97,7 @@ class GoalFragment : DialogFragment() {
         )
 
         // populate the parameter grid (first row)
-        val typeLabels = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel()?.substringBefore(" - ") }
+        val typeLabels = PDDLUtil.getTypes(requireContext())
         var paramRowCount = 1
         addParameterRow(
             binding.gridLayout,
@@ -110,10 +107,7 @@ class GoalFragment : DialogFragment() {
         paramRowCount++
 
         // populate the predicate grid (first row)
-        val predicateLabels = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
-            .map { it.getLabel() }
-            .map { it?.substringBefore(' ') }
+        val predicateLabels = getPredicates(requireContext())
         var predicateRowCount = 1
         addPredicateRow(
             binding.gridLayout2,
@@ -279,7 +273,6 @@ class GoalFragment : DialogFragment() {
                 R.layout.support_simple_spinner_dropdown_item,
                 typeLabels
             )
-        paramSpinner.setSelection(typeLabels.size - 1)
         parameterSpinners += paramSpinner
         grid.addView(
             paramSpinner,
@@ -401,10 +394,7 @@ class GoalFragment : DialogFragment() {
                     true
                 )
 
-                val predicates = DatabaseHelper.getInstance(context!!).getExpressions()
-                    .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
-                    .map { it.getLabel() }
-                val predicateLabel = predicates[position]?.substringBefore(' ')
+                val predicateLabel = predicateLabels[position]
 
                 paramSpinner.adapter = ArrayAdapter(
                     context!!,

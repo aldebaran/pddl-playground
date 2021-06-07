@@ -15,6 +15,7 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypes
 
 class ConstantFragment: DialogFragment() {
     companion object {
@@ -56,11 +57,9 @@ class ConstantFragment: DialogFragment() {
         val constantText = binding.constantText
         val spinner = binding.typeSpinner
         // recover types from Database & populate spinner
-        val types = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel()?.substringBefore(" - ") }
+        val types = getTypes(requireContext())
         spinner.adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)
-        if (constant != null) { // if filled already
+        if (constant?.getLabel()?.isNotEmpty() == true) { // if filled already
             constantText.setText(constant?.getLabel()?.substringBefore(" - "))
             val type = constant?.getLabel()?.substringAfter(" - ")
             spinner.setSelection(types.indexOf(type))

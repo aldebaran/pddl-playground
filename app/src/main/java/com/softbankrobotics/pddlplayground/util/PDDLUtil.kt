@@ -12,6 +12,8 @@ import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 
 object PDDLUtil {
 
+    private const val OBJECT = "object"
+
     private val typeList = listOf(
         "human - object",
         "emotion - object"
@@ -168,6 +170,24 @@ object PDDLUtil {
         // close problem
         problem += ")\n"
         return problem
+    }
+
+    fun getPredicates(context: Context): List<String?> {
+        return DatabaseHelper.getInstance(context).getExpressions()
+            .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
+            .map { it.getLabel() }
+            .map { it?.substringBefore(' ') }
+    }
+
+    fun getTypes(context: Context): List<String?> {
+        return DatabaseHelper.getInstance(context).getExpressions()
+            .asSequence()
+            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
+            .map { it.getLabel() }
+            .map { it?.substringBefore(" - ") }
+            .filter { !it.isNullOrEmpty() }
+            .plus(OBJECT)
+            .toList()
     }
 
     fun getSubtypes(type: String?, context: Context): List<String> {

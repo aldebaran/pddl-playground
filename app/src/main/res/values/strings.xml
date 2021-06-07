@@ -22,7 +22,7 @@
         Types and subtypes allow us to declare both general and specific actions and predicates.\n\n
         For example, one can start with a type called <i>place</i> and make two subtypes, called <i>airport</i> and <i>warehouse</i>, by choosing <i>place</i> as their parent type.
         Then, if an action called <i>go_to</i> takes <i>place</i> as a parameter, then <i>go_to</i> can be applied to both <i>airport</i> and <i>warehouse</i>.\n\n
-        If a parent type is not selected, the parent type becomes <i>object</i>, which is the default base type.
+        The default base type is <i>object</i>.
     </string>
     <string name="info_constant_summary">
         Constants allow us to declare objects that are present across all instances of a problem.\n\n
@@ -96,12 +96,12 @@
         If the planner returns an error, a Toast message notifies the user of the failure.\n\n
     </string>
     <string name="info_glossary_summary">
-        Below are some useful operators for constructing goal expressions.\n\n
-        <b>forall</b>: apply the second argument to all objects of the type defined in the first argument.\n
+        Below are some useful operators for constructing logical expressions.\n\n
+        <b>forall</b>: takes an argument and expresses that some logical expression holds true across it.\n
         ex) <i>forall (?h - human) (feels ?h happy)</i> \n\n
-        <b>imply</b>: ensure the second argument holds if the first argument is satisfied.\n
+        <b>imply</b>: evaluates true whenever the first argument is false, or both arguments are true.\n
         ex) <i>imply (is_around bob) (feels bob happy)</i> \n\n
-        <b>exists</b>: expresses the existence of an object that has the type defined by the first argument and satisfies the second argument.\n
+        <b>exists</b>: expresses that at least one object with the given type satisfies the logical expression.\n
         ex) <i>exists (?h - human) (is_around ?h)</i> \n\n
     </string>
     <string name="info_help_summary">
@@ -205,7 +205,7 @@
     <string name="fill_in_precondition">Select precondition:</string>
     <string name="fill_in_effect">Select effect:</string>
     <string name="fill_in_predicate">Select predicate:</string>
-    <string name="choose_parent_type">Choose Parent Type (optional):</string>
+    <string name="choose_parent_type">Choose Parent Type:</string>
     <string name="help">Help</string>
     <string name="select_parameters">Select parameters:</string>
     <string name="parameter_name">Parameter Name:</string>
@@ -220,11 +220,12 @@
     <string name="basic">Basic</string>
     <string name="advanced">Advanced</string>
     <string name="predicate_explanation">A goal must include one or more predicates</string>
-    <string name="parameter_explanation">Parameters are required for operators like exists and forall</string>
+    <string name="parameter_explanation">Parameters are required for operators like <i>exists</i> and <i>forall</i></string>
     <string name="expression_explanation">A goal may include logical expressions that themselves contain operators</string>
     <string name="goal_explanation">A goal with an operator includes parameters, predicates, and/or logical expressions</string>
     <string name="attribution">Attribution</string>
     <string name="import_sample">Import sample</string>
+    <string name="constant_example">e.g. happy, self, …</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>

@@ -25,7 +25,7 @@
 
             <EditText
                 android:id="@+id/constantText"
-                android:hint="e.g. happy, self, ..."
+                android:hint="@string/constant_example"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

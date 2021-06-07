@@ -16,6 +16,7 @@ import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.util.PDDLCategory
 import com.softbankrobotics.pddlplayground.util.PDDLUtil.getParamsForPredicates
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypes
 import timber.log.Timber
 
 class ActionFragment : DialogFragment() {
@@ -74,9 +75,7 @@ class ActionFragment : DialogFragment() {
         val enCheckBoxes = mutableListOf<CheckBox>()
 
         // populate the parameter grid (first row)
-        val typeLabels = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel()?.substringBefore(" - ") }
+        val typeLabels = getTypes(requireContext())
         var paramRowCount = 1
         addParameterRow(
             binding.gridLayout3,
@@ -86,7 +85,7 @@ class ActionFragment : DialogFragment() {
         paramRowCount++
 
         // if action was filled out before, populate the parameter interface first
-        if (action != null) {
+        if (paction?.getLabel()?.isNotEmpty() == true) {
             val label = paction?.getLabel()
             binding.actionText.setText(label?.substringBefore('\n'))
             // fill in checkboxes & spinners
@@ -132,7 +131,7 @@ class ActionFragment : DialogFragment() {
         pRowCount++
         eRowCount++
 
-        if (paction != null) {
+        if (paction?.getLabel()?.isNotEmpty() == true) {
             val label = paction?.getLabel()
             val preconditions = label?.substringAfter("precondition (and\n")
                 ?.substringBefore(":effect")
@@ -564,6 +563,7 @@ class ActionFragment : DialogFragment() {
 
         // column 2
         val paramText = EditText(context)
+        paramText.hint = "e.g. human1"
         parameterTexts += paramText
         grid.addView(
             paramText,
@@ -581,7 +581,6 @@ class ActionFragment : DialogFragment() {
                 R.layout.support_simple_spinner_dropdown_item,
                 typeLabels
             )
-        paramSpinner.setSelection(typeLabels.size - 1)
         parameterSpinners += paramSpinner
         grid.addView(
             paramSpinner,

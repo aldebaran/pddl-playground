@@ -13,8 +13,7 @@ import com.softbankrobotics.pddlplayground.databinding.FragmentEditPredicateBind
 import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
-import com.softbankrobotics.pddlplayground.util.PDDLCategory
-import timber.log.Timber
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypes
 
 class PredicateFragment: DialogFragment() {
     companion object {
@@ -64,15 +63,13 @@ class PredicateFragment: DialogFragment() {
         val parameterLayout2 = binding.parameterLayout2
 
         // recover types from Database & populate spinners
-        val types = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel()?.substringBefore(" - ") }
+        val types = getTypes(requireContext())
         val types2 = types.toList()
         typeSpinner.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)
         typeSpinner2.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types2)
-        if (predicate != null) { // if filled in already
+        if (predicate?.getLabel()?.isNotEmpty() == true) { // if filled in already
             predicateText.setText(predicate?.getLabel()?.substringBefore(" "))
             // search types
             val subExpression = predicate?.getLabel()?.substringAfter(" - ")

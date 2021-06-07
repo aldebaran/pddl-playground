@@ -15,7 +15,7 @@ import com.softbankrobotics.pddlplayground.model.Expression
 import com.softbankrobotics.pddlplayground.service.LoadExpressionsService
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment.Companion.ADD_EXPRESSION
-import com.softbankrobotics.pddlplayground.util.PDDLCategory
+import com.softbankrobotics.pddlplayground.util.PDDLUtil.getTypes
 
 class TypeFragment: DialogFragment() {
     companion object {
@@ -57,35 +57,29 @@ class TypeFragment: DialogFragment() {
         val typeText = binding.expressionText
         val spinner = binding.typeSpinner
         // recover types from Database & populate spinner
-        val types = DatabaseHelper.getInstance(context!!).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel() }
-            .map { it?.substringBefore(" - ") }
+        val types = getTypes(requireContext())
         spinner.adapter = ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, types)
-        if (expression != null) {
+        if (expression?.getLabel()?.isNotEmpty() == true) {
             typeText.setText(expression?.getLabel()?.substringBefore(" - "))
             val type = expression?.getLabel()?.substringAfter(" - ")
             spinner.setSelection(types.indexOf(type))
         }
 
         binding.okButton.setOnClickListener {
+            val label = binding.expressionText.text.toString()
+            val type = spinner.selectedItem as String
+            if (label.contains(' ') || label.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Expression must not contain spaces or be empty.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
             expression?.apply {
-                val expression = binding.expressionText.text.toString()
-                var type = spinner.selectedItem as String
-                if (type.isEmpty()) {
-                    type = "object"
-                }
-                if (expression.contains(' ') || expression.isEmpty()) {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(
-                            requireContext(),
-                            "Expression must not contain spaces or be empty.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    return@setOnClickListener
-                }
-                setLabel("$expression - $type")
+                setLabel("$label - $type")
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)
                 action = MainFragment.EDIT_EXPRESSION

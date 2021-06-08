@@ -33,7 +33,7 @@ class ActionFragment : DialogFragment() {
 
     private var paction: Expression? = null
     private var action: String? = null
-    private var predicateParams = mapOf<String, List<List<String?>>>()
+    private var predicateParams = mapOf<String, List<Set<String?>>>()
 
     // view elements for parameters, accessible by view elements for preconditions and effects
     private val parameterTexts = mutableListOf<EditText>()
@@ -409,12 +409,12 @@ class ActionFragment : DialogFragment() {
                 paramSpinner.adapter = ArrayAdapter(
                     context!!,
                     R.layout.support_simple_spinner_dropdown_item,
-                    predicateParams[predicateLabel!!]?.first() ?: listOf()
+                    predicateParams[predicateLabel!!]?.first()?.toList() ?: listOf()
                 )
                 paramSpinner2.adapter = ArrayAdapter(
                     context!!,
                     R.layout.support_simple_spinner_dropdown_item,
-                    predicateParams[predicateLabel]?.last() ?: listOf()
+                    predicateParams[predicateLabel]?.last()?.toList() ?: listOf()
                 )
             }
         }
@@ -466,7 +466,7 @@ class ActionFragment : DialogFragment() {
                                 ArrayAdapter(
                                     context!!,
                                     R.layout.support_simple_spinner_dropdown_item,
-                                    predicateParams[predicateLabel]?.first() ?: listOf()
+                                    predicateParams[predicateLabel]?.first()?.toList() ?: listOf()
                                 )
                             Handler().postDelayed({
                                 paramSpinners[preconditionInd].setSelection(pInd)
@@ -482,7 +482,7 @@ class ActionFragment : DialogFragment() {
                                 ArrayAdapter(
                                     context!!,
                                     R.layout.support_simple_spinner_dropdown_item,
-                                    predicateParams[predicateLabel]?.last() ?: listOf()
+                                    predicateParams[predicateLabel]?.last()?.toList() ?: listOf()
                                 )
                             Handler().postDelayed({
                                 paramSpinners2[preconditionInd].setSelection(pInd)

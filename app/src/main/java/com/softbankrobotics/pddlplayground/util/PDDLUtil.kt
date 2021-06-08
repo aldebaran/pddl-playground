@@ -255,14 +255,12 @@ object PDDLUtil {
             paramSpinners: MutableList<Spinner>,
             context: Context,
             goal: Boolean = false
-    ): Map<String, List<List<String?>>> {
+    ): Map<String, List<Set<String?>>> {
         val predicates = DatabaseHelper.getInstance(context).getExpressions()
             .filter { it.getCategory() == PDDLCategory.PREDICATE.ordinal }
             .map { it.getLabel() }
-        val paramLabels = mutableMapOf<String, List<List<String?>>>()
-        val allTypeLabels = DatabaseHelper.getInstance(context).getExpressions()
-            .filter { it.getCategory() == PDDLCategory.TYPE.ordinal }
-            .map { it.getLabel()?.substringBefore(" - ") }
+        val paramLabels = mutableMapOf<String, List<Set<String?>>>()
+        val allTypeLabels = getTypes(context)
         for (predicate in predicates) {
             val predicateLabel = predicate?.substringBefore(' ')
             val type = predicate?.substringAfter(" - ")?.substringBefore(" ")
@@ -314,7 +312,7 @@ object PDDLUtil {
                     }
                 }
             }
-            paramLabels[predicateLabel!!] = listOf(constsAndParam, constsAndParam2)
+            paramLabels[predicateLabel!!] = listOf(constsAndParam.toSet(), constsAndParam2.toSet())
         }
         return paramLabels
     }

@@ -59,6 +59,11 @@ object PDDLUtil {
         Pair(PDDLCategory.GOAL.ordinal, goalList)
     )
 
+    fun clearDatabase(context: Context) {
+        DatabaseHelper.getInstance(context).deleteAllExpressions()
+        LoadExpressionsService.launchLoadExpressionsService(context)
+    }
+
     fun fillInDatabaseWithSample(context: Context) {
         DatabaseHelper.getInstance(context).apply {
             sampleScenario.forEach { (category, list) ->

@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import com.softbankrobotics.pddlplanning.IPDDLPlannerService
 import com.softbankrobotics.pddlplanning.PlanSearchFunction
 import com.softbankrobotics.pddlplanning.createPlanSearchFunctionFromService
+import com.softbankrobotics.pddlplayground.ui.fragment.AlertFragment
 import com.softbankrobotics.pddlplayground.ui.fragment.InfoFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
-import com.softbankrobotics.pddlplayground.util.PDDLUtil.fillInDatabaseWithSample
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -61,7 +61,11 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_import -> {
-            fillInDatabaseWithSample(applicationContext)
+            showAlertFragment(this, R.string.import_sample, R.string.alert_import_sample_summary, true)
+            true
+        }
+        R.id.action_clear -> {
+            showAlertFragment(this, R.string.clear_data, R.string.alert_clear_data_summary)
             true
         }
         else -> {
@@ -73,10 +77,16 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var planSearchFunction: PlanSearchFunction
         private const val PROVIDE_INFO = "provide_info"
+        private const val ALERT_USER = "alert_user"
 
         fun showInfoFragment(activity: FragmentActivity, title: Int, message: Int) {
             InfoFragment.newInstance(activity.getString(title), activity.getText(message))
                 .show(activity.supportFragmentManager, PROVIDE_INFO)
+        }
+
+        fun showAlertFragment(activity: FragmentActivity, title: Int, message: Int, import: Boolean = false) {
+            AlertFragment.newInstance(activity.getString(title), activity.getText(message), import)
+                .show(activity.supportFragmentManager, ALERT_USER)
         }
     }
 }

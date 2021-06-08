@@ -195,7 +195,7 @@ class MainFragment : Fragment(),
         }
         binding.runPlan.setOnClickListener {
             GlobalScope.launch {
-                var toastText: String? = null
+                var toastText = "Plan success!"
                 val plan = try {
                     getPlanFromDatabase(requireContext())
                 } catch (e: PDDLTranslationException) {
@@ -212,11 +212,9 @@ class MainFragment : Fragment(),
                     null
                 }
                 requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_LONG).show()
                     binding.planContent.text = when {
-                        plan == null -> {
-                            Toast.makeText(requireContext(), toastText, Toast.LENGTH_LONG).show()
-                            "Planning failed."
-                        }
+                        plan == null -> { "Planning failed." }
                         plan.isEmpty() -> { "Plan is empty." }
                         else -> { plan.joinToString("\n") }
                     }

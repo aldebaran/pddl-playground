@@ -29,8 +29,8 @@ object PDDLUtil {
         "is_around ?p1 - human"
     )
     private val actionList = listOf(
-        "joke_with\n:parameters\n(?human1 - human)\n:precondition (and\n(is_around ?human1)\n)\n:effect (and\n(feels ?human1 happy)\n)\n",
-        "find_human\n:parameters\n(?human1 - human)\n:precondition (and\n)\n:effect (and\n(is_around ?human1)\n)\n"
+        "joke_with\n:parameters (\n?human1 - human\n)\n:precondition (and\n(is_around ?human1)\n)\n:effect (and\n(feels ?human1 happy)\n)\n",
+        "find_human\n:parameters (\n?human1 - human\n)\n:precondition (and\n)\n:effect (and\n(is_around ?human1)\n)\n"
     )
     private val objectList = listOf(
         "alice - human",

@@ -89,7 +89,7 @@ class ActionFragment : DialogFragment() {
             val label = paction?.getLabel()
             binding.actionText.setText(label?.substringBefore('\n'))
             // fill in checkboxes & spinners
-            val params = label?.substringAfter("parameters\n")
+            val params = label?.substringAfter("parameters (\n")
                 ?.substringBefore(":precondition")
 
             // loop through parameters
@@ -248,16 +248,17 @@ class ActionFragment : DialogFragment() {
             }
             effect += "    )\n"
             // parameters (only add when it's actually used)
-            var parameters = "    :parameters\n"
+            var parameters = "    :parameters (\n"
             for ((index, paramCheckBox) in parameterCheckBoxes.withIndex()) {
                 if (paramCheckBox.isChecked) {
                     val paramText = "?${parameterTexts[index].text}"
                     if (paramList.any {it == paramText}) {
                         val typeLabel = parameterSpinners[index].selectedItem as String? ?: ""
-                        parameters += "      ($paramText - $typeLabel)\n"
+                        parameters += "      $paramText - $typeLabel\n"
                     }
                 }
             }
+            parameters += "    )\n"
             if (actionLabel.isEmpty() || !effectExists) {
                 requireActivity().runOnUiThread {
                     Toast.makeText(
@@ -507,9 +508,7 @@ class ActionFragment : DialogFragment() {
         rowCount: Int
     ): Int {
         var updatedRowCount = rowCount
-        val paramLabels = label?.split("\n")?.dropLast(1)?.map {
-            it.substringAfter('(').substringBefore(')')
-        }
+        val paramLabels = label?.split("\n")?.dropLast(1)
         if (!paramLabels.isNullOrEmpty()) {
             for ((index, paramLabel) in paramLabels.withIndex()) {
                 if (paramLabel.contains('?')) { // don't include constants

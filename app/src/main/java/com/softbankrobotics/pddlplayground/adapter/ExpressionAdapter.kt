@@ -53,7 +53,6 @@ class ExpressionAdapter : RecyclerView.Adapter<ExpressionAdapter.ExpressionViewH
         }
         holder.delete.setOnClickListener {view ->
             val context = view.context
-            //TODO: delete item from dialog fragment instead?
             val rowsDeleted: Int = DatabaseHelper.getInstance(context!!).deleteExpression(expression)
             if (rowsDeleted == 1)
                 LoadExpressionsService.launchLoadExpressionsService(context)

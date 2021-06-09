@@ -10,7 +10,7 @@ At the same time, it is hoped that the UI helps beginners to more quickly unders
 Finally, by virtue of having the planner as a remote service, callable dynamically, the user is free to test out different variations of the problem with the click of a button, without the need to compile or write unit tests.
 Note that this application works with PDDL (short for Planning Domain Definition Language), which is a planning language used by the International Conference on Autonomous Planning and Scheduling ([ICAPS](http://www.icaps-conference.org/)).
 
-## What is it **not** for?
+## What is it *not* for?
 This application is not meant to be a general interface for PDDL planning, but rather a *playground* for people to learn the basics of PDDL interactively. Please don't expect to use this application to [plan inter-planetary exploration](https://github.com/nasa/OpenSPIFe/wiki)!
 
 ## Requirement:
@@ -56,7 +56,9 @@ When reproducing the example, make sure to fill in the components from top to bo
 ## Limitations
 As this application is meant to be a PDDL primer for novice users, it lacks a great deal of features that are essential for complex planning scenarios.
 Listed below are some notable limitations:
-- no support for disjunctions of predicates in action preconditions and effects
+- all the available features are based on PDDL1.2
+- no support for `exists`, `or`, `forall` in action preconditions
+- no support for `when` in action effects
 - limited support for operators in goals
 
 ## Further Reading
@@ -65,4 +67,3 @@ This excellent source provides in-depth information about the different versions
 
 ## TODO
 * use ppdl-planning library for parsing PDDL expressions
-* improve pop-up for editing goals

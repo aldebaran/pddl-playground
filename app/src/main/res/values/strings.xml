@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">PDDL Playground</string>
+    <string name="requirements_pddl">Requirements PDDL</string>
+    <string name="requirements_pddl_content">(:requirements :adl)</string>
     <string name="domain_pddl">Domain PDDL</string>
     <string name="problem_pddl">Problem PDDL</string>
     <string name="info_title">About</string>
     <string name="info_glossary_title">Glossary</string>
     <string name="info_help_title">Help</string>
     <string name="info_attribution_title">Attribution</string>
+    <string name="info_requirements_title">Requirements</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
     <string name="info_type_title">Types</string>
@@ -16,6 +19,18 @@
     <string name="info_action_title">Actions</string>
     <string name="info_goal_title">Goals</string>
     <string name="info_plan_title">Plan</string>
+    <string name="info_requirements_summary">
+        Requirements are similar to import/include statements in programming languages.
+        However, as PDDL is a kind of declarative language, it is a \"requirement\" because a given planner is \"required\" to facilitate some aspect of the language.\n\n
+        Although multiple requirements can be specified through a space separated list, this application just uses one requirement called <i>:adl</i>, which encompasses the requirements listed below:\n\n
+        <i>:strips</i>\n
+        <i>:typing</i>\n
+        <i>:disjunctive-preconditions</i>\n
+        <i>:equality</i>\n
+        <i>:quantified-preconditions</i>\n
+        <i>:condition-effects</i>\n\n
+        For details on each of these requirements, please consult the following link: <u>https://planning.wiki/ref/pddl/requirements</u>
+    </string>
     <string name="info_type_summary">
         Typing allows us to create basic types and subtypes to which we can apply predicates.\n\n
         Types are used to restrict which objects can form the parameters of an action.

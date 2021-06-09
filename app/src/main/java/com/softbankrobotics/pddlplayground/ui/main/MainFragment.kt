@@ -136,6 +136,12 @@ class MainFragment : Fragment(),
         }
 
         // callbacks
+        binding.requirementsInfo.setOnClickListener {
+            showInfoFragment(this.requireActivity(), R.string.info_requirements_title, R.string.info_requirements_summary)
+        }
+        binding.requirementsPDDL.setOnClickListener {
+            showInfoFragment(this.requireActivity(), R.string.requirements_pddl, R.string.requirements_pddl_content)
+        }
         binding.domainInfo.setOnClickListener {
             showInfoFragment(this.requireActivity(), R.string.info_domain_title, R.string.info_domain_summary)
         }

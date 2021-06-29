@@ -284,4 +284,6 @@
     <string name="about_goals">About goals</string>
     <string name="run_planner">Run planner</string>
     <string name="about_planning">About planning</string>
+    <string name="preview_requirements">Preview requirements</string>
+    <string name="about_requirements">About requirements</string>
 </resources>

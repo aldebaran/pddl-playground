@@ -29,8 +29,9 @@
                 android:id="@+id/requirementsPDDL"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:src="@drawable/ic_view" />
+                android:padding="10dp"
+                android:src="@drawable/ic_view"
+                android:contentDescription="@string/preview_requirements"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -43,8 +44,9 @@
                 android:id="@+id/requirementsInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:src="@drawable/ic_info" />
+                android:padding="10dp"
+                android:src="@drawable/ic_info"
+                android:contentDescription="@string/about_requirements"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

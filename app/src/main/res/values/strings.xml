@@ -153,7 +153,7 @@
         \t(:predicates\n
         \t\t(feels ?p1 - human ?p2 - emotion)\n
         \t\t(is_around ?p1 - human)\n
-        \t\t(not_found ?p1 - human)\n
+        \t\t(is_greeted ?p1 - human)\n
         \t)\n
         \t(:action joke_with\n
         \t\t:parameters\n
@@ -163,6 +163,16 @@
         \t\t)\n
         \t\t:effect (and\n
         \t\t\t(feels ?human happy)\n
+        \t\t)\n
+        \t)\n
+        \t(:action greet\n
+        \t\t:parameters\n
+        \t\t\t(?human - human)\n
+        \t\t:precondition (and\n
+        \t\t\t(is_around ?human)\n
+        \t\t)\n
+        \t\t:effect (and\n
+        \t\t\t(is_greeted ?human)\n
         \t\t)\n
         \t)\n
         \t(:action find_human\n
@@ -187,14 +197,13 @@
         \t)\n
         \t(:init\n
         \t\t(is_around charles)\n
-        \t\t(not_found alice)\n
         \t\t(feels alice neutral)\n
-        \t\t(not_found bob)\n
         \t\t(feels bob sad)\n
         \t)\n
         \t(:goal\n
         \t\t(and\n
         \t\t\t(forall (?h - human) (imply (is_around ?h) (feels ?h happy)))\n
+        \t\t\t(forall (?h - human) (imply (is_around ?h) (is_greeted ?h)))\n
         \t\t\t(imply (not(exists(?h - human) (is_around ?h))) (is_around someone))\n
         \t\t)\n
         \t)\n

@@ -25,11 +25,12 @@ object PDDLUtil {
     )
     private val predicateList = listOf(
         "feels ?p1 - human ?p2 - emotion",
-        "not_found ?p1 - human",
-        "is_around ?p1 - human"
+        "is_around ?p1 - human",
+        "is_greeted ?p1 - human"
     )
     private val actionList = listOf(
         "joke_with\n:parameters (\n?human1 - human\n)\n:precondition (and\n(is_around ?human1)\n)\n:effect (and\n(feels ?human1 happy)\n)\n",
+        "greet\n:parameters (\n?human1 - human\n)\n:precondition (and\n(is_around ?human1)\n)\n:effect (and\n(is_greeted ?human1)\n)\n",
         "find_human\n:parameters (\n?human1 - human\n)\n:precondition (and\n)\n:effect (and\n(is_around ?human1)\n)\n"
     )
     private val objectList = listOf(
@@ -40,12 +41,12 @@ object PDDLUtil {
     )
     private val initList = listOf(
         "is_around charles",
-        "not_found alice",
         "feels alice neutral",
         "feels bob sad"
     )
     private val goalList = listOf(
         "forall (?h - human) (imply (is_around ?h) (feels ?h happy))",
+        "forall (?h - human) (imply (is_around ?h) (is_greeted ?h))",
         "imply (not (exists(?h - human) (is_around ?h))) (is_around someone)"
     )
 

@@ -3,6 +3,7 @@ package com.softbankrobotics.pddlplayground.ui.main
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.RemoteException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -204,6 +205,10 @@ class MainFragment : Fragment(),
                 var toastText = "Plan success!"
                 val plan = try {
                     getPlanFromDatabase(requireContext())
+                } catch (e: RemoteException) {
+                    Timber.e(e)
+                    toastText = "Planner service was not found."
+                    null
                 } catch (e: PDDLTranslationException) {
                     Timber.e(e)
                     toastText = "Plan failed during PDDL translation."

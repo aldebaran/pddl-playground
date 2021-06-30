@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.softbankrobotics.pddlplayground.R
 import com.softbankrobotics.pddlplayground.data.DatabaseHelper
@@ -72,7 +73,12 @@ class InitFragment: DialogFragment() {
         predicateSpinner.adapter =
             ArrayAdapter(context!!, R.layout.support_simple_spinner_dropdown_item, predicateLabels.plus(""))
         predicateSpinner.setSelection(predicateLabels.size)
-        if (init != null) { // if filled out before
+
+        if (init?.getCategory() == PDDLCategory.GOAL.ordinal) {
+            binding.negateLayout.visibility = View.VISIBLE
+        }
+
+        if (init?.getLabel()?.isNotEmpty() == true) { // if filled out before
             // fill in predicate spinner
             val predicate = init?.getLabel()?.substringBefore(' ')
             if (predicateLabels.any { it == predicate }) {
@@ -173,12 +179,25 @@ class InitFragment: DialogFragment() {
         }
 
         binding.okButton.setOnClickListener {
+            var expression = predicateSpinner.selectedItem as String
+            if (expression.isEmpty()) {
+                requireActivity().runOnUiThread {
+                    Toast.makeText(
+                        requireContext(),
+                        "Expression must not have empty components.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                return@setOnClickListener
+            }
+            if (binding.objectLayout.visibility == View.VISIBLE)
+                expression += " ${objectSpinner.selectedItem}"
+            if (binding.objectLayout2.visibility == View.VISIBLE)
+                expression += " ${objectSpinner2.selectedItem}"
+            if (binding.negateCheckbox.isChecked) {
+                expression = "not($expression)"
+            }
             init?.apply {
-                var expression = predicateSpinner.selectedItem as String
-                if (binding.objectLayout.visibility == View.VISIBLE)
-                    expression += " ${objectSpinner.selectedItem}"
-                if (binding.objectLayout2.visibility == View.VISIBLE)
-                    expression += " ${objectSpinner2.selectedItem}"
                 setLabel(expression)
                 DatabaseHelper.getInstance(context!!).updateExpression(this)
                 LoadExpressionsService.launchLoadExpressionsService(context!!)

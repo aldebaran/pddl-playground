@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentActivity
 import com.softbankrobotics.pddlplanning.IPDDLPlannerService
 import com.softbankrobotics.pddlplanning.PlanSearchFunction
 import com.softbankrobotics.pddlplanning.createPlanSearchFunctionFromService
+import com.softbankrobotics.pddlplayground.ui.fragment.AlertFragment
 import com.softbankrobotics.pddlplayground.ui.fragment.InfoFragment
 import com.softbankrobotics.pddlplayground.ui.main.MainFragment
 import kotlinx.coroutines.GlobalScope
@@ -55,6 +56,18 @@ class MainActivity : AppCompatActivity() {
             showInfoFragment(this, R.string.info_help_title, R.string.info_help_summary)
             true
         }
+        R.id.action_attribution -> {
+            showInfoFragment(this, R.string.info_attribution_title, R.string.info_attribution_summary)
+            true
+        }
+        R.id.action_import -> {
+            showAlertFragment(this, R.string.import_sample, R.string.alert_import_sample_summary, true)
+            true
+        }
+        R.id.action_clear -> {
+            showAlertFragment(this, R.string.clear_data, R.string.alert_clear_data_summary)
+            true
+        }
         else -> {
             super.onOptionsItemSelected(item)
         }
@@ -64,10 +77,16 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var planSearchFunction: PlanSearchFunction
         private const val PROVIDE_INFO = "provide_info"
+        private const val ALERT_USER = "alert_user"
 
         fun showInfoFragment(activity: FragmentActivity, title: Int, message: Int) {
             InfoFragment.newInstance(activity.getString(title), activity.getText(message))
                 .show(activity.supportFragmentManager, PROVIDE_INFO)
+        }
+
+        fun showAlertFragment(activity: FragmentActivity, title: Int, message: Int, import: Boolean = false) {
+            AlertFragment.newInstance(activity.getString(title), activity.getText(message), import)
+                .show(activity.supportFragmentManager, ALERT_USER)
         }
     }
 }

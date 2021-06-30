@@ -8,13 +8,13 @@
     tools:context=".ui.main.MainFragment">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/domainView"
+        android:id="@+id/requirementsView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_marginTop="8dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/typesView"
+        app:layout_constraintBottom_toTopOf="@id/domainView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -23,6 +23,47 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/requirementsPDDL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/ic_view"
+                android:contentDescription="@string/preview_requirements"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/info_requirements_title"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/requirementsInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:src="@drawable/ic_info"
+                android:contentDescription="@string/about_requirements"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/domainView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/requirementsView"
+        app:layout_constraintEnd_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:gravity="center_vertical">
 
             <ImageButton

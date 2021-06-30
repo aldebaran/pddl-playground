@@ -3,6 +3,7 @@ package com.softbankrobotics.pddlplayground.ui.main
 import android.content.Context
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.RemoteException
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,8 +34,6 @@ import timber.log.Timber
 import java.util.ArrayList
 
 //TODO: make a view for requirements? With checkbox for available requirements & info
-//TODO: make an info button in action menu for general explanation
-//TODO: fix hard-coded view sizes
 class MainFragment : Fragment(),
     LoadExpressionsReceiver.OnExpressionsLoadedListener,
     EditExpressionsReceiver.OnEditExpressionsListener {
@@ -138,6 +137,12 @@ class MainFragment : Fragment(),
         }
 
         // callbacks
+        binding.requirementsInfo.setOnClickListener {
+            showInfoFragment(this.requireActivity(), R.string.info_requirements_title, R.string.info_requirements_summary)
+        }
+        binding.requirementsPDDL.setOnClickListener {
+            showInfoFragment(this.requireActivity(), R.string.requirements_pddl, R.string.requirements_pddl_content)
+        }
         binding.domainInfo.setOnClickListener {
             showInfoFragment(this.requireActivity(), R.string.info_domain_title, R.string.info_domain_summary)
         }
@@ -187,7 +192,7 @@ class MainFragment : Fragment(),
             showInfoFragment(this.requireActivity(), R.string.info_action_title, R.string.info_action_summary)
         }
         binding.addGoal.setOnClickListener {
-            showExpressionFragment(requireContext(), PDDLCategory.GOAL)
+            IntermediateGoalFragment().show(requireActivity().supportFragmentManager, EDIT_PDDL)
         }
         binding.goalInfo.setOnClickListener {
             showInfoFragment(this.requireActivity(), R.string.info_goal_title, R.string.info_goal_summary)
@@ -197,9 +202,13 @@ class MainFragment : Fragment(),
         }
         binding.runPlan.setOnClickListener {
             GlobalScope.launch {
-                var toastText: String? = null
+                var toastText = "Plan success!"
                 val plan = try {
                     getPlanFromDatabase(requireContext())
+                } catch (e: RemoteException) {
+                    Timber.e(e)
+                    toastText = "Planner service was not found."
+                    null
                 } catch (e: PDDLTranslationException) {
                     Timber.e(e)
                     toastText = "Plan failed during PDDL translation."
@@ -214,11 +223,9 @@ class MainFragment : Fragment(),
                     null
                 }
                 requireActivity().runOnUiThread {
+                    Toast.makeText(requireContext(), toastText, Toast.LENGTH_LONG).show()
                     binding.planContent.text = when {
-                        plan == null -> {
-                            Toast.makeText(requireContext(), toastText, Toast.LENGTH_LONG).show()
-                            "Planning failed."
-                        }
+                        plan == null -> { "Planning failed." }
                         plan.isEmpty() -> { "Plan is empty." }
                         else -> { plan.joinToString("\n") }
                     }
@@ -287,7 +294,7 @@ class MainFragment : Fragment(),
                 ActionFragment.newInstance(expression, action)
             }
             PDDLCategory.GOAL.ordinal -> {
-                GoalFragment.newInstance(expression, action)
+                TextFragment.newInstance(expression, action)
             }
             else -> { // type
                 TypeFragment.newInstance(expression, action)

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_glossary"
-        android:icon="@drawable/ic_glossary"
-        android:title="@string/action_glossary"
+        android:id="@+id/action_info"
+        android:icon="@drawable/ic_info"
+        android:title="@string/action_info"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -15,9 +15,27 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/action_info"
-        android:icon="@drawable/ic_info"
-        android:title="@string/action_info"
+        android:id="@+id/action_glossary"
+        android:icon="@drawable/ic_glossary"
+        android:title="@string/action_glossary"
         app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_attribution"
+        android:icon="@drawable/ic_attribution"
+        android:title="@string/attribution"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/action_import"
+        android:icon="@drawable/ic_import"
+        android:title="@string/import_sample"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@drawable/ic_import"
+        android:title="@string/clear_data"
+        app:showAsAction="never"/>
 
 </menu>

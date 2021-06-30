@@ -10,7 +10,7 @@ At the same time, it is hoped that the UI helps beginners to more quickly unders
 Finally, by virtue of having the planner as a remote service, callable dynamically, the user is free to test out different variations of the problem with the click of a button, without the need to compile or write unit tests.
 Note that this application works with PDDL (short for Planning Domain Definition Language), which is a planning language used by the International Conference on Autonomous Planning and Scheduling ([ICAPS](http://www.icaps-conference.org/)).
 
-## What is it **not** for?
+## What is it *not* for?
 This application is not meant to be a general interface for PDDL planning, but rather a *playground* for people to learn the basics of PDDL interactively. Please don't expect to use this application to [plan inter-planetary exploration](https://github.com/nasa/OpenSPIFe/wiki)!
 
 ## Requirement:
@@ -23,7 +23,7 @@ Conversely, the problem describes the concrete situation of the problem, such as
 
 Under the domain group there are 4 components: object types, constants, predicates, and actions.
 Object types define the type of objects that can exist in the world.
-Constants are objects that present in all instances of the problem.
+Constants are objects that are present in all instances of the problem.
 Predicates describe some aspect of the state of the world, optionally using objects as parameters.
 An action defines a transformation on the state of the world, taking objects as parameters, and predicates as preconditions and effects.
 
@@ -53,11 +53,17 @@ When reproducing the example, make sure to fill in the components from top to bo
 ![Sample Domain](screenshots/domain.png)
 ![Sample Problem](screenshots/problem.png)
 
+## Limitations
+As this application is meant to be a PDDL primer for novice users, it lacks a great deal of features that are essential for complex planning scenarios.
+Listed below are some notable limitations:
+- all the available features are based on PDDL1.2
+- no support for `exists`, `or`, `forall` in action preconditions
+- no support for `when` in action effects
+- limited support for operators in goals
+
 ## Further Reading
 The explanations of the PDDL components provided in this file and in the application is adapted from [The AI Planning & PDDL Wiki](https://planning.wiki/).
 This excellent source provides in-depth information about the different versions of PDDL over the years, and a long list of planners that are designed to work with PDDL.
 
 ## TODO
 * use ppdl-planning library for parsing PDDL expressions
-* improve pop-up for editing goals
-* enable subtyping

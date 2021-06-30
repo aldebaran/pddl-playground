@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">PDDL Playground</string>
+    <string name="requirements_pddl">Requirements PDDL</string>
+    <string name="requirements_pddl_content">(:requirements :adl)</string>
     <string name="domain_pddl">Domain PDDL</string>
     <string name="problem_pddl">Problem PDDL</string>
     <string name="info_title">About</string>
     <string name="info_glossary_title">Glossary</string>
     <string name="info_help_title">Help</string>
+    <string name="info_attribution_title">Attribution</string>
+    <string name="info_requirements_title">Requirements</string>
     <string name="info_domain_title">Domain</string>
     <string name="info_problem_title">Problem</string>
     <string name="info_type_title">Types</string>
@@ -15,26 +19,47 @@
     <string name="info_action_title">Actions</string>
     <string name="info_goal_title">Goals</string>
     <string name="info_plan_title">Plan</string>
+    <string name="info_requirements_summary">
+        Requirements are similar to import/include statements in programming languages.
+        However, as PDDL is a kind of declarative language, it is a \"requirement\" because a given planner is \"required\" to facilitate some aspect of the language.\n\n
+        Although multiple requirements can be specified through a space separated list, this application just uses one requirement called <i>:adl</i>, which encompasses the requirements listed below:\n\n
+        <i>:strips</i>\n
+        Allows the usage of effects in actions, with or without <b>not</b>.\n\n
+        <i>:typing</i>\n
+        Allows the usage of typing for objects. Typing is similar to classes and sub-classes in Object-Oriented Programming.\n\n
+        <i>:disjunctive-preconditions</i>\n
+        Allows the usage of <b>or</b> in goals and preconditions.\n\n
+        <i>:equality</i>\n
+        Allows the usage of <b>=</b> to compare objects.\n\n
+        <i>:quantified-preconditions</i>\n
+        Allows for the use of <b>exists</b> and <b>forall</b> in goals and preconditions. (ref. Glossary)\n\n
+        <i>:condition-effects</i>\n
+        Allows for the usage of <b>when</b> in expressing action effects. Essentially saying if something is true, then apply this effect too.\n\n
+    </string>
     <string name="info_type_summary">
-        Typing allows us to create basic and subtypes to which we can apply predicates.\n\n
+        Typing allows us to create basic types and subtypes to which we can apply predicates.\n\n
         Types are used to restrict which objects can form the parameters of an action.
-        Types and subtypes allow us to declare both general and specific actions and predicates.
+        Types and subtypes allow us to declare both general and specific actions and predicates.\n\n
+        For example, one can start with a type called <i>place</i> and make two subtypes, called <i>airport</i> and <i>warehouse</i>, by choosing <i>place</i> as their parent type.
+        Then, if an action called <i>go_to</i> takes <i>place</i> as a parameter, then <i>go_to</i> can be applied to both <i>airport</i> and <i>warehouse</i>.\n\n
+        The default base type is <i>object</i>.
     </string>
     <string name="info_constant_summary">
         Constants allow us to declare objects that are present across all instances of a problem.\n\n
         This isn’t particularly common in practice because we would just declare the object repeatedly in each specific problem.
     </string>
     <string name="info_predicate_summary">
-        Predicates apply to a specific type of object, or to all objects.\n\n
-        Predicates are either true or false at any point in a plan and when not declared are assumed to be false (except when the Open World Assumption is included as a requirement).
+        Predicates apply to a specific type of object, or to all objects, and are used to describe the state of the objects.\n\n
+        Predicates are either true or false at any point in a plan and when not declared are assumed to be false (except when the Open World Assumption is included as a requirement).\n\n
+        In most cases predicate normally take only one or two objects as arguments, but this is not a restriction and predicates can (in theory) take as many arguments as the user wishes.
     </string>
     <string name="info_action_summary">
         An action defines a transformation on the state of the world.\n
-        This transformation is typically an action which could be performed in the execution of the plan, such as picking up an object, constructing something or some other change.\n\n
+        This transformation is typically an action which could be performed in the execution of the plan, such as picking up an object.\n\n
         An action is broken down into three distinct sections, with an alternation possible on the last section.\n\n
         The first is the :parameters section which defines the things we are performing an action on and subsequently what predicates we will be checking and manipulating later.\n\n
         The second is the :precondition section. These are typically a series of predicate conjunctions and disjunctions which must be satisfied in order for the action the applied.\n
-        Note that although an action’s precondition may be satisfied that doesn’t mean it is applied in a plan.\n\n
+        Note that although an action\'s precondition may be satisfied that doesn\'t mean it is applied in a plan.\n\n
         Ultimately it is the effect the action has that matters.\n
         The third section is a choice between :effect and :expansion; an action cannot have both. Most domains use :effect.
     </string>
@@ -45,24 +70,27 @@
     </string>
     <string name="info_init_summary">
         The initial state defines specifically what predicates are true at the start of the problem.\n\n
-        This is not a logical expression because it is simply a list of predicates which are true.\n
-        Unless the planner or domain specify otherwise all problems have the “closed world” assumption applied meaning anything not specified as true is considered false.\n
+        This is not a logical expression because it is simply a list of predicates which are true.
+        Unless the planner or domain specify otherwise all problems have the “closed world” assumption applied meaning anything not specified as true is considered false.
         Therefore we only need to list things which are true.
     </string>
     <string name="info_goal_summary">
         The goal is a logical expression of predicates which must be satisfied in order for a plan to be considered a solution.\n\n
-        In essence it is what we want the world to look like at the end.\n
-        Note that as a logical expression, if this expression excludes some predicate, then the value of that predicate is not considered important.\n
-        This means that a goal should not only consist of the predicates that should be true, but also the predicate which should be false.
-        Note that all standard logical operators such as or and forall are available as part of the goal, which means we can express multiple different goal states all of which are acceptable.
+        In essence it is what we want the world to look like at the end.\n\n
+        Note that as a logical expression, if this expression excludes some predicate, then the value of that predicate is not considered important.
+        This means that a goal should not only consist of the predicates that should be true, but also the predicate which should be false.\n\n
+        All standard logical operators such as <i>or</i> and <i>forall</i> are available as part of the goal, which means we can express multiple different goal states, all of which are acceptable.\n\n
+        The goal component can be completed in one of three ways:\n\n
+        <b>Basic</b>: A pop-up for completing a single predicate, possibly negated. This would the goal counterpart to the initial state.\n\n
+        <b>Advanced</b>: An interface to construct a logical expression from multiple parameters, operators and predicates.\n\n
+        <b>Manual</b>: A text editor for manual editing. Be careful with syntax errors!
     </string>
     <string name="info_plan_summary">
-        Fast Downward is a classical planning system based on heuristic search.\n\n
-        It can deal with general deterministic planning problems encoded in the propositional fragment of PDDL2.2, including advanced features like ADL conditions and effects and derived predicates (axioms).\n
-        Like other well-known planners such as HSP and FF, Fast Downward is a progression planner, searching the space of world states of a planning task in the forward direction.\n
-        However, unlike other PDDL planning systems, Fast Downward does not use the propositional PDDL representation of a planning task directly.\n
-        Instead, the input is first translated into an alternative representation called multivalued planning tasks, which makes many of the implicit constraints of a propositional planning task explicit.\n
-        Exploiting this alternative representation, Fast Downward uses hierarchical decompositions of planning tasks for computing its heuristic function, called the causal graph heuristic, which is very different from traditional HSP-like heuristics based on ignoring negative interactions of operators.
+        An AI Planner is the other half of the planning equation.
+        Whereas PDDL allows us to define an AI Planning problem, an AI Planner allows us to attempt to solve one.
+        An AI planner reads in PDDL and uses it in order to decompose and solve the problem.\n\n
+        As AI Planners have evolved alongside the languages they use, different planners have different levels of support for different syntaxes.\n\n
+        This component displays the output of the planner, which is a sequence of actions paired with the corresponding objects.
     </string>
     <string name="info_domain_summary">
         A domain file in PDDL defines the “universal” aspects of a problem.\n\n
@@ -72,38 +100,44 @@
     <string name="info_problem_summary">
         A problem forms the other half of a planning problem.\n\n
         In the domain we express the global “worldly” aspects of a problem, such as what actions we can perform and what types of objects exist in the world we\'re planning in.\n
-        The problem then solidifies this expression by define exactly what objects exist, and what is true about them and then finally what the end goal is.\n
-        What state we want the world to be in once the plan is finished.
+        The problem then solidifies this expression by defining exactly what objects exist, what is true about them, and what the end goal is; in other words, what state we want the world to be in once the plan is finished.
     </string>
     <string name="info_general_summary">
         Welcome to the PDDL Playground!\n\n
         This application aims to allow users to painlessly explore the power of symbolic planners by helping them set up a planning scenario through a user-friendly UI.\n\n
-        Usage:\n\n
+        <u>Usage</u>:\n\n
         Next to each component block, there is an <b>info button</b> to find out more details about it.\n\n
         By clicking on the <b>plus button</b> to the left of the component name, the user can add a new component.\n\n
         Clicking on the <b>X button</b> to the left of the component label deletes the component.\n\n
         Clicking on the <b>checkbox</b> disables the component, meaning it will not be included in the problem description.\n\n
         Clicking on the <b>label</b> pops up a new window, where the user can interactively edit the component.\n\n
-        Once the domain and problem are specified, the user may click on the <b>play button</b> next to the plan block to see the solution.\n\n
+        Once the domain and problem are specified, the user may click on the <b>magnifying glasses</b> next to the respective blocks to visualize the resulting PDDL files.\n\n
+        Finally, the user may click on the <b>play button</b> next to the plan block to see the solution.\n\n
         If the planner returns an error, a Toast message notifies the user of the failure.\n\n
+        <u>Action bar items</u>:\n\n
+        The <b>help button</b> provides an example planning scenario for first-time users.\n\n
+        The <b>glossary</b> provides definitions and usage examples of commonly used logical operators.\n\n
+        The <b>Import Sample</b> option imports the example planning scenario described in the help section.\n\n
+        The <b>Clear Data</b> option clears the user input.
     </string>
     <string name="info_glossary_summary">
-        Below are some useful terms for constructing goal expressions.\n\n
-        <b>forall</b>: apply the second argument to all objects of the type defined in the first argument.\n
+        Below are some useful operators for constructing logical expressions.\n\n
+        <b>forall</b>: takes an argument and expresses that some logical expression holds true across it.\n
         ex) <i>forall (?h - human) (feels ?h happy)</i> \n\n
-        <b>imply</b>: ensure the second argument holds if the first argument is satisfied.\n
+        <b>imply</b>: evaluates true whenever the first argument is false, or both arguments are true.\n
         ex) <i>imply (is_around bob) (feels bob happy)</i> \n\n
-        <b>exists</b>: expresses the existence of an object that has the type defined by the first argument and satisfies the second argument.\n
+        <b>exists</b>: expresses that at least one object with the given type satisfies the logical expression.\n
         ex) <i>exists (?h - human) (is_around ?h)</i> \n\n
     </string>
     <string name="info_help_summary">
         The snippet below demonstrates a sample domain and problem, to get you started.\n\n
+        You can directly import the sample by clicking on the <b>import sample</b> item in the action bar, or try to add the components yourself.
+        The resulting domain and problem, which can be visualized by clicking on the magnifying glass, looks exactly like below.
+        If you want to reproduce the sample, make sure to fill in the components from top to bottom!
+        Once you manage to create a plan, you can get a feel for how the different components affect the result by enabling / disabling the checkboxes to the right of the labels.\n\n
         This sample describes a situation where there are some people that are in different emotional states, and in different places with respect to the agent.
         The agent can perform two actions: to try to find a person, and to joke with them to make them happy. Obviously, the agent can only joke with a person when they are around.
         The objective is to make everyone who is around happy, and to find someone if there is no one around.\n\n
-        Try to add and edit the components so that the resulting domain and problem, which can be visualized by clicking on the magnifying glass, looks exactly like below.
-        When reproducing the example, make sure to fill in the components from top to bottom!
-        Once you manage to create a plan, you can get a feel for how the different components affect the result by enabling / disabling the checkboxes.\n\n
         <b>Domain</b>:\n\n
         (define (domain playground_domain)\n
         \t(:requirements :adl)\n
@@ -119,7 +153,7 @@
         \t(:predicates\n
         \t\t(feels ?p1 - human ?p2 - emotion)\n
         \t\t(is_around ?p1 - human)\n
-        \t\t(not_found ?p1 - human)\n
+        \t\t(is_greeted ?p1 - human)\n
         \t)\n
         \t(:action joke_with\n
         \t\t:parameters\n
@@ -129,6 +163,16 @@
         \t\t)\n
         \t\t:effect (and\n
         \t\t\t(feels ?human happy)\n
+        \t\t)\n
+        \t)\n
+        \t(:action greet\n
+        \t\t:parameters\n
+        \t\t\t(?human - human)\n
+        \t\t:precondition (and\n
+        \t\t\t(is_around ?human)\n
+        \t\t)\n
+        \t\t:effect (and\n
+        \t\t\t(is_greeted ?human)\n
         \t\t)\n
         \t)\n
         \t(:action find_human\n
@@ -153,20 +197,23 @@
         \t)\n
         \t(:init\n
         \t\t(is_around charles)\n
-        \t\t(not_found alice)\n
         \t\t(feels alice neutral)\n
-        \t\t(not_found bob)\n
         \t\t(feels bob sad)\n
         \t)\n
         \t(:goal\n
         \t\t(and\n
         \t\t\t(forall (?h - human) (imply (is_around ?h) (feels ?h happy)))\n
+        \t\t\t(forall (?h - human) (imply (is_around ?h) (is_greeted ?h)))\n
         \t\t\t(imply (not(exists(?h - human) (is_around ?h))) (is_around someone))\n
         \t\t)\n
         \t)\n
         )\n
     </string>
-    <string name="choose_keyword">Choose Keyword:</string>
+    <string name="info_attribution_summary">
+        All the information available in this application is adapted from <b>The AI Planning \&amp; PDDL Wiki</b> (https://planning.wiki/).
+        Head over to their website for additional resources!
+    </string>
+    <string name="choose_keyword">Operator:</string>
     <string name="fill_exp">Fill Exp.:</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
@@ -183,7 +230,7 @@
     <string name="effect">Effect</string>
     <string name="negate">Negate</string>
     <string name="choose_predicate">Choose Predicate:</string>
-    <string name="choose_object_constant">Choose Object / Constant:</string>
+    <string name="choose_object_constant">Choose Object or Constant:</string>
     <string name="enter_predicate">Enter Predicate:</string>
     <string name="param_1">Param 1</string>
     <string name="param_2">Param 2</string>
@@ -191,8 +238,32 @@
     <string name="action_glossary">Glossary</string>
     <string name="fill_in_precondition">Select precondition:</string>
     <string name="fill_in_effect">Select effect:</string>
-    <string name="choose_parent_type">Choose Parent Type (Optional):</string>
+    <string name="fill_in_predicate">Select predicate:</string>
+    <string name="choose_parent_type">Choose Parent Type:</string>
     <string name="help">Help</string>
+    <string name="select_parameters">Select parameters:</string>
+    <string name="parameter_name">Parameter Name:</string>
+    <string name="parameter_type">Parameter Type:</string>
+    <string name="build_goal">Construct goal:</string>
+    <string name="param_predicate">Param/Predicate:</string>
+    <string name="select_predicate_goal">Select predicates to include in the expression or goal:</string>
+    <string name="select_parameters_goal">Select parameters to include in the predicate (optional):</string>
+    <string name="build_expressions_goal">Construct expressions to include in the goal (optional):</string>
+    <string name="select_goal_type">Select the type of goal desired:</string>
+    <string name="edit_goal">Edit Goal:</string>
+    <string name="basic">Basic</string>
+    <string name="advanced">Advanced</string>
+    <string name="predicate_explanation">A goal must include one or more predicates</string>
+    <string name="parameter_explanation">Parameters are required for operators like <i>exists</i> and <i>forall</i></string>
+    <string name="expression_explanation">A goal may include logical expressions that themselves contain operators</string>
+    <string name="goal_explanation">A goal with an operator includes parameters, predicates, and/or logical expressions</string>
+    <string name="attribution">Attribution</string>
+    <string name="import_sample">Import Sample</string>
+    <string name="constant_example">e.g. happy, self, …</string>
+    <string name="warning_parentheses">Be careful with the parentheses!</string>
+    <string name="clear_data">Clear Data</string>
+    <string name="alert_clear_data_summary">You are about to clear the database. Are you sure?</string>
+    <string name="alert_import_sample_summary">The sample will overwrite your current data. Are you sure?</string>
     <string name="preview_domain">Preview domain</string>
     <string name="about_domain">About domain</string>
     <string name="add_type">Add type</string>
@@ -213,4 +284,6 @@
     <string name="about_goals">About goals</string>
     <string name="run_planner">Run planner</string>
     <string name="about_planning">About planning</string>
+    <string name="preview_requirements">Preview requirements</string>
+    <string name="about_requirements">About requirements</string>
 </resources>

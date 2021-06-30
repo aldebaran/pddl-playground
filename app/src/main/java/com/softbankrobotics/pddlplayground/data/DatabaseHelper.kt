@@ -66,6 +66,10 @@ class DatabaseHelper private constructor(context: Context) : SQLiteOpenHelper(co
             .update(TABLE_NAME, ExpressionUtil.toContentValues(expression), where, whereArgs)
     }
 
+    fun deleteAllExpressions(): Int {
+        return writableDatabase.delete(TABLE_NAME, null, null)
+    }
+
     fun deleteExpression(expression: Expression): Int {
         return deleteExpression(expression.getId())
     }

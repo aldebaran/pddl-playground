@@ -30,6 +30,27 @@
                 android:spinnerMode="dropdown"/>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/negateLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:text="@string/negate"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/negateCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

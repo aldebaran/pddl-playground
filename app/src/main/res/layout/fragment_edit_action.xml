@@ -20,6 +20,7 @@
 
         <EditText
             android:id="@+id/actionText"
+            android:hint="e.g. joke_with"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -37,6 +38,38 @@
             android:orientation="vertical">
 
             <TextView
+                android:text="@string/select_parameters"
+                android:textSize="16sp"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <GridLayout
+                android:id="@+id/gridLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="5">
+                <ImageButton
+                    android:id="@+id/addParamButton"
+                    android:src="@drawable/ic_add_item"
+                    android:background="@color/white"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:text="@string/parameter_name"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:text="@string/parameter_type"
+                    android:layout_margin="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </GridLayout>
+
+            <TextView
                 android:text="@string/fill_in_precondition"
                 android:textSize="16sp"
                 android:layout_margin="16dp"
@@ -49,8 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:columnCount="5">
-                <TextView
-                    android:text="   "
+                <ImageButton
+                    android:id="@+id/addPreconditionButton"
+                    android:src="@drawable/ic_add_item"
+                    android:background="@color/white"
                     android:layout_margin="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -88,9 +123,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:columnCount="5">
-                <TextView
-                    android:text="   "
+                android:columnCount="6">
+                <ImageButton
+                    android:id="@+id/addEffectButton"
+                    android:src="@drawable/ic_add_item"
+                    android:background="@color/white"
                     android:layout_margin="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
